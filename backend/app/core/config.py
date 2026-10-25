@@ -92,9 +92,36 @@ class Settings(BaseSettings):
         """Automatically normalizes Render/PostgreSQL connection strings to asyncpg driver dialect."""
         return normalize_database_url(str(v))
 
+    def get_allowed_cors_origins(self) -> list[str]:
+        """Resolves allowed origins for CORS.
+
+        Rules:
+        - In production: only explicitly configured origins in frontend_origin are permitted.
+          Default localhost origins are NEVER added automatically.
+          Wildcards ('*') are rejected to prevent combination with allow_credentials=True.
+        - In development/testing: parses frontend_origin, and additionally includes
+          convenient localhost/127.0.0.1 origins for local UI development.
+        """
+        raw_origins = [orig.strip() for orig in (self.frontend_origin or "").split(",") if orig.strip()]
+        # Strip trailing slashes and quotes
+        clean_origins = [orig.rstrip("/").strip("'\"") for orig in raw_origins if orig.rstrip("/")]
+
+        is_prod = (self.app_env or "").lower().strip() == "production"
+        if is_prod:
+            # Production: only explicitly listed origins, no wildcards
+            safe_origins = [o for o in clean_origins if o != "*"]
+            return safe_origins
+
+        # Development / sandbox: include clean origins plus standard localhost ports
+        dev_defaults = ["http://localhost:5173", "http://127.0.0.1:5173"]
+        for default in dev_defaults:
+            if default not in clean_origins:
+                clean_origins.append(default)
+        return clean_origins
+
     @model_validator(mode="after")
     def validate_production_security(self) -> Settings:
-        """Fail closed in production if API_AUTH_TOKEN is not configured."""
+        """Fail closed in production if API_AUTH_TOKEN is not configured or unsafe CORS origins are set."""
         env_clean = (self.app_env or "").lower().strip()
         if env_clean == "production":
             token_clean = (self.api_auth_token or "").strip()
@@ -102,6 +129,13 @@ class Settings(BaseSettings):
                 raise ValueError(
                     "Production configuration violation: 'api_auth_token' must be set to a secure, "
                     "non-default secret token when APP_ENV=production. The service will not start in an insecure state."
+                )
+            # Validate CORS safety in production: do not allow wildcard origin
+            raw_origins = [orig.strip() for orig in (self.frontend_origin or "").split(",") if orig.strip()]
+            if "*" in raw_origins:
+                raise ValueError(
+                    "Production configuration violation: wildcard '*' is not permitted in 'frontend_origin' "
+                    "when allow_credentials=True."
                 )
         return self
 

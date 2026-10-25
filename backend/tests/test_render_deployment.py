@@ -186,3 +186,33 @@ class TestFrontendOriginConfiguration:
         settings = Settings()
         assert settings.frontend_origin == "https://quoted-origin.onrender.com"
 
+    def test_cors_development_includes_localhost_defaults(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """In development mode, localhost and 127.0.0.1 are automatically included for UI dev."""
+        monkeypatch.setenv("APP_ENV", "development")
+        monkeypatch.setenv("FRONTEND_ORIGIN", "https://dev-preview.example.com")
+        settings = Settings()
+        allowed = settings.get_allowed_cors_origins()
+        assert "https://dev-preview.example.com" in allowed
+        assert "http://localhost:5173" in allowed
+        assert "http://127.0.0.1:5173" in allowed
+
+    def test_cors_production_strictly_enforces_configured_origins_only(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """In production, localhost is NOT automatically added; only explicit origins are permitted."""
+        monkeypatch.setenv("APP_ENV", "production")
+        monkeypatch.setenv("API_AUTH_TOKEN", "valid-test-token-1234567890")
+        monkeypatch.setenv("FRONTEND_ORIGIN", "https://my-prod-app.onrender.com, https://admin.onrender.com")
+        settings = Settings()
+        allowed = settings.get_allowed_cors_origins()
+        assert allowed == ["https://my-prod-app.onrender.com", "https://admin.onrender.com"]
+        assert "http://localhost:5173" not in allowed
+        assert "http://127.0.0.1:5173" not in allowed
+
+    def test_cors_production_rejects_wildcard_origin(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """In production, wildcard '*' cannot be combined with allow_credentials=True and fails startup."""
+        monkeypatch.setenv("APP_ENV", "production")
+        monkeypatch.setenv("API_AUTH_TOKEN", "valid-test-token-1234567890")
+        monkeypatch.setenv("FRONTEND_ORIGIN", "*")
+        with pytest.raises(ValueError, match=r"wildcard '\*' is not permitted"):
+            Settings()
+
+
