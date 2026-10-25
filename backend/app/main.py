@@ -27,10 +27,15 @@ app = FastAPI(
 # Request correlation, latency tracking, and structured logging middleware
 app.add_middleware(RequestCorrelationMiddleware)
 
-# CORS setup
+# CORS setup: Parse frontend_origin (supports single origin or comma-separated list)
+cors_origins = [orig.strip() for orig in settings.frontend_origin.split(",") if orig.strip()]
+for default_origin in ["http://localhost:5173", "http://127.0.0.1:5173"]:
+    if default_origin not in cors_origins:
+        cors_origins.append(default_origin)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.frontend_origin, "http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

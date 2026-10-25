@@ -76,10 +76,9 @@ Render uses `GET /healthz` to determine service health. The endpoint:
 
 Model artifacts (`artifacts/models/`) are committed to Git and loaded at startup. They are trained on synthetic data.
 
-- **Arrival model:** `artifacts/models/arrival_rate_model.joblib`
-- **Energy model:** `artifacts/models/energy_demand_model.joblib`
-- **Station encoder:** `artifacts/models/station_encoder.joblib`
-- **Manifest:** `artifacts/models/manifest.json`
+- **Arrival model:** `artifacts/models/arrival_model.joblib`
+- **Energy model:** `artifacts/models/energy_model.joblib`
+- **Station encoder & metrics:** `artifacts/models/manifest.json` (contains `station_encoder` dictionary, feature definitions, and version metadata)
 
 If artifacts are missing at startup, the forecast service will fail on first use. Verify the `artifacts/` directory is tracked in `.gitignore` correctly (it is — the models are included, raw data is excluded).
 
@@ -99,11 +98,17 @@ curl https://your-app.onrender.com/readyz
 # 3. Protected endpoint — expect 401 without token
 curl https://your-app.onrender.com/api/v1/forecasts
 
-# 4. Protected endpoint — expect 200 with valid token
-curl -H "Authorization: Bearer YOUR_API_AUTH_TOKEN" \
+# 4. Protected endpoint — expect 201 with valid token and hourly aligned UTC timestamp
+curl -X POST https://your-app.onrender.com/api/v1/forecasts \
+     -H "Authorization: Bearer YOUR_API_AUTH_TOKEN" \
      -H "Content-Type: application/json" \
-     -d "{\"station_id\": \"ST-001\", \"forecast_horizon_hours\": 6}" \
-     https://your-app.onrender.com/api/v1/forecasts
+     -d '{
+       "scenario_id": "scenario_prod_verify_001",
+       "station_ids": ["ST-001", "ST-002", "ST-003"],
+       "forecast_start": "2026-10-25T10:00:00Z",
+       "interval_minutes": 60,
+       "horizon_intervals": 6
+     }'
 ```
 
 ---

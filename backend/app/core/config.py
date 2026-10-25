@@ -73,12 +73,18 @@ class Settings(BaseSettings):
     evcharge_opt_api_key: str = Field("replace-me")
 
     # CORS
-    frontend_origin: str = Field("http://127.0.0.1:5173")
+    frontend_origin: str = Field("http://127.0.0.1:5173", description="Allowed CORS origin (e.g. https://my-frontend.onrender.com or comma-separated origins)")
 
     # Security & Service Authentication
     secret_key: str = Field("replace-with-a-long-random-string")
     api_auth_token: Optional[str] = Field(None, description="Shared secret bearer token for service-to-service auth.")
     enable_docs: bool = Field(True, description="Expose /docs and /openapi.json publicly. Set False in production.")
+
+    @field_validator("frontend_origin", mode="before")
+    @classmethod
+    def clean_frontend_origin(cls, v: str) -> str:
+        """Strips surrounding whitespace/quotes from frontend origin."""
+        return str(v).strip().strip("'\"") if v else "http://127.0.0.1:5173"
 
     @field_validator("database_url", mode="before")
     @classmethod

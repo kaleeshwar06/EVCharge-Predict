@@ -175,3 +175,14 @@ class TestFrontendOriginConfiguration:
         settings = Settings()
         assert settings.frontend_origin == custom_url
 
+    def test_frontend_origin_comma_separated(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        origins = "https://app1.onrender.com, https://app2.onrender.com"
+        monkeypatch.setenv("FRONTEND_ORIGIN", origins)
+        settings = Settings()
+        assert settings.frontend_origin == origins
+
+    def test_frontend_origin_strips_quotes_and_whitespace(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setenv("FRONTEND_ORIGIN", '  "https://quoted-origin.onrender.com"  ')
+        settings = Settings()
+        assert settings.frontend_origin == "https://quoted-origin.onrender.com"
+
