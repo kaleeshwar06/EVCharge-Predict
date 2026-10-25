@@ -8,6 +8,8 @@ services:
     startCommand: uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port $PORT
     healthCheckPath: /healthz
     envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.8"
       - key: APP_ENV
         value: production
       # PYTHONPATH is NOT needed because --app-dir backend handles the import root
