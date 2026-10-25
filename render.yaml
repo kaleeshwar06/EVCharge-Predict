@@ -1,4 +1,4 @@
-﻿services:
+services:
   - type: web
     name: evcharge-predict
     env: python
@@ -19,7 +19,7 @@
           property: connectionString   # Render injects postgres:// which config.py normalizes
       - key: ENABLE_DOCS
         value: "false"
-      - key: CORS_ORIGIN
+      - key: FRONTEND_ORIGIN
         sync: false       # set to your frontend URL in Render dashboard
 
 databases:

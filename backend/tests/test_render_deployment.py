@@ -1,4 +1,4 @@
-﻿"""Unit tests for Render deployment configuration.
+"""Unit tests for Render deployment configuration.
 
 Covers:
 1. normalize_database_url() — all URL format variants (pure function, no DB connection).
@@ -155,3 +155,23 @@ class TestLocalDevelopmentDefaults:
         monkeypatch.delenv("DATABASE_URL", raising=False)
         settings = Settings()
         assert "sqlite" in settings.database_url
+
+
+# ---------------------------------------------------------------------------
+# 5. CORS / Frontend Origin configuration
+# ---------------------------------------------------------------------------
+
+class TestFrontendOriginConfiguration:
+    """Verifies that FRONTEND_ORIGIN environment variable is honored by application settings."""
+
+    def test_frontend_origin_default(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.delenv("FRONTEND_ORIGIN", raising=False)
+        settings = Settings()
+        assert settings.frontend_origin == "http://127.0.0.1:5173"
+
+    def test_frontend_origin_custom_env(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        custom_url = "https://evcharge-predict-frontend.onrender.com"
+        monkeypatch.setenv("FRONTEND_ORIGIN", custom_url)
+        settings = Settings()
+        assert settings.frontend_origin == custom_url
+

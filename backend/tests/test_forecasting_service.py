@@ -1,4 +1,4 @@
-﻿"""Comprehensive automated tests for Phase 4: Model loading, Recursive forecasting, API endpoints, and Persistence."""
+"""Comprehensive automated tests for Phase 4: Model loading, Recursive forecasting, API endpoints, and Persistence."""
 import asyncio
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
@@ -284,3 +284,59 @@ def test_forecast_api_full_flow(tmp_path):
         await engine.dispose()
 
     asyncio.run(run())
+
+
+def test_recursive_forecasting_three_stations_simultaneously(tmp_path):
+    """Regression test: verifies a single forecast request requesting all three supported stations (ST-001, ST-002, ST-003)."""
+    async def run():
+        db_file = tmp_path / "test_three_stations.db"
+        engine = create_async_engine(f"sqlite+aiosqlite:///{db_file}", echo=False)
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+        sf = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+        await populate_test_database(sf)
+
+        model_service = ModelService(artifact_dir=MODELS_DIR)
+
+        async with sf() as session:
+            forecasting_engine = ForecastingEngine(db=session, model_service=model_service)
+
+            target_station_ids = ["ST-001", "ST-002", "ST-003"]
+            req = ForecastCreateRequest(
+                scenario_id="scenario_three_stations_001",
+                station_ids=target_station_ids,
+                forecast_start=datetime(2026, 10, 25, 0, 0, tzinfo=timezone.utc),
+                interval_minutes=60,
+                horizon_intervals=6,
+            )
+            resp = await forecasting_engine.generate_and_persist_forecast(req)
+
+            assert resp.status == "completed"
+            assert resp.demand_type == "baseline"
+            assert resp.horizon_intervals == 6
+            assert resp.forecast_id.startswith("fcst_")
+
+            # Retrieve detail and verify intervals for all 3 stations
+            detail = await ForecastingEngine.get_forecast_by_id(session, resp.forecast_id)
+            assert detail is not None
+            assert len(detail.stations) == 3
+
+            returned_station_ids = [st.station_id for st in detail.stations]
+            assert sorted(returned_station_ids) == sorted(target_station_ids)
+
+            for st_entry in detail.stations:
+                assert st_entry.station_id in target_station_ids
+                assert len(st_entry.intervals) == 6
+
+                for idx, interval in enumerate(st_entry.intervals):
+                    expected_start = req.forecast_start + timedelta(hours=idx)
+                    expected_end = expected_start + timedelta(hours=1)
+                    assert interval.interval_start == expected_start
+                    assert interval.interval_end == expected_end
+                    assert interval.predicted_arrivals >= 0
+                    assert interval.predicted_energy_kwh >= 0.0
+
+        await engine.dispose()
+
+    asyncio.run(run())
+

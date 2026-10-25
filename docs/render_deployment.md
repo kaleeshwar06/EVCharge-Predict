@@ -1,4 +1,4 @@
-﻿# Render Deployment Guide — EVCharge-Predict
+# Render Deployment Guide — EVCharge-Predict
 
 > **Important:** The EVCharge-Predict model is trained on 14-day **synthetic fixture data**, not real ACN-Data. All forecasts are illustrative and must not be used for production energy management decisions without retraining on validated real-world data.
 
@@ -24,7 +24,7 @@ Set these in **Render → Service → Environment**. Never commit secret values 
 | `API_AUTH_TOKEN` | ✅ | Generate a strong random secret (`python -c "import secrets; print(secrets.token_hex(32))"`) |
 | `DATABASE_URL` | ✅ | Auto-injected from the linked PostgreSQL database (`render.yaml` `fromDatabase`) |
 | `ENABLE_DOCS` | ✅ | `false` in production (auto-set by `render.yaml`) |
-| `CORS_ORIGIN` | Optional | Your frontend URL (e.g. `https://your-app.onrender.com`) |
+| `FRONTEND_ORIGIN` | Optional | Your frontend URL (e.g. `https://your-app.onrender.com`) |
 
 > **Security:** If `API_AUTH_TOKEN` is absent or set to the placeholder value, the service **will refuse to start** in production. This is intentional (fail-closed).
 
