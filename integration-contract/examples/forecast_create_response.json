@@ -1,0 +1,11 @@
+{
+  "contract_version": "1.0",
+  "forecast_id": "fcst_9a8b7c6d5e4f",
+  "scenario_id": "scenario_demo_001",
+  "status": "completed",
+  "demand_type": "baseline",
+  "generated_at": "2026-10-25T09:00:02Z",
+  "interval_minutes": 60,
+  "horizon_intervals": 6,
+  "forecast_url": "/api/v1/forecasts/fcst_9a8b7c6d5e4f"
+}

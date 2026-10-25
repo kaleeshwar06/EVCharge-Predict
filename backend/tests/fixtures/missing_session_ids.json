@@ -1,0 +1,17 @@
+{
+  "_meta": { "site": "caltech" },
+  "_items": [
+    {
+      "stationID": "1-39-139-650",
+      "connectionTime": "2026-10-01T08:30:00Z",
+      "disconnectTime": "2026-10-01T11:45:00Z",
+      "kWhDelivered": 24.35
+    },
+    {
+      "stationID": "1-39-139-651",
+      "connectionTime": "2026-10-01T09:15:00Z",
+      "disconnectTime": "2026-10-01T12:00:00Z",
+      "kWhDelivered": 18.50
+    }
+  ]
+}

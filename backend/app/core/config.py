@@ -1,0 +1,79 @@
+"""Application configuration loaded from environment variables."""
+from __future__ import annotations
+
+from functools import lru_cache
+from pathlib import Path
+from typing import Optional
+
+from pydantic import Field, model_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Project root: backend/app/core/ -> 3 levels up -> EVCharge-Predict/
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=PROJECT_ROOT / ".env",
+        env_file_encoding="utf-8",
+        case_sensitive=False,
+        extra="ignore",
+    )
+
+    # Application
+    app_env: str = Field("development", description="development | production | testing")
+    api_version: str = Field("1.0")
+    log_level: str = Field("INFO")
+
+    # Server
+    host: str = Field("127.0.0.1")
+    port: int = Field(8001)
+
+    # Database
+    database_url: str = Field(
+        f"sqlite+aiosqlite:///{PROJECT_ROOT / 'evcharge_predict.db'}",
+        description="Async database connection string. e.g. postgresql+asyncpg://user:pass@host/db or sqlite+aiosqlite:///path"
+    )
+
+    # Station mapping persistence file
+    station_map_file: Path = Field(
+        PROJECT_ROOT / "data" / "processed" / "station_mapping.json",
+        description="Persistent JSON dictionary mapping source station IDs to canonical ST-xxx IDs."
+    )
+
+    # Model Artifact Directory
+    model_artifact_dir: Path = Field(
+        PROJECT_ROOT / "artifacts" / "models",
+        description="Directory containing trained model joblib files and manifest.json."
+    )
+
+    # Partner API
+    evcharge_opt_base_url: str = Field("http://127.0.0.1:8000")
+    evcharge_opt_api_key: str = Field("replace-me")
+
+    # CORS
+    frontend_origin: str = Field("http://127.0.0.1:5173")
+
+    # Security & Service Authentication
+    secret_key: str = Field("replace-with-a-long-random-string")
+    api_auth_token: Optional[str] = Field(None, description="Shared secret bearer token for service-to-service auth.")
+    enable_docs: bool = Field(True, description="Expose /docs and /openapi.json publicly. Set False in production.")
+
+    @model_validator(mode="after")
+    def validate_production_security(self) -> Settings:
+        """Fail closed in production if API_AUTH_TOKEN is not configured."""
+        env_clean = (self.app_env or "").lower().strip()
+        if env_clean == "production":
+            token_clean = (self.api_auth_token or "").strip()
+            if not token_clean or token_clean == "replace-with-service-token":
+                raise ValueError(
+                    "Production configuration violation: 'api_auth_token' must be set to a secure, "
+                    "non-default secret token when APP_ENV=production. The service will not start in an insecure state."
+                )
+        return self
+
+
+@lru_cache(maxsize=1)
+def get_settings() -> Settings:
+    """Return a cached Settings instance."""
+    return Settings()

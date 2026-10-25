@@ -1,0 +1,2789 @@
+{
+  "_meta": {
+    "site": "caltech",
+    "type": "synthetic"
+  },
+  "_items": [
+    {
+      "sessionID": "synth-sess-0001",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T01:15:00Z",
+      "disconnectTime": "2026-10-01T02:55:10Z",
+      "kWhDelivered": 16.17,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0002",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T04:02:00Z",
+      "disconnectTime": "2026-10-01T05:07:21Z",
+      "kWhDelivered": 7.73,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0003",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T06:45:00Z",
+      "disconnectTime": "2026-10-01T09:41:58Z",
+      "kWhDelivered": 25.73,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0004",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T07:17:00Z",
+      "disconnectTime": "2026-10-01T10:42:41Z",
+      "kWhDelivered": 20.68,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0005",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T08:27:00Z",
+      "disconnectTime": "2026-10-01T10:28:14Z",
+      "kWhDelivered": 13.7,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0006",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T09:05:00Z",
+      "disconnectTime": "2026-10-01T11:13:23Z",
+      "kWhDelivered": 16.68,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0007",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T09:38:00Z",
+      "disconnectTime": "2026-10-01T11:25:36Z",
+      "kWhDelivered": 11.15,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0008",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T10:07:00Z",
+      "disconnectTime": "2026-10-01T14:02:09Z",
+      "kWhDelivered": 30.93,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0009",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T10:18:00Z",
+      "disconnectTime": "2026-10-01T13:47:17Z",
+      "kWhDelivered": 31.72,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0010",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T11:12:00Z",
+      "disconnectTime": "2026-10-01T14:18:49Z",
+      "kWhDelivered": 19.4,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0011",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T11:49:00Z",
+      "disconnectTime": "2026-10-01T13:41:05Z",
+      "kWhDelivered": 11.95,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0012",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T12:24:00Z",
+      "disconnectTime": "2026-10-01T14:14:02Z",
+      "kWhDelivered": 16.83,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0013",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T15:44:00Z",
+      "disconnectTime": "2026-10-01T19:32:35Z",
+      "kWhDelivered": 35.2,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0014",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T17:46:00Z",
+      "disconnectTime": "2026-10-01T19:30:03Z",
+      "kWhDelivered": 14.42,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0015",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T18:44:00Z",
+      "disconnectTime": "2026-10-01T21:24:15Z",
+      "kWhDelivered": 25.17,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0016",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T18:14:00Z",
+      "disconnectTime": "2026-10-01T21:41:55Z",
+      "kWhDelivered": 34.74,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0017",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T19:04:00Z",
+      "disconnectTime": "2026-10-01T20:41:58Z",
+      "kWhDelivered": 17.5,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0018",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T19:20:00Z",
+      "disconnectTime": "2026-10-01T20:58:16Z",
+      "kWhDelivered": 13.92,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0019",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T20:09:00Z",
+      "disconnectTime": "2026-10-01T21:56:40Z",
+      "kWhDelivered": 12.98,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0020",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T20:34:00Z",
+      "disconnectTime": "2026-10-01T22:21:17Z",
+      "kWhDelivered": 15.96,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0021",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T20:25:00Z",
+      "disconnectTime": "2026-10-01T22:30:09Z",
+      "kWhDelivered": 22.92,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0022",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T21:05:00Z",
+      "disconnectTime": "2026-10-02T00:21:02Z",
+      "kWhDelivered": 33.67,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0023",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T22:50:00Z",
+      "disconnectTime": "2026-10-02T01:52:29Z",
+      "kWhDelivered": 27.32,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0024",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T02:55:00Z",
+      "disconnectTime": "2026-10-02T06:44:38Z",
+      "kWhDelivered": 35.98,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0025",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T03:48:00Z",
+      "disconnectTime": "2026-10-02T05:36:01Z",
+      "kWhDelivered": 16.57,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0026",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T04:10:00Z",
+      "disconnectTime": "2026-10-02T06:31:40Z",
+      "kWhDelivered": 25.43,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0027",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T06:48:00Z",
+      "disconnectTime": "2026-10-02T08:20:09Z",
+      "kWhDelivered": 16.22,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0028",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T08:32:00Z",
+      "disconnectTime": "2026-10-02T11:21:36Z",
+      "kWhDelivered": 19.12,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0029",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T08:34:00Z",
+      "disconnectTime": "2026-10-02T12:25:37Z",
+      "kWhDelivered": 40.97,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0030",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T09:20:00Z",
+      "disconnectTime": "2026-10-02T11:47:56Z",
+      "kWhDelivered": 16.17,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0031",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T10:15:00Z",
+      "disconnectTime": "2026-10-02T11:25:25Z",
+      "kWhDelivered": 12.2,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0032",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T10:05:00Z",
+      "disconnectTime": "2026-10-02T13:16:44Z",
+      "kWhDelivered": 32.21,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0033",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T11:08:00Z",
+      "disconnectTime": "2026-10-02T14:06:45Z",
+      "kWhDelivered": 31.98,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0034",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T11:16:00Z",
+      "disconnectTime": "2026-10-02T13:50:58Z",
+      "kWhDelivered": 23.33,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0035",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T11:59:00Z",
+      "disconnectTime": "2026-10-02T14:36:04Z",
+      "kWhDelivered": 25.26,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0036",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T12:25:00Z",
+      "disconnectTime": "2026-10-02T16:24:07Z",
+      "kWhDelivered": 36.86,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0037",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T15:04:00Z",
+      "disconnectTime": "2026-10-02T17:04:51Z",
+      "kWhDelivered": 18.01,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0038",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T16:00:00Z",
+      "disconnectTime": "2026-10-02T17:12:46Z",
+      "kWhDelivered": 11.11,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0039",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T17:57:00Z",
+      "disconnectTime": "2026-10-02T19:02:39Z",
+      "kWhDelivered": 8.37,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0040",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T18:17:00Z",
+      "disconnectTime": "2026-10-02T21:17:24Z",
+      "kWhDelivered": 21.26,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0041",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T18:46:00Z",
+      "disconnectTime": "2026-10-02T22:34:23Z",
+      "kWhDelivered": 33.71,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0042",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T18:15:00Z",
+      "disconnectTime": "2026-10-02T21:36:13Z",
+      "kWhDelivered": 33.66,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0043",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T19:06:00Z",
+      "disconnectTime": "2026-10-02T22:04:37Z",
+      "kWhDelivered": 23.14,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0044",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T20:55:00Z",
+      "disconnectTime": "2026-10-03T00:06:14Z",
+      "kWhDelivered": 29.85,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0045",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T20:06:00Z",
+      "disconnectTime": "2026-10-02T21:16:54Z",
+      "kWhDelivered": 11.39,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0046",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T22:12:00Z",
+      "disconnectTime": "2026-10-03T00:48:31Z",
+      "kWhDelivered": 17.48,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0047",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-02T23:15:00Z",
+      "disconnectTime": "2026-10-03T02:52:24Z",
+      "kWhDelivered": 23.11,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0048",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T02:34:00Z",
+      "disconnectTime": "2026-10-03T06:04:29Z",
+      "kWhDelivered": 38.05,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0049",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T05:30:00Z",
+      "disconnectTime": "2026-10-03T07:08:28Z",
+      "kWhDelivered": 13.14,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0050",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T06:00:00Z",
+      "disconnectTime": "2026-10-03T09:57:21Z",
+      "kWhDelivered": 28.98,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0051",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T08:27:00Z",
+      "disconnectTime": "2026-10-03T11:32:23Z",
+      "kWhDelivered": 29.82,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0052",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T08:42:00Z",
+      "disconnectTime": "2026-10-03T11:51:18Z",
+      "kWhDelivered": 21.37,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0053",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T09:03:00Z",
+      "disconnectTime": "2026-10-03T11:47:15Z",
+      "kWhDelivered": 23.85,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0054",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T09:20:00Z",
+      "disconnectTime": "2026-10-03T10:30:17Z",
+      "kWhDelivered": 10.45,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0055",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T10:10:00Z",
+      "disconnectTime": "2026-10-03T11:20:14Z",
+      "kWhDelivered": 10.0,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0056",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T10:04:00Z",
+      "disconnectTime": "2026-10-03T12:51:06Z",
+      "kWhDelivered": 26.11,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0057",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T10:25:00Z",
+      "disconnectTime": "2026-10-03T11:46:34Z",
+      "kWhDelivered": 14.21,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0058",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T11:38:00Z",
+      "disconnectTime": "2026-10-03T12:45:09Z",
+      "kWhDelivered": 7.17,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0059",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T15:45:00Z",
+      "disconnectTime": "2026-10-03T17:41:33Z",
+      "kWhDelivered": 14.24,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0060",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T16:19:00Z",
+      "disconnectTime": "2026-10-03T18:41:18Z",
+      "kWhDelivered": 25.25,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0061",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T17:29:00Z",
+      "disconnectTime": "2026-10-03T20:20:48Z",
+      "kWhDelivered": 25.24,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0062",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T18:34:00Z",
+      "disconnectTime": "2026-10-03T20:12:22Z",
+      "kWhDelivered": 12.01,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0063",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T19:56:00Z",
+      "disconnectTime": "2026-10-03T21:39:58Z",
+      "kWhDelivered": 12.87,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0064",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T19:53:00Z",
+      "disconnectTime": "2026-10-03T22:30:46Z",
+      "kWhDelivered": 19.76,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0065",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T20:00:00Z",
+      "disconnectTime": "2026-10-03T23:00:12Z",
+      "kWhDelivered": 26.35,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0066",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T20:06:00Z",
+      "disconnectTime": "2026-10-03T23:55:00Z",
+      "kWhDelivered": 25.46,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0067",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T20:56:00Z",
+      "disconnectTime": "2026-10-03T22:15:15Z",
+      "kWhDelivered": 11.58,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0068",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T21:13:00Z",
+      "disconnectTime": "2026-10-04T00:22:10Z",
+      "kWhDelivered": 22.13,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0069",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-03T23:16:00Z",
+      "disconnectTime": "2026-10-04T02:58:57Z",
+      "kWhDelivered": 38.02,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0070",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T00:53:00Z",
+      "disconnectTime": "2026-10-04T02:42:48Z",
+      "kWhDelivered": 11.01,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0071",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T03:28:00Z",
+      "disconnectTime": "2026-10-04T06:07:18Z",
+      "kWhDelivered": 21.61,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0072",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T04:56:00Z",
+      "disconnectTime": "2026-10-04T08:00:23Z",
+      "kWhDelivered": 20.73,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0073",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T05:37:00Z",
+      "disconnectTime": "2026-10-04T08:16:27Z",
+      "kWhDelivered": 21.66,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0074",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T06:57:00Z",
+      "disconnectTime": "2026-10-04T10:44:57Z",
+      "kWhDelivered": 41.26,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0075",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T07:13:00Z",
+      "disconnectTime": "2026-10-04T10:15:46Z",
+      "kWhDelivered": 28.44,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0076",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T08:56:00Z",
+      "disconnectTime": "2026-10-04T12:33:26Z",
+      "kWhDelivered": 39.39,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0077",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T08:09:00Z",
+      "disconnectTime": "2026-10-04T11:55:38Z",
+      "kWhDelivered": 27.13,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0078",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T09:56:00Z",
+      "disconnectTime": "2026-10-04T12:10:12Z",
+      "kWhDelivered": 15.43,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0079",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T10:51:00Z",
+      "disconnectTime": "2026-10-04T13:51:34Z",
+      "kWhDelivered": 29.12,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0080",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T10:17:00Z",
+      "disconnectTime": "2026-10-04T11:45:39Z",
+      "kWhDelivered": 14.05,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0081",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T11:54:00Z",
+      "disconnectTime": "2026-10-04T14:18:43Z",
+      "kWhDelivered": 16.88,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0082",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T11:22:00Z",
+      "disconnectTime": "2026-10-04T13:16:56Z",
+      "kWhDelivered": 19.11,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0083",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T12:42:00Z",
+      "disconnectTime": "2026-10-04T14:16:45Z",
+      "kWhDelivered": 12.07,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0084",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T15:32:00Z",
+      "disconnectTime": "2026-10-04T17:43:56Z",
+      "kWhDelivered": 23.98,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0085",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T17:56:00Z",
+      "disconnectTime": "2026-10-04T21:50:40Z",
+      "kWhDelivered": 26.96,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0086",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T18:06:00Z",
+      "disconnectTime": "2026-10-04T20:53:22Z",
+      "kWhDelivered": 21.56,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0087",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T18:27:00Z",
+      "disconnectTime": "2026-10-04T21:16:07Z",
+      "kWhDelivered": 24.12,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0088",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T19:12:00Z",
+      "disconnectTime": "2026-10-04T20:57:51Z",
+      "kWhDelivered": 16.84,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0089",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T19:33:00Z",
+      "disconnectTime": "2026-10-04T23:19:36Z",
+      "kWhDelivered": 32.83,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0090",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T20:47:00Z",
+      "disconnectTime": "2026-10-04T23:47:42Z",
+      "kWhDelivered": 23.56,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0091",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T20:42:00Z",
+      "disconnectTime": "2026-10-05T00:27:44Z",
+      "kWhDelivered": 34.3,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0092",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-04T20:54:00Z",
+      "disconnectTime": "2026-10-04T22:16:25Z",
+      "kWhDelivered": 14.43,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0093",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T02:24:00Z",
+      "disconnectTime": "2026-10-05T05:25:55Z",
+      "kWhDelivered": 31.88,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0094",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T06:13:00Z",
+      "disconnectTime": "2026-10-05T08:30:22Z",
+      "kWhDelivered": 20.38,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0095",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T08:28:00Z",
+      "disconnectTime": "2026-10-05T11:29:36Z",
+      "kWhDelivered": 25.9,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0096",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T08:10:00Z",
+      "disconnectTime": "2026-10-05T11:08:35Z",
+      "kWhDelivered": 22.08,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0097",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T09:39:00Z",
+      "disconnectTime": "2026-10-05T11:39:20Z",
+      "kWhDelivered": 20.24,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0098",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T09:43:00Z",
+      "disconnectTime": "2026-10-05T11:38:52Z",
+      "kWhDelivered": 19.38,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0099",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T09:01:00Z",
+      "disconnectTime": "2026-10-05T10:09:19Z",
+      "kWhDelivered": 12.43,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0100",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T10:29:00Z",
+      "disconnectTime": "2026-10-05T12:43:35Z",
+      "kWhDelivered": 20.52,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0101",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T10:45:00Z",
+      "disconnectTime": "2026-10-05T13:50:20Z",
+      "kWhDelivered": 26.17,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0102",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T10:09:00Z",
+      "disconnectTime": "2026-10-05T13:07:05Z",
+      "kWhDelivered": 17.89,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0103",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T11:14:00Z",
+      "disconnectTime": "2026-10-05T12:45:39Z",
+      "kWhDelivered": 16.48,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0104",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T13:58:00Z",
+      "disconnectTime": "2026-10-05T17:30:42Z",
+      "kWhDelivered": 29.36,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0105",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T17:48:00Z",
+      "disconnectTime": "2026-10-05T21:28:27Z",
+      "kWhDelivered": 33.3,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0106",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T17:57:00Z",
+      "disconnectTime": "2026-10-05T20:27:51Z",
+      "kWhDelivered": 25.53,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0107",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T17:28:00Z",
+      "disconnectTime": "2026-10-05T21:09:29Z",
+      "kWhDelivered": 35.88,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0108",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T18:16:00Z",
+      "disconnectTime": "2026-10-05T21:31:19Z",
+      "kWhDelivered": 33.2,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0109",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T18:49:00Z",
+      "disconnectTime": "2026-10-05T22:08:58Z",
+      "kWhDelivered": 28.07,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0110",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T19:28:00Z",
+      "disconnectTime": "2026-10-05T20:41:56Z",
+      "kWhDelivered": 9.16,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0111",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T20:20:00Z",
+      "disconnectTime": "2026-10-06T00:00:44Z",
+      "kWhDelivered": 23.56,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0112",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T20:14:00Z",
+      "disconnectTime": "2026-10-05T22:22:56Z",
+      "kWhDelivered": 14.54,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0113",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T21:26:00Z",
+      "disconnectTime": "2026-10-05T23:25:33Z",
+      "kWhDelivered": 16.6,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0114",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-05T22:24:00Z",
+      "disconnectTime": "2026-10-06T02:06:52Z",
+      "kWhDelivered": 33.13,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0115",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-06T03:19:00Z",
+      "disconnectTime": "2026-10-06T06:34:37Z",
+      "kWhDelivered": 33.48,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0116",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-06T08:31:00Z",
+      "disconnectTime": "2026-10-06T10:10:29Z",
+      "kWhDelivered": 13.56,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0117",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-06T08:24:00Z",
+      "disconnectTime": "2026-10-06T10:24:30Z",
+      "kWhDelivered": 18.87,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0118",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-06T08:46:00Z",
+      "disconnectTime": "2026-10-06T10:15:42Z",
+      "kWhDelivered": 12.46,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0119",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-06T09:34:00Z",
+      "disconnectTime": "2026-10-06T10:38:51Z",
+      "kWhDelivered": 8.61,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0120",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-06T10:01:00Z",
+      "disconnectTime": "2026-10-06T11:16:06Z",
+      "kWhDelivered": 10.19,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0121",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-06T10:11:00Z",
+      "disconnectTime": "2026-10-06T11:20:03Z",
+      "kWhDelivered": 9.09,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0122",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-06T10:29:00Z",
+      "disconnectTime": "2026-10-06T12:27:49Z",
+      "kWhDelivered": 19.42,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0123",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-06T11:48:00Z",
+      "disconnectTime": "2026-10-06T15:39:13Z",
+      "kWhDelivered": 31.24,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0124",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-06T11:30:00Z",
+      "disconnectTime": "2026-10-06T12:33:29Z",
+      "kWhDelivered": 9.2,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0125",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-06T17:12:00Z",
+      "disconnectTime": "2026-10-06T20:43:03Z",
+      "kWhDelivered": 32.03,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0126",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-06T18:30:00Z",
+      "disconnectTime": "2026-10-06T21:30:30Z",
+      "kWhDelivered": 26.53,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0127",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-06T19:44:00Z",
+      "disconnectTime": "2026-10-06T21:30:07Z",
+      "kWhDelivered": 13.87,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0128",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-06T20:47:00Z",
+      "disconnectTime": "2026-10-06T23:56:18Z",
+      "kWhDelivered": 31.2,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0129",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-06T20:19:00Z",
+      "disconnectTime": "2026-10-06T21:38:27Z",
+      "kWhDelivered": 8.12,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0130",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-06T20:36:00Z",
+      "disconnectTime": "2026-10-06T23:37:55Z",
+      "kWhDelivered": 32.72,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0131",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-06T23:53:00Z",
+      "disconnectTime": "2026-10-07T02:45:54Z",
+      "kWhDelivered": 18.76,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0132",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T03:50:00Z",
+      "disconnectTime": "2026-10-07T04:57:23Z",
+      "kWhDelivered": 9.73,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0133",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T05:21:00Z",
+      "disconnectTime": "2026-10-07T06:23:16Z",
+      "kWhDelivered": 8.41,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0134",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T08:57:00Z",
+      "disconnectTime": "2026-10-07T12:26:10Z",
+      "kWhDelivered": 33.25,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0135",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T08:11:00Z",
+      "disconnectTime": "2026-10-07T11:23:04Z",
+      "kWhDelivered": 34.66,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0136",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T09:51:00Z",
+      "disconnectTime": "2026-10-07T13:36:31Z",
+      "kWhDelivered": 37.11,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0137",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T09:27:00Z",
+      "disconnectTime": "2026-10-07T12:55:37Z",
+      "kWhDelivered": 31.16,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0138",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T10:53:00Z",
+      "disconnectTime": "2026-10-07T14:41:13Z",
+      "kWhDelivered": 28.13,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0139",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T10:15:00Z",
+      "disconnectTime": "2026-10-07T13:30:05Z",
+      "kWhDelivered": 28.77,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0140",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T11:21:00Z",
+      "disconnectTime": "2026-10-07T12:26:09Z",
+      "kWhDelivered": 11.14,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0141",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T11:31:00Z",
+      "disconnectTime": "2026-10-07T13:09:10Z",
+      "kWhDelivered": 16.35,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0142",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T11:17:00Z",
+      "disconnectTime": "2026-10-07T14:55:27Z",
+      "kWhDelivered": 34.61,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0143",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T12:33:00Z",
+      "disconnectTime": "2026-10-07T16:23:39Z",
+      "kWhDelivered": 24.71,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0144",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T17:31:00Z",
+      "disconnectTime": "2026-10-07T19:51:40Z",
+      "kWhDelivered": 14.27,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0145",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T17:14:00Z",
+      "disconnectTime": "2026-10-07T19:26:47Z",
+      "kWhDelivered": 15.97,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0146",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T17:37:00Z",
+      "disconnectTime": "2026-10-07T19:43:25Z",
+      "kWhDelivered": 18.47,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0147",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T18:47:00Z",
+      "disconnectTime": "2026-10-07T21:26:04Z",
+      "kWhDelivered": 20.57,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0148",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T18:17:00Z",
+      "disconnectTime": "2026-10-07T20:12:11Z",
+      "kWhDelivered": 13.73,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0149",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T19:20:00Z",
+      "disconnectTime": "2026-10-07T20:41:31Z",
+      "kWhDelivered": 11.79,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0150",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T19:11:00Z",
+      "disconnectTime": "2026-10-07T20:45:28Z",
+      "kWhDelivered": 15.26,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0151",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T19:46:00Z",
+      "disconnectTime": "2026-10-07T22:32:07Z",
+      "kWhDelivered": 27.14,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0152",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T20:06:00Z",
+      "disconnectTime": "2026-10-07T23:35:52Z",
+      "kWhDelivered": 26.17,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0153",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T20:11:00Z",
+      "disconnectTime": "2026-10-07T22:05:24Z",
+      "kWhDelivered": 18.19,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0154",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T20:17:00Z",
+      "disconnectTime": "2026-10-07T21:25:11Z",
+      "kWhDelivered": 7.13,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0155",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-07T21:40:00Z",
+      "disconnectTime": "2026-10-08T01:16:19Z",
+      "kWhDelivered": 30.48,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0156",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T02:16:00Z",
+      "disconnectTime": "2026-10-08T06:05:23Z",
+      "kWhDelivered": 32.07,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0157",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T05:43:00Z",
+      "disconnectTime": "2026-10-08T06:52:38Z",
+      "kWhDelivered": 7.83,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0158",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T08:35:00Z",
+      "disconnectTime": "2026-10-08T11:52:35Z",
+      "kWhDelivered": 29.74,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0159",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T09:49:00Z",
+      "disconnectTime": "2026-10-08T12:23:03Z",
+      "kWhDelivered": 21.19,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0160",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T09:19:00Z",
+      "disconnectTime": "2026-10-08T12:53:49Z",
+      "kWhDelivered": 39.21,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0161",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T09:36:00Z",
+      "disconnectTime": "2026-10-08T12:27:47Z",
+      "kWhDelivered": 25.91,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0162",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T10:48:00Z",
+      "disconnectTime": "2026-10-08T12:25:24Z",
+      "kWhDelivered": 11.45,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0163",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T10:05:00Z",
+      "disconnectTime": "2026-10-08T11:33:16Z",
+      "kWhDelivered": 10.11,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0164",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T10:10:00Z",
+      "disconnectTime": "2026-10-08T11:10:28Z",
+      "kWhDelivered": 8.32,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0165",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T11:18:00Z",
+      "disconnectTime": "2026-10-08T12:23:52Z",
+      "kWhDelivered": 8.17,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0166",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T11:44:00Z",
+      "disconnectTime": "2026-10-08T15:18:43Z",
+      "kWhDelivered": 22.75,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0167",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T11:59:00Z",
+      "disconnectTime": "2026-10-08T13:46:37Z",
+      "kWhDelivered": 17.86,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0168",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T14:34:00Z",
+      "disconnectTime": "2026-10-08T16:14:27Z",
+      "kWhDelivered": 11.29,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0169",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T15:04:00Z",
+      "disconnectTime": "2026-10-08T16:14:44Z",
+      "kWhDelivered": 11.75,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0170",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T17:28:00Z",
+      "disconnectTime": "2026-10-08T18:50:23Z",
+      "kWhDelivered": 12.97,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0171",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T17:25:00Z",
+      "disconnectTime": "2026-10-08T21:14:40Z",
+      "kWhDelivered": 32.55,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0172",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T17:28:00Z",
+      "disconnectTime": "2026-10-08T18:42:28Z",
+      "kWhDelivered": 7.7,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0173",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T18:20:00Z",
+      "disconnectTime": "2026-10-08T21:08:40Z",
+      "kWhDelivered": 17.23,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0174",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T18:43:00Z",
+      "disconnectTime": "2026-10-08T22:13:28Z",
+      "kWhDelivered": 31.14,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0175",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T19:52:00Z",
+      "disconnectTime": "2026-10-08T21:40:30Z",
+      "kWhDelivered": 11.22,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0176",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T20:33:00Z",
+      "disconnectTime": "2026-10-08T23:30:16Z",
+      "kWhDelivered": 31.26,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0177",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T21:27:00Z",
+      "disconnectTime": "2026-10-09T00:21:15Z",
+      "kWhDelivered": 24.57,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0178",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-08T22:26:00Z",
+      "disconnectTime": "2026-10-09T00:25:59Z",
+      "kWhDelivered": 18.7,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0179",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T02:52:00Z",
+      "disconnectTime": "2026-10-09T06:08:53Z",
+      "kWhDelivered": 20.29,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0180",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T03:20:00Z",
+      "disconnectTime": "2026-10-09T04:40:51Z",
+      "kWhDelivered": 13.29,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0181",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T06:29:00Z",
+      "disconnectTime": "2026-10-09T08:43:23Z",
+      "kWhDelivered": 15.54,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0182",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T08:28:00Z",
+      "disconnectTime": "2026-10-09T11:44:47Z",
+      "kWhDelivered": 23.02,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0183",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T08:08:00Z",
+      "disconnectTime": "2026-10-09T11:54:58Z",
+      "kWhDelivered": 30.99,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0184",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T09:07:00Z",
+      "disconnectTime": "2026-10-09T10:12:11Z",
+      "kWhDelivered": 9.94,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0185",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T09:45:00Z",
+      "disconnectTime": "2026-10-09T11:13:30Z",
+      "kWhDelivered": 12.91,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0186",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T09:26:00Z",
+      "disconnectTime": "2026-10-09T10:42:46Z",
+      "kWhDelivered": 14.03,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0187",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T10:07:00Z",
+      "disconnectTime": "2026-10-09T13:03:35Z",
+      "kWhDelivered": 19.92,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0188",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T11:32:00Z",
+      "disconnectTime": "2026-10-09T14:38:58Z",
+      "kWhDelivered": 25.17,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0189",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T11:30:00Z",
+      "disconnectTime": "2026-10-09T13:13:52Z",
+      "kWhDelivered": 15.16,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0190",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T11:12:00Z",
+      "disconnectTime": "2026-10-09T14:57:56Z",
+      "kWhDelivered": 32.16,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0191",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T14:21:00Z",
+      "disconnectTime": "2026-10-09T18:09:09Z",
+      "kWhDelivered": 32.47,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0192",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T16:53:00Z",
+      "disconnectTime": "2026-10-09T19:38:38Z",
+      "kWhDelivered": 30.35,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0193",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T17:28:00Z",
+      "disconnectTime": "2026-10-09T20:04:56Z",
+      "kWhDelivered": 20.21,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0194",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T17:48:00Z",
+      "disconnectTime": "2026-10-09T20:25:49Z",
+      "kWhDelivered": 21.77,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0195",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T18:44:00Z",
+      "disconnectTime": "2026-10-09T20:26:59Z",
+      "kWhDelivered": 13.59,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0196",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T18:02:00Z",
+      "disconnectTime": "2026-10-09T19:59:16Z",
+      "kWhDelivered": 16.35,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0197",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T19:42:00Z",
+      "disconnectTime": "2026-10-09T23:04:37Z",
+      "kWhDelivered": 31.27,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0198",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T19:31:00Z",
+      "disconnectTime": "2026-10-09T23:24:40Z",
+      "kWhDelivered": 25.83,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0199",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T20:55:00Z",
+      "disconnectTime": "2026-10-09T22:13:03Z",
+      "kWhDelivered": 13.3,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0200",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T20:33:00Z",
+      "disconnectTime": "2026-10-10T00:16:52Z",
+      "kWhDelivered": 22.67,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0201",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T20:26:00Z",
+      "disconnectTime": "2026-10-10T00:02:46Z",
+      "kWhDelivered": 39.2,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0202",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T21:21:00Z",
+      "disconnectTime": "2026-10-10T00:13:11Z",
+      "kWhDelivered": 22.92,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0203",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-09T22:54:00Z",
+      "disconnectTime": "2026-10-10T01:55:23Z",
+      "kWhDelivered": 26.2,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0204",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T05:58:00Z",
+      "disconnectTime": "2026-10-10T07:49:43Z",
+      "kWhDelivered": 13.29,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0205",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T06:48:00Z",
+      "disconnectTime": "2026-10-10T09:42:04Z",
+      "kWhDelivered": 30.07,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0206",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T08:57:00Z",
+      "disconnectTime": "2026-10-10T10:02:12Z",
+      "kWhDelivered": 8.28,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0207",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T08:18:00Z",
+      "disconnectTime": "2026-10-10T10:22:31Z",
+      "kWhDelivered": 16.92,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0208",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T08:33:00Z",
+      "disconnectTime": "2026-10-10T10:47:10Z",
+      "kWhDelivered": 21.04,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0209",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T09:11:00Z",
+      "disconnectTime": "2026-10-10T10:25:12Z",
+      "kWhDelivered": 12.81,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0210",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T10:15:00Z",
+      "disconnectTime": "2026-10-10T12:44:34Z",
+      "kWhDelivered": 22.23,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0211",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T10:29:00Z",
+      "disconnectTime": "2026-10-10T13:23:49Z",
+      "kWhDelivered": 24.18,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0212",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T10:00:00Z",
+      "disconnectTime": "2026-10-10T13:41:48Z",
+      "kWhDelivered": 30.78,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0213",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T11:34:00Z",
+      "disconnectTime": "2026-10-10T13:02:26Z",
+      "kWhDelivered": 12.1,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0214",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T11:37:00Z",
+      "disconnectTime": "2026-10-10T13:30:50Z",
+      "kWhDelivered": 20.51,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0215",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T17:24:00Z",
+      "disconnectTime": "2026-10-10T20:06:56Z",
+      "kWhDelivered": 24.1,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0216",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T18:01:00Z",
+      "disconnectTime": "2026-10-10T21:57:01Z",
+      "kWhDelivered": 36.55,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0217",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T18:00:00Z",
+      "disconnectTime": "2026-10-10T20:41:52Z",
+      "kWhDelivered": 25.44,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0218",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T18:03:00Z",
+      "disconnectTime": "2026-10-10T21:46:54Z",
+      "kWhDelivered": 36.3,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0219",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T19:38:00Z",
+      "disconnectTime": "2026-10-10T23:02:20Z",
+      "kWhDelivered": 24.16,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0220",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T19:39:00Z",
+      "disconnectTime": "2026-10-10T21:24:06Z",
+      "kWhDelivered": 17.13,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0221",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T20:53:00Z",
+      "disconnectTime": "2026-10-10T22:17:37Z",
+      "kWhDelivered": 9.15,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0222",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T20:41:00Z",
+      "disconnectTime": "2026-10-10T21:48:05Z",
+      "kWhDelivered": 11.12,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0223",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-10T20:37:00Z",
+      "disconnectTime": "2026-10-10T22:42:40Z",
+      "kWhDelivered": 13.94,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0224",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T00:56:00Z",
+      "disconnectTime": "2026-10-11T04:50:52Z",
+      "kWhDelivered": 33.88,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0225",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T03:51:00Z",
+      "disconnectTime": "2026-10-11T05:44:07Z",
+      "kWhDelivered": 19.52,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0226",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T06:55:00Z",
+      "disconnectTime": "2026-10-11T09:56:44Z",
+      "kWhDelivered": 28.39,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0227",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T08:05:00Z",
+      "disconnectTime": "2026-10-11T11:27:19Z",
+      "kWhDelivered": 20.47,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0228",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T08:07:00Z",
+      "disconnectTime": "2026-10-11T10:28:51Z",
+      "kWhDelivered": 22.14,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0229",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T08:16:00Z",
+      "disconnectTime": "2026-10-11T11:01:13Z",
+      "kWhDelivered": 27.85,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0230",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T09:43:00Z",
+      "disconnectTime": "2026-10-11T11:25:05Z",
+      "kWhDelivered": 10.42,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0231",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T09:20:00Z",
+      "disconnectTime": "2026-10-11T13:04:44Z",
+      "kWhDelivered": 26.62,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0232",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T10:52:00Z",
+      "disconnectTime": "2026-10-11T13:15:34Z",
+      "kWhDelivered": 22.74,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0233",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T11:07:00Z",
+      "disconnectTime": "2026-10-11T12:32:09Z",
+      "kWhDelivered": 15.23,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0234",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T11:31:00Z",
+      "disconnectTime": "2026-10-11T12:51:54Z",
+      "kWhDelivered": 9.67,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0235",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T11:08:00Z",
+      "disconnectTime": "2026-10-11T13:17:57Z",
+      "kWhDelivered": 17.01,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0236",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T17:06:00Z",
+      "disconnectTime": "2026-10-11T20:36:03Z",
+      "kWhDelivered": 31.78,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0237",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T17:02:00Z",
+      "disconnectTime": "2026-10-11T20:06:15Z",
+      "kWhDelivered": 21.76,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0238",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T18:54:00Z",
+      "disconnectTime": "2026-10-11T20:59:17Z",
+      "kWhDelivered": 22.77,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0239",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T18:34:00Z",
+      "disconnectTime": "2026-10-11T22:16:18Z",
+      "kWhDelivered": 34.18,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0240",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T19:17:00Z",
+      "disconnectTime": "2026-10-11T20:51:09Z",
+      "kWhDelivered": 10.38,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0241",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T20:42:00Z",
+      "disconnectTime": "2026-10-11T22:20:10Z",
+      "kWhDelivered": 15.05,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0242",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T20:03:00Z",
+      "disconnectTime": "2026-10-11T23:24:37Z",
+      "kWhDelivered": 24.25,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0243",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T21:13:00Z",
+      "disconnectTime": "2026-10-11T22:25:20Z",
+      "kWhDelivered": 11.85,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0244",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T22:52:00Z",
+      "disconnectTime": "2026-10-12T02:28:32Z",
+      "kWhDelivered": 27.58,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0245",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-11T23:00:00Z",
+      "disconnectTime": "2026-10-12T00:49:54Z",
+      "kWhDelivered": 20.0,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0246",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T03:08:00Z",
+      "disconnectTime": "2026-10-12T04:10:40Z",
+      "kWhDelivered": 10.39,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0247",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T04:01:00Z",
+      "disconnectTime": "2026-10-12T05:32:21Z",
+      "kWhDelivered": 9.54,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0248",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T08:49:00Z",
+      "disconnectTime": "2026-10-12T10:54:10Z",
+      "kWhDelivered": 18.71,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0249",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T08:32:00Z",
+      "disconnectTime": "2026-10-12T10:11:52Z",
+      "kWhDelivered": 15.11,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0250",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T09:33:00Z",
+      "disconnectTime": "2026-10-12T11:27:17Z",
+      "kWhDelivered": 17.56,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0251",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T09:03:00Z",
+      "disconnectTime": "2026-10-12T13:02:44Z",
+      "kWhDelivered": 40.9,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0252",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T09:43:00Z",
+      "disconnectTime": "2026-10-12T11:02:25Z",
+      "kWhDelivered": 12.66,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0253",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T10:57:00Z",
+      "disconnectTime": "2026-10-12T12:11:32Z",
+      "kWhDelivered": 11.23,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0254",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T10:08:00Z",
+      "disconnectTime": "2026-10-12T11:57:30Z",
+      "kWhDelivered": 16.73,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0255",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T11:20:00Z",
+      "disconnectTime": "2026-10-12T13:28:33Z",
+      "kWhDelivered": 19.26,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0256",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T11:29:00Z",
+      "disconnectTime": "2026-10-12T13:59:59Z",
+      "kWhDelivered": 20.51,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0257",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T11:07:00Z",
+      "disconnectTime": "2026-10-12T14:40:30Z",
+      "kWhDelivered": 32.93,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0258",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T14:56:00Z",
+      "disconnectTime": "2026-10-12T16:37:07Z",
+      "kWhDelivered": 12.97,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0259",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T17:27:00Z",
+      "disconnectTime": "2026-10-12T19:23:15Z",
+      "kWhDelivered": 14.09,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0260",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T18:59:00Z",
+      "disconnectTime": "2026-10-12T21:24:22Z",
+      "kWhDelivered": 15.64,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0261",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T19:27:00Z",
+      "disconnectTime": "2026-10-12T20:44:22Z",
+      "kWhDelivered": 12.5,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0262",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T20:03:00Z",
+      "disconnectTime": "2026-10-12T22:48:33Z",
+      "kWhDelivered": 24.3,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0263",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-12T22:55:00Z",
+      "disconnectTime": "2026-10-13T01:54:45Z",
+      "kWhDelivered": 29.22,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0264",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T05:30:00Z",
+      "disconnectTime": "2026-10-13T07:10:21Z",
+      "kWhDelivered": 10.94,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0265",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T08:14:00Z",
+      "disconnectTime": "2026-10-13T11:39:17Z",
+      "kWhDelivered": 34.99,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0266",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T08:39:00Z",
+      "disconnectTime": "2026-10-13T11:40:29Z",
+      "kWhDelivered": 26.57,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0267",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T09:53:00Z",
+      "disconnectTime": "2026-10-13T12:57:49Z",
+      "kWhDelivered": 18.93,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0268",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T09:44:00Z",
+      "disconnectTime": "2026-10-13T13:01:14Z",
+      "kWhDelivered": 34.87,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0269",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T09:00:00Z",
+      "disconnectTime": "2026-10-13T10:32:39Z",
+      "kWhDelivered": 10.37,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0270",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T10:04:00Z",
+      "disconnectTime": "2026-10-13T11:29:32Z",
+      "kWhDelivered": 13.07,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0271",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T10:05:00Z",
+      "disconnectTime": "2026-10-13T13:19:18Z",
+      "kWhDelivered": 22.91,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0272",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T10:29:00Z",
+      "disconnectTime": "2026-10-13T12:30:21Z",
+      "kWhDelivered": 15.88,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0273",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T11:49:00Z",
+      "disconnectTime": "2026-10-13T15:38:27Z",
+      "kWhDelivered": 34.35,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0274",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T11:09:00Z",
+      "disconnectTime": "2026-10-13T12:37:20Z",
+      "kWhDelivered": 13.38,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0275",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T11:05:00Z",
+      "disconnectTime": "2026-10-13T12:53:58Z",
+      "kWhDelivered": 16.91,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0276",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T14:07:00Z",
+      "disconnectTime": "2026-10-13T16:09:07Z",
+      "kWhDelivered": 13.34,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0277",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T17:19:00Z",
+      "disconnectTime": "2026-10-13T18:27:10Z",
+      "kWhDelivered": 9.06,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0278",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T17:03:00Z",
+      "disconnectTime": "2026-10-13T18:04:23Z",
+      "kWhDelivered": 7.68,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0279",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T17:49:00Z",
+      "disconnectTime": "2026-10-13T19:13:42Z",
+      "kWhDelivered": 10.27,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0280",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T18:00:00Z",
+      "disconnectTime": "2026-10-13T20:29:31Z",
+      "kWhDelivered": 20.32,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0281",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T18:24:00Z",
+      "disconnectTime": "2026-10-13T20:59:51Z",
+      "kWhDelivered": 18.58,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0282",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T19:51:00Z",
+      "disconnectTime": "2026-10-13T21:54:45Z",
+      "kWhDelivered": 16.47,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0283",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T19:02:00Z",
+      "disconnectTime": "2026-10-13T21:20:31Z",
+      "kWhDelivered": 19.16,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0284",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T19:55:00Z",
+      "disconnectTime": "2026-10-13T21:51:21Z",
+      "kWhDelivered": 15.8,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0285",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T20:40:00Z",
+      "disconnectTime": "2026-10-13T22:55:11Z",
+      "kWhDelivered": 14.82,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0286",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-13T20:20:00Z",
+      "disconnectTime": "2026-10-13T21:50:56Z",
+      "kWhDelivered": 16.27,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0287",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T01:37:00Z",
+      "disconnectTime": "2026-10-14T03:49:04Z",
+      "kWhDelivered": 14.07,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0288",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T04:04:00Z",
+      "disconnectTime": "2026-10-14T06:35:53Z",
+      "kWhDelivered": 16.63,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0289",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T08:52:00Z",
+      "disconnectTime": "2026-10-14T10:18:35Z",
+      "kWhDelivered": 9.4,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0290",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T08:12:00Z",
+      "disconnectTime": "2026-10-14T09:43:13Z",
+      "kWhDelivered": 10.29,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0291",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T08:04:00Z",
+      "disconnectTime": "2026-10-14T09:35:53Z",
+      "kWhDelivered": 15.11,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0292",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T09:48:00Z",
+      "disconnectTime": "2026-10-14T12:29:28Z",
+      "kWhDelivered": 23.94,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0293",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T09:59:00Z",
+      "disconnectTime": "2026-10-14T13:37:46Z",
+      "kWhDelivered": 33.6,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0294",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T10:55:00Z",
+      "disconnectTime": "2026-10-14T14:49:46Z",
+      "kWhDelivered": 29.66,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0295",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T10:04:00Z",
+      "disconnectTime": "2026-10-14T12:28:24Z",
+      "kWhDelivered": 22.04,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0296",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T10:37:00Z",
+      "disconnectTime": "2026-10-14T11:47:06Z",
+      "kWhDelivered": 9.98,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0297",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T11:28:00Z",
+      "disconnectTime": "2026-10-14T12:34:46Z",
+      "kWhDelivered": 8.73,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0298",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T11:04:00Z",
+      "disconnectTime": "2026-10-14T14:00:02Z",
+      "kWhDelivered": 31.94,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0299",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T12:32:00Z",
+      "disconnectTime": "2026-10-14T14:41:12Z",
+      "kWhDelivered": 19.17,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0300",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T15:41:00Z",
+      "disconnectTime": "2026-10-14T17:14:52Z",
+      "kWhDelivered": 14.12,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0301",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T17:06:00Z",
+      "disconnectTime": "2026-10-14T20:31:58Z",
+      "kWhDelivered": 34.97,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0302",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T18:32:00Z",
+      "disconnectTime": "2026-10-14T21:28:18Z",
+      "kWhDelivered": 18.21,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0303",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T18:28:00Z",
+      "disconnectTime": "2026-10-14T22:26:22Z",
+      "kWhDelivered": 34.25,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0304",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T18:10:00Z",
+      "disconnectTime": "2026-10-14T20:15:30Z",
+      "kWhDelivered": 22.15,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0305",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T19:49:00Z",
+      "disconnectTime": "2026-10-14T21:49:54Z",
+      "kWhDelivered": 18.11,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0306",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T19:41:00Z",
+      "disconnectTime": "2026-10-14T21:41:14Z",
+      "kWhDelivered": 15.33,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0307",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T20:24:00Z",
+      "disconnectTime": "2026-10-14T22:15:08Z",
+      "kWhDelivered": 17.82,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0308",
+      "stationID": "1-39-139-652",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T20:58:00Z",
+      "disconnectTime": "2026-10-14T23:46:29Z",
+      "kWhDelivered": 18.96,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "synth-sess-0309",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-14T20:37:00Z",
+      "disconnectTime": "2026-10-14T23:36:27Z",
+      "kWhDelivered": 31.65,
+      "timezone": "America/Los_Angeles"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "detail": [
+    {
+      "type": "value_error",
+      "loc": ["body", "forecast_start"],
+      "msg": "Value error, forecast_start must be aligned to a UTC hourly boundary (got 2026-10-25T09:15:00Z)",
+      "input": "2026-10-25T09:15:00Z"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "scenario_id": "scenario_demo_001",
+  "station_ids": [
+    "ST-001",
+    "ST-002",
+    "ST-003"
+  ],
+  "forecast_start": "2026-10-25T09:00:00Z",
+  "interval_minutes": 60,
+  "horizon_intervals": 6
+}

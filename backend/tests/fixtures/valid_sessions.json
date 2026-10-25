@@ -1,0 +1,36 @@
+{
+  "_meta": {
+    "site": "caltech",
+    "start": "2026-10-01",
+    "end": "2026-10-02"
+  },
+  "_items": [
+    {
+      "sessionID": "sess-001",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T08:30:00Z",
+      "disconnectTime": "2026-10-01T11:45:00Z",
+      "kWhDelivered": 24.35,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "sess-002",
+      "stationID": "1-39-139-651",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T09:15:00Z",
+      "disconnectTime": "2026-10-01T12:00:00Z",
+      "kWhDelivered": 18.50,
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "sessionID": "sess-003",
+      "stationID": "1-39-139-650",
+      "siteID": "caltech",
+      "connectionTime": "2026-10-01T13:00:00Z",
+      "disconnectTime": null,
+      "kWhDelivered": null,
+      "timezone": "America/Los_Angeles"
+    }
+  ]
+}

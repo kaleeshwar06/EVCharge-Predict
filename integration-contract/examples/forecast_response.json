@@ -1,0 +1,62 @@
+{
+  "contract_version": "1.0",
+  "forecast_id": "fcst_9a8b7c6d5e4f",
+  "scenario_id": "scenario_demo_001",
+  "generated_at": "2026-10-25T09:00:02Z",
+  "horizon": {
+    "start": "2026-10-25T09:00:00Z",
+    "end": "2026-10-25T15:00:00Z",
+    "interval_minutes": 60,
+    "interval_count": 6
+  },
+  "demand_type": "baseline",
+  "stations": [
+    {
+      "station_id": "ST-001",
+      "intervals": [
+        {
+          "interval_start": "2026-10-25T09:00:00Z",
+          "interval_end": "2026-10-25T10:00:00Z",
+          "predicted_arrivals": 2,
+          "predicted_energy_kwh": 38.45
+        },
+        {
+          "interval_start": "2026-10-25T10:00:00Z",
+          "interval_end": "2026-10-25T11:00:00Z",
+          "predicted_arrivals": 3,
+          "predicted_energy_kwh": 54.12
+        },
+        {
+          "interval_start": "2026-10-25T11:00:00Z",
+          "interval_end": "2026-10-25T12:00:00Z",
+          "predicted_arrivals": 1,
+          "predicted_energy_kwh": 22.8
+        },
+        {
+          "interval_start": "2026-10-25T12:00:00Z",
+          "interval_end": "2026-10-25T13:00:00Z",
+          "predicted_arrivals": 1,
+          "predicted_energy_kwh": 19.5
+        },
+        {
+          "interval_start": "2026-10-25T13:00:00Z",
+          "interval_end": "2026-10-25T14:00:00Z",
+          "predicted_arrivals": 0,
+          "predicted_energy_kwh": 0.0
+        },
+        {
+          "interval_start": "2026-10-25T14:00:00Z",
+          "interval_end": "2026-10-25T15:00:00Z",
+          "predicted_arrivals": 2,
+          "predicted_energy_kwh": 36.2
+        }
+      ]
+    }
+  ],
+  "model": {
+    "model_version": "1.0",
+    "training_data_type": "synthetic",
+    "scikit_learn_version": "1.9.1",
+    "training_data_fingerprint": "synthetic_14day_sessions.json"
+  }
+}

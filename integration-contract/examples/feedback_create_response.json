@@ -1,0 +1,11 @@
+{
+  "contract_version": "1.0",
+  "feedback_id": "fbk_7a6b5c4d3e2f",
+  "allocation_run_id": "opt-run-20261026-001",
+  "forecast_id": "fcst_9a8b7c6d5e4f",
+  "scenario_id": "scenario_demo_001",
+  "status": "accepted",
+  "is_duplicate": false,
+  "received_at": "2026-10-25T09:15:02Z",
+  "feedback_url": "/api/v1/feedback/fbk_7a6b5c4d3e2f"
+}
