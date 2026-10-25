@@ -1,4 +1,4 @@
-﻿# ── Web framework ────────────────────────────────────────────────────────────
+# ── Web framework ────────────────────────────────────────────────────────────
 fastapi==0.115.5
 uvicorn[standard]==0.32.1
 python-multipart==0.0.12
@@ -10,6 +10,7 @@ pydantic-settings==2.6.1
 # ── Database ─────────────────────────────────────────────────────────────────
 sqlalchemy==2.0.36
 asyncpg==0.30.0
+aiosqlite>=0.20.0          # required for sqlite+aiosqlite:// test database
 alembic==1.14.0
 
 # ── HTTP client (partner API) ────────────────────────────────────────────────

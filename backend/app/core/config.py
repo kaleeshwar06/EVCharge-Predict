@@ -5,11 +5,32 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Optional
 
-from pydantic import Field, model_validator
+from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Project root: backend/app/core/ -> 3 levels up -> EVCharge-Predict/
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
+
+
+def normalize_database_url(url: str) -> str:
+    """Normalizes database URLs for async SQLAlchemy.
+
+    Render and managed cloud providers inject PostgreSQL URLs starting with
+    'postgres://' or 'postgresql://'. Async SQLAlchemy requires the asyncpg driver
+    prefix 'postgresql+asyncpg://'.
+
+    Rules:
+    - 'postgres://' -> 'postgresql+asyncpg://'
+    - 'postgresql://' -> 'postgresql+asyncpg://' (if '+asyncpg' not already present)
+    - SQLite URLs (e.g. 'sqlite+aiosqlite:///...') are preserved untouched.
+    - Already-correct 'postgresql+asyncpg://' URLs are preserved untouched.
+    """
+    clean_url = (url or "").strip()
+    if clean_url.startswith("postgres://"):
+        return clean_url.replace("postgres://", "postgresql+asyncpg://", 1)
+    if clean_url.startswith("postgresql://") and not clean_url.startswith("postgresql+asyncpg://"):
+        return clean_url.replace("postgresql://", "postgresql+asyncpg://", 1)
+    return clean_url
 
 
 class Settings(BaseSettings):
@@ -25,9 +46,9 @@ class Settings(BaseSettings):
     api_version: str = Field("1.0")
     log_level: str = Field("INFO")
 
-    # Server
-    host: str = Field("127.0.0.1")
-    port: int = Field(8001)
+    # Server (Render provides $PORT; host should bind to 0.0.0.0 in production)
+    host: str = Field("127.0.0.1", description="Server bind host (127.0.0.1 locally, 0.0.0.0 in deployment)")
+    port: int = Field(8001, description="Server listen port (8001 locally, $PORT on Render)")
 
     # Database
     database_url: str = Field(
@@ -58,6 +79,12 @@ class Settings(BaseSettings):
     secret_key: str = Field("replace-with-a-long-random-string")
     api_auth_token: Optional[str] = Field(None, description="Shared secret bearer token for service-to-service auth.")
     enable_docs: bool = Field(True, description="Expose /docs and /openapi.json publicly. Set False in production.")
+
+    @field_validator("database_url", mode="before")
+    @classmethod
+    def clean_database_url(cls, v: str) -> str:
+        """Automatically normalizes Render/PostgreSQL connection strings to asyncpg driver dialect."""
+        return normalize_database_url(str(v))
 
     @model_validator(mode="after")
     def validate_production_security(self) -> Settings:

@@ -1,0 +1,28 @@
+﻿services:
+  - type: web
+    name: evcharge-predict
+    env: python
+    # Render reads .python-version automatically (3.12 pinned)
+    buildCommand: pip install -r backend/requirements.txt
+    #  is injected by Render at runtime; --app-dir sets the Python path root
+    startCommand: uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port $PORT
+    healthCheckPath: /healthz
+    envVars:
+      - key: APP_ENV
+        value: production
+      # PYTHONPATH is NOT needed because --app-dir backend handles the import root
+      - key: API_AUTH_TOKEN
+        sync: false       # secret - set in Render dashboard, never committed
+      - key: DATABASE_URL
+        fromDatabase:
+          name: evcharge-predict-db
+          property: connectionString   # Render injects postgres:// which config.py normalizes
+      - key: ENABLE_DOCS
+        value: "false"
+      - key: CORS_ORIGIN
+        sync: false       # set to your frontend URL in Render dashboard
+
+databases:
+  - name: evcharge-predict-db
+    databaseName: evcharge_predict
+    plan: free
