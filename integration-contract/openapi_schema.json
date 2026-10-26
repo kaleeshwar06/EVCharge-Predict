@@ -1,0 +1,1784 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "EVCharge-Predict API",
+    "description": "Electric Vehicle Charging Demand Prediction System",
+    "version": "1.0"
+  },
+  "paths": {
+    "/healthz": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Health check (root alias)",
+        "description": "Alias to /api/v1/healthz returning minimal operational status.",
+        "operationId": "healthz_healthz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/readyz": {
+      "get": {
+        "tags": [
+          "readiness"
+        ],
+        "summary": "Readiness check (root alias)",
+        "description": "Alias to /api/v1/readyz checking database and model readiness without heavy inference.",
+        "operationId": "readyz_readyz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/healthz": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Health check",
+        "description": "Returns the service name and API version. No auth required.",
+        "operationId": "healthz_api_v1_healthz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/readyz": {
+      "get": {
+        "tags": [
+          "readiness"
+        ],
+        "summary": "Readiness check",
+        "description": "Checks whether the database connection and model artifacts are ready to serve forecasts.",
+        "operationId": "readyz_api_v1_readyz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/stations": {
+      "get": {
+        "tags": [
+          "stations"
+        ],
+        "summary": "List charging stations",
+        "description": "Returns all registered charging stations with canonical ST-xxx identifiers.",
+        "operationId": "list_stations_api_v1_stations_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "site_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by site ID (e.g. caltech)",
+              "title": "Site Id"
+            },
+            "description": "Filter by site ID (e.g. caltech)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StationRead"
+                  },
+                  "title": "Response List Stations Api V1 Stations Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sessions": {
+      "get": {
+        "tags": [
+          "sessions"
+        ],
+        "summary": "List charging sessions",
+        "description": "Returns charging sessions with pagination and optional station/time filters.",
+        "operationId": "list_sessions_api_v1_sessions_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "station_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Canonical station ID (e.g. ST-001)",
+              "title": "Station Id"
+            },
+            "description": "Canonical station ID (e.g. ST-001)"
+          },
+          {
+            "name": "start_time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter connection_time >= start_time (UTC ISO 8601)",
+              "title": "Start Time"
+            },
+            "description": "Filter connection_time >= start_time (UTC ISO 8601)"
+          },
+          {
+            "name": "end_time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter connection_time <= end_time (UTC ISO 8601)",
+              "title": "End Time"
+            },
+            "description": "Filter connection_time <= end_time (UTC ISO 8601)"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 500,
+              "minimum": 1,
+              "description": "Page limit",
+              "default": 50,
+              "title": "Limit"
+            },
+            "description": "Page limit"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Page offset",
+              "default": 0,
+              "title": "Offset"
+            },
+            "description": "Page offset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ChargingSessionRead"
+                  },
+                  "title": "Response List Sessions Api V1 Sessions Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/imports/{import_id}": {
+      "get": {
+        "tags": [
+          "imports"
+        ],
+        "summary": "Get import status",
+        "description": "Returns summary and audit counts for a specific dataset import job.",
+        "operationId": "get_import_api_v1_imports__import_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "import_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Import Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatasetImportRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/forecasts": {
+      "post": {
+        "tags": [
+          "forecasts"
+        ],
+        "summary": "Generate 6-hour charging demand forecast",
+        "description": "Generates and persists a six-hour recursive demand forecast for requested canonical stations.",
+        "operationId": "create_forecast_api_v1_forecasts_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForecastCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForecastCreateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/forecasts/latest": {
+      "get": {
+        "tags": [
+          "forecasts"
+        ],
+        "summary": "Get latest baseline forecast for scenario",
+        "description": "Retrieves the newest completed baseline forecast for the specified scenario ID.",
+        "operationId": "get_latest_forecast_api_v1_forecasts_latest_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "scenario_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Scenario identifier",
+              "title": "Scenario Id"
+            },
+            "description": "Scenario identifier"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForecastDetailRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/forecasts/{forecast_id}": {
+      "get": {
+        "tags": [
+          "forecasts"
+        ],
+        "summary": "Get forecast by ID",
+        "description": "Retrieves the full multi-station, six-interval prediction payload for a specific forecast.",
+        "operationId": "get_forecast_api_v1_forecasts__forecast_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "forecast_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Forecast Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForecastDetailRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/forecasts/{forecast_id}/adjusted-demand": {
+      "get": {
+        "tags": [
+          "forecasts"
+        ],
+        "summary": "Get feedback-adjusted operational demand",
+        "description": "Retrieves the derived operational demand envelope comparing baseline predictions against an accepted allocation feedback submission.",
+        "operationId": "get_adjusted_demand_api_v1_forecasts__forecast_id__adjusted_demand_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "forecast_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Forecast Id"
+            }
+          },
+          {
+            "name": "feedback_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Unique feedback ID (fbk_...) to retrieve derived demand for",
+              "title": "Feedback Id"
+            },
+            "description": "Unique feedback ID (fbk_...) to retrieve derived demand for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdjustedDemandResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/feedback": {
+      "post": {
+        "tags": [
+          "feedback"
+        ],
+        "summary": "Submit optimizer allocation feedback",
+        "description": "Accepts, validates, and persists allocation feedback from EVCharge-Opt. Enforces deterministic idempotency using allocation_run_id and request payload hashing.",
+        "operationId": "submit_feedback_api_v1_feedback_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Idempotent duplicate request recognized, original record returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackCreateResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Feedback newly accepted and persisted"
+          },
+          "400": {
+            "description": "Validation failure, scenario mismatch, or interval alignment error"
+          },
+          "404": {
+            "description": "Referenced forecast or station not found"
+          },
+          "409": {
+            "description": "Conflict: same allocation_run_id submitted with differing payload"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "feedback"
+        ],
+        "summary": "List feedback submissions",
+        "description": "Lists feedback records optionally filtered by forecast_id and/or scenario_id.",
+        "operationId": "list_feedback_api_v1_feedback_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "forecast_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by originating forecast ID",
+              "title": "Forecast Id"
+            },
+            "description": "Filter by originating forecast ID"
+          },
+          {
+            "name": "scenario_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by scenario ID",
+              "title": "Scenario Id"
+            },
+            "description": "Filter by scenario ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FeedbackDetailRead"
+                  },
+                  "title": "Response List Feedback Api V1 Feedback Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/feedback/{feedback_id}": {
+      "get": {
+        "tags": [
+          "feedback"
+        ],
+        "summary": "Get feedback by ID",
+        "description": "Retrieves feedback metadata, submission status, and associated forecast references.",
+        "operationId": "get_feedback_api_v1_feedback__feedback_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "feedback_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Feedback Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackDetailRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AdjustedDemandIntervalRead": {
+        "properties": {
+          "interval_start": {
+            "type": "string",
+            "title": "Interval Start"
+          },
+          "interval_end": {
+            "type": "string",
+            "title": "Interval End"
+          },
+          "baseline_arrivals": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Baseline Arrivals",
+            "description": "Preserved baseline predicted arrivals"
+          },
+          "baseline_energy_kwh": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Baseline Energy Kwh",
+            "description": "Preserved baseline predicted energy demand (kWh)"
+          },
+          "allocated_energy_kwh": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Allocated Energy Kwh",
+            "description": "Optimizer allocated energy (kWh)"
+          },
+          "available_capacity_kw": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Available Capacity Kw",
+            "description": "Optimizer available capacity (kW)"
+          },
+          "reported_unmet_demand_kwh": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reported Unmet Demand Kwh",
+            "description": "Explicit unmet demand reported by optimizer (kWh)"
+          },
+          "adjusted_operational_demand_kwh": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Adjusted Operational Demand Kwh",
+            "description": "Derived operational energy demand (kWh)"
+          },
+          "adjustment_status": {
+            "type": "string",
+            "title": "Adjustment Status",
+            "description": "'adjusted', 'unchanged', or 'insufficient_data'"
+          }
+        },
+        "type": "object",
+        "required": [
+          "interval_start",
+          "interval_end",
+          "baseline_arrivals",
+          "baseline_energy_kwh",
+          "adjusted_operational_demand_kwh",
+          "adjustment_status"
+        ],
+        "title": "AdjustedDemandIntervalRead",
+        "description": "Single interval comparing baseline predictions with feedback and derived operational demand."
+      },
+      "AdjustedDemandResponse": {
+        "properties": {
+          "contract_version": {
+            "type": "string",
+            "title": "Contract Version",
+            "default": "1.0"
+          },
+          "forecast_id": {
+            "type": "string",
+            "title": "Forecast Id"
+          },
+          "scenario_id": {
+            "type": "string",
+            "title": "Scenario Id"
+          },
+          "feedback_id": {
+            "type": "string",
+            "title": "Feedback Id"
+          },
+          "allocation_run_id": {
+            "type": "string",
+            "title": "Allocation Run Id"
+          },
+          "demand_type": {
+            "type": "string",
+            "title": "Demand Type",
+            "default": "feedback-adjusted-operational"
+          },
+          "adjustment_policy_version": {
+            "type": "string",
+            "title": "Adjustment Policy Version"
+          },
+          "policy_description": {
+            "type": "string",
+            "title": "Policy Description"
+          },
+          "policy_limitations": {
+            "type": "string",
+            "title": "Policy Limitations"
+          },
+          "computed_at": {
+            "type": "string",
+            "title": "Computed At"
+          },
+          "stations": {
+            "items": {
+              "$ref": "#/components/schemas/StationAdjustedDemandRead"
+            },
+            "type": "array",
+            "title": "Stations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "forecast_id",
+          "scenario_id",
+          "feedback_id",
+          "allocation_run_id",
+          "adjustment_policy_version",
+          "policy_description",
+          "policy_limitations",
+          "computed_at",
+          "stations"
+        ],
+        "title": "AdjustedDemandResponse",
+        "description": "Full feedback-adjusted operational demand payload."
+      },
+      "AllocationIntervalInput": {
+        "properties": {
+          "interval_start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Interval Start",
+            "description": "UTC start of 60-min interval, must match forecast interval"
+          },
+          "interval_end": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Interval End",
+            "description": "UTC end of 60-min interval"
+          },
+          "allocated_energy_kwh": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Allocated Energy Kwh",
+            "description": "Energy allocated by optimizer (kWh)"
+          },
+          "available_capacity_kw": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Available Capacity Kw",
+            "description": "Available charger capacity (kW)"
+          },
+          "reported_unmet_demand_kwh": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reported Unmet Demand Kwh",
+            "description": "Unmet demand explicitly reported by optimizer (kWh)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "interval_start",
+          "interval_end"
+        ],
+        "title": "AllocationIntervalInput",
+        "description": "Interval-level allocation result reported by EVCharge-Opt."
+      },
+      "ChargingSessionRead": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "source_session_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Session Id"
+          },
+          "station_id": {
+            "type": "string",
+            "title": "Station Id",
+            "description": "Canonical station ID",
+            "examples": [
+              "ST-001"
+            ]
+          },
+          "connection_time": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Connection Time"
+          },
+          "disconnect_time": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Disconnect Time"
+          },
+          "kwh_delivered": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kwh Delivered"
+          },
+          "source_site_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Site Id"
+          },
+          "source_timezone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Timezone"
+          },
+          "source_dataset": {
+            "type": "string",
+            "title": "Source Dataset"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "station_id",
+          "connection_time",
+          "source_dataset"
+        ],
+        "title": "ChargingSessionRead",
+        "description": "Public API response schema for a charging session."
+      },
+      "DatasetImportRead": {
+        "properties": {
+          "import_id": {
+            "type": "string",
+            "title": "Import Id"
+          },
+          "source_dataset": {
+            "type": "string",
+            "title": "Source Dataset"
+          },
+          "source_filename": {
+            "type": "string",
+            "title": "Source Filename"
+          },
+          "file_checksum": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "File Checksum"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "completed_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          },
+          "total_records_read": {
+            "type": "integer",
+            "title": "Total Records Read"
+          },
+          "records_inserted": {
+            "type": "integer",
+            "title": "Records Inserted"
+          },
+          "records_skipped": {
+            "type": "integer",
+            "title": "Records Skipped"
+          },
+          "records_rejected": {
+            "type": "integer",
+            "title": "Records Rejected"
+          },
+          "error_summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Summary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "import_id",
+          "source_dataset",
+          "source_filename",
+          "status",
+          "started_at",
+          "total_records_read",
+          "records_inserted",
+          "records_skipped",
+          "records_rejected"
+        ],
+        "title": "DatasetImportRead",
+        "description": "Public API representation of an import job."
+      },
+      "FeedbackCreateRequest": {
+        "properties": {
+          "contract_version": {
+            "type": "string",
+            "title": "Contract Version",
+            "description": "Integration contract version",
+            "default": "1.0"
+          },
+          "allocation_run_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Allocation Run Id",
+            "description": "Unique optimizer execution identifier for idempotency"
+          },
+          "forecast_id": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Forecast Id",
+            "description": "Originating forecast identifier (e.g., 'fcst_...')"
+          },
+          "scenario_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Scenario Id",
+            "description": "Scenario identifier"
+          },
+          "submitted_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Submitted At",
+            "description": "Timestamp when optimizer generated feedback"
+          },
+          "optimizer_version": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Optimizer Version",
+            "description": "Version of the EVCharge-Opt optimizer"
+          },
+          "stations": {
+            "items": {
+              "$ref": "#/components/schemas/StationAllocationFeedbackInput"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Stations",
+            "description": "Per-station allocation results"
+          }
+        },
+        "type": "object",
+        "required": [
+          "allocation_run_id",
+          "forecast_id",
+          "scenario_id",
+          "submitted_at",
+          "stations"
+        ],
+        "title": "FeedbackCreateRequest",
+        "description": "Payload submitted by EVCharge-Opt to report allocation feedback."
+      },
+      "FeedbackCreateResponse": {
+        "properties": {
+          "contract_version": {
+            "type": "string",
+            "title": "Contract Version",
+            "default": "1.0"
+          },
+          "feedback_id": {
+            "type": "string",
+            "title": "Feedback Id"
+          },
+          "allocation_run_id": {
+            "type": "string",
+            "title": "Allocation Run Id"
+          },
+          "forecast_id": {
+            "type": "string",
+            "title": "Forecast Id"
+          },
+          "scenario_id": {
+            "type": "string",
+            "title": "Scenario Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "is_duplicate": {
+            "type": "boolean",
+            "title": "Is Duplicate"
+          },
+          "received_at": {
+            "type": "string",
+            "title": "Received At"
+          },
+          "feedback_url": {
+            "type": "string",
+            "title": "Feedback Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "feedback_id",
+          "allocation_run_id",
+          "forecast_id",
+          "scenario_id",
+          "status",
+          "is_duplicate",
+          "received_at",
+          "feedback_url"
+        ],
+        "title": "FeedbackCreateResponse",
+        "description": "Acknowledgement returned upon feedback submission (HTTP 201 or 200)."
+      },
+      "FeedbackDetailRead": {
+        "properties": {
+          "contract_version": {
+            "type": "string",
+            "title": "Contract Version"
+          },
+          "feedback_id": {
+            "type": "string",
+            "title": "Feedback Id"
+          },
+          "allocation_run_id": {
+            "type": "string",
+            "title": "Allocation Run Id"
+          },
+          "forecast_id": {
+            "type": "string",
+            "title": "Forecast Id"
+          },
+          "scenario_id": {
+            "type": "string",
+            "title": "Scenario Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "optimizer_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Optimizer Version"
+          },
+          "submitted_at": {
+            "type": "string",
+            "title": "Submitted At"
+          },
+          "received_at": {
+            "type": "string",
+            "title": "Received At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "contract_version",
+          "feedback_id",
+          "allocation_run_id",
+          "forecast_id",
+          "scenario_id",
+          "status",
+          "submitted_at",
+          "received_at"
+        ],
+        "title": "FeedbackDetailRead",
+        "description": "Stored feedback metadata and processing status."
+      },
+      "ForecastCreateRequest": {
+        "properties": {
+          "scenario_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Scenario Id",
+            "examples": [
+              "scenario_demo_001"
+            ]
+          },
+          "station_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Station Ids",
+            "examples": [
+              [
+                "ST-001",
+                "ST-002",
+                "ST-003"
+              ]
+            ]
+          },
+          "forecast_start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Forecast Start",
+            "examples": [
+              "2026-10-25T09:00:00Z"
+            ]
+          },
+          "interval_minutes": {
+            "type": "integer",
+            "title": "Interval Minutes",
+            "description": "Forecast step size in minutes (must be 60 for v1.0)",
+            "default": 60
+          },
+          "horizon_intervals": {
+            "type": "integer",
+            "title": "Horizon Intervals",
+            "description": "Number of intervals (must be 6 for v1.0)",
+            "default": 6
+          }
+        },
+        "type": "object",
+        "required": [
+          "scenario_id",
+          "station_ids",
+          "forecast_start"
+        ],
+        "title": "ForecastCreateRequest",
+        "description": "Request payload to trigger a 6-interval hourly forecast generation."
+      },
+      "ForecastCreateResponse": {
+        "properties": {
+          "contract_version": {
+            "type": "string",
+            "title": "Contract Version",
+            "default": "1.0"
+          },
+          "forecast_id": {
+            "type": "string",
+            "title": "Forecast Id"
+          },
+          "scenario_id": {
+            "type": "string",
+            "title": "Scenario Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "demand_type": {
+            "type": "string",
+            "title": "Demand Type",
+            "default": "baseline"
+          },
+          "generated_at": {
+            "type": "string",
+            "title": "Generated At"
+          },
+          "interval_minutes": {
+            "type": "integer",
+            "title": "Interval Minutes",
+            "default": 60
+          },
+          "horizon_intervals": {
+            "type": "integer",
+            "title": "Horizon Intervals",
+            "default": 6
+          },
+          "forecast_url": {
+            "type": "string",
+            "title": "Forecast Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "forecast_id",
+          "scenario_id",
+          "status",
+          "generated_at",
+          "forecast_url"
+        ],
+        "title": "ForecastCreateResponse",
+        "description": "Initial lightweight confirmation returned upon forecast creation (HTTP 201)."
+      },
+      "ForecastDetailRead": {
+        "properties": {
+          "contract_version": {
+            "type": "string",
+            "title": "Contract Version",
+            "default": "1.0"
+          },
+          "forecast_id": {
+            "type": "string",
+            "title": "Forecast Id"
+          },
+          "scenario_id": {
+            "type": "string",
+            "title": "Scenario Id"
+          },
+          "generated_at": {
+            "type": "string",
+            "title": "Generated At"
+          },
+          "horizon": {
+            "$ref": "#/components/schemas/HorizonMetadata"
+          },
+          "demand_type": {
+            "type": "string",
+            "title": "Demand Type",
+            "default": "baseline"
+          },
+          "stations": {
+            "items": {
+              "$ref": "#/components/schemas/StationForecastRead"
+            },
+            "type": "array",
+            "title": "Stations"
+          },
+          "model": {
+            "$ref": "#/components/schemas/ModelProvenanceMetadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "forecast_id",
+          "scenario_id",
+          "generated_at",
+          "horizon",
+          "stations",
+          "model"
+        ],
+        "title": "ForecastDetailRead",
+        "description": "Full detail forecast response matching the contract."
+      },
+      "ForecastIntervalRead": {
+        "properties": {
+          "interval_start": {
+            "type": "string",
+            "title": "Interval Start"
+          },
+          "interval_end": {
+            "type": "string",
+            "title": "Interval End"
+          },
+          "predicted_arrivals": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Predicted Arrivals"
+          },
+          "predicted_energy_kwh": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Predicted Energy Kwh"
+          }
+        },
+        "type": "object",
+        "required": [
+          "interval_start",
+          "interval_end",
+          "predicted_arrivals",
+          "predicted_energy_kwh"
+        ],
+        "title": "ForecastIntervalRead",
+        "description": "Forecast interval prediction."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "service": {
+            "type": "string",
+            "title": "Service",
+            "examples": [
+              "evcharge-predict"
+            ]
+          },
+          "api_version": {
+            "type": "string",
+            "title": "Api Version",
+            "examples": [
+              "1.0"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "ok",
+            "examples": [
+              "ok"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "service",
+          "api_version"
+        ],
+        "title": "HealthResponse"
+      },
+      "HorizonMetadata": {
+        "properties": {
+          "start": {
+            "type": "string",
+            "title": "Start"
+          },
+          "end": {
+            "type": "string",
+            "title": "End"
+          },
+          "interval_minutes": {
+            "type": "integer",
+            "title": "Interval Minutes"
+          },
+          "interval_count": {
+            "type": "integer",
+            "title": "Interval Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "start",
+          "end",
+          "interval_minutes",
+          "interval_count"
+        ],
+        "title": "HorizonMetadata"
+      },
+      "ModelProvenanceMetadata": {
+        "properties": {
+          "model_version": {
+            "type": "string",
+            "title": "Model Version"
+          },
+          "training_data_type": {
+            "type": "string",
+            "title": "Training Data Type"
+          },
+          "scikit_learn_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scikit Learn Version"
+          },
+          "training_data_fingerprint": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Training Data Fingerprint"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_version",
+          "training_data_type"
+        ],
+        "title": "ModelProvenanceMetadata"
+      },
+      "StationAdjustedDemandRead": {
+        "properties": {
+          "station_id": {
+            "type": "string",
+            "title": "Station Id"
+          },
+          "intervals": {
+            "items": {
+              "$ref": "#/components/schemas/AdjustedDemandIntervalRead"
+            },
+            "type": "array",
+            "title": "Intervals"
+          }
+        },
+        "type": "object",
+        "required": [
+          "station_id",
+          "intervals"
+        ],
+        "title": "StationAdjustedDemandRead",
+        "description": "Station container for adjusted demand intervals."
+      },
+      "StationAllocationFeedbackInput": {
+        "properties": {
+          "station_id": {
+            "type": "string",
+            "title": "Station Id",
+            "description": "Canonical station ID (e.g., 'ST-001')"
+          },
+          "intervals": {
+            "items": {
+              "$ref": "#/components/schemas/AllocationIntervalInput"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Intervals",
+            "description": "List of allocation intervals"
+          }
+        },
+        "type": "object",
+        "required": [
+          "station_id",
+          "intervals"
+        ],
+        "title": "StationAllocationFeedbackInput",
+        "description": "Station-level allocation feedback with consecutive hourly intervals."
+      },
+      "StationForecastRead": {
+        "properties": {
+          "station_id": {
+            "type": "string",
+            "title": "Station Id"
+          },
+          "intervals": {
+            "items": {
+              "$ref": "#/components/schemas/ForecastIntervalRead"
+            },
+            "type": "array",
+            "title": "Intervals"
+          }
+        },
+        "type": "object",
+        "required": [
+          "station_id",
+          "intervals"
+        ],
+        "title": "StationForecastRead",
+        "description": "Container for a single station's intervals."
+      },
+      "StationRead": {
+        "properties": {
+          "station_id": {
+            "type": "string",
+            "pattern": "^ST-\\d+$",
+            "title": "Station Id",
+            "examples": [
+              "ST-001"
+            ]
+          },
+          "source_station_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Source Station Id",
+            "examples": [
+              "1-39-139-650"
+            ]
+          },
+          "site_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Site Id",
+            "examples": [
+              "caltech"
+            ]
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "station_id",
+          "source_station_id",
+          "id",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "StationRead"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
