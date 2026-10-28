@@ -1,6 +1,7 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { StationRead, ForecastCreateRequest, createForecast, ApiError } from "../api";
-import { Zap, Clock, Calendar, HelpCircle, ChevronDown, ChevronUp, Layers } from "lucide-react";
+import { DEMO_STATIONS, generateDemoForecast } from "../demoService";
+import { Zap, Clock, Calendar, HelpCircle, ChevronDown, ChevronUp, Layers, Info } from "lucide-react";
 
 interface Props {
   stations: StationRead[];
@@ -10,15 +11,21 @@ interface Props {
 }
 
 const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError }) => {
-  const [selectedStations, setSelectedStations] = useState<string[]>([]);
-  const [scenarioId, setScenarioId] = useState<string>("scenario_live_001");
-  
+  const [selectedStations, setSelectedStations] = useState<string[]>(["ST-001"]);
+  const [scenarioId, setScenarioId] = useState<string>(() =>
+    demoMode ? "scenario_demo_001" : "scenario_live_001"
+  );
+
   // Date & Hour selectors
   const todayStr = new Date().toISOString().split("T")[0];
   const [selectedDate, setSelectedDate] = useState<string>(todayStr);
-  const [selectedHour, setSelectedHour] = useState<number>(() => (new Date().getHours() + 1) % 24);
+  const [selectedHour, setSelectedHour] = useState<number>(() => (new Date().getUTCHours() + 1) % 24);
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [showFeatureExplainer, setShowFeatureExplainer] = useState<boolean>(false);
+
+  const availableStations = demoMode
+    ? DEMO_STATIONS
+    : stations;
 
   const toggleStation = (id: string) => {
     setSelectedStations((prev) =>
@@ -33,12 +40,16 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
 
   const setNextAlignedHour = () => {
     const d = new Date();
-    d.setHours(d.getHours() + 1);
+    d.setUTCHours(d.getUTCHours() + 1);
     setSelectedDate(d.toISOString().split("T")[0]);
-    setSelectedHour(d.getHours());
+    setSelectedHour(d.getUTCHours());
   };
 
   const validate = () => {
+    if (availableStations.length === 0) {
+      setError("No stations available. In Live Mode, stations must exist in the database and API must be authenticated. Enable Demo Mode for offline preview.");
+      return false;
+    }
     if (selectedStations.length === 0) {
       setError("Please select at least one charging station.");
       return false;
@@ -70,17 +81,43 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
       interval_minutes: 60,
       horizon_intervals: 6,
     };
+
     setSubmitting(true);
+    setError(null);
+
+    // DEMO MODE: Fully isolated client-side mock simulation without invoking backend API
+    if (demoMode) {
+      try {
+        await new Promise((r) => setTimeout(r, 400)); // natural UI delay
+        const demoResult = generateDemoForecast(req);
+        onSuccess(demoResult);
+      } catch (err) {
+        setError(String(err));
+      } finally {
+        setSubmitting(false);
+      }
+      return;
+    }
+
+    // LIVE MODE: Call backend API
     try {
       const data = await createForecast(req);
       onSuccess(data);
     } catch (err) {
       if (err instanceof ApiError) {
-        try {
-          const parsed = JSON.parse(err.message);
-          setError(typeof parsed.detail === "string" ? parsed.detail : err.message);
-        } catch {
-          setError(`${err.status}: ${err.message}`);
+        if (err.status === 401) {
+          setError(
+            "Authentication required (HTTP 401): Missing Bearer token. Production forecast generation is restricted to authorized services. Switch to Demo Mode for interactive simulation."
+          );
+        } else if (err.status === 403) {
+          setError("Forbidden (HTTP 403): Invalid API service token.");
+        } else {
+          try {
+            const parsed = JSON.parse(err.message);
+            setError(typeof parsed.detail === "string" ? parsed.detail : err.message);
+          } catch {
+            setError(`Error (${err.status}): ${err.message}`);
+          }
         }
       } else {
         setError(String(err));
@@ -90,62 +127,80 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
     }
   };
 
-  if (demoMode) {
-    return (
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 text-slate-300">
-        <p className="text-sm">Demo mode is active — interactive forecast generation disabled.</p>
-      </div>
-    );
-  }
-
-  const availableStations = stations.length > 0 ? stations : [
-    { station_id: "ST-001", source_station_id: "src-1", site_id: "caltech", id: 1, created_at: "", updated_at: "" },
-    { station_id: "ST-002", source_station_id: "src-2", site_id: "caltech", id: 2, created_at: "", updated_at: "" },
-    { station_id: "ST-003", source_station_id: "demo-src-ST-003", site_id: "demo-site", id: 3, created_at: "", updated_at: "" },
-  ];
-
   return (
-    <form onSubmit={handleSubmit} className="bg-slate-900 border border-slate-800 rounded-xl p-6 text-slate-200 space-y-6">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-slate-900 border border-slate-800 rounded-xl p-6 text-slate-200 space-y-6"
+    >
+      {demoMode && (
+        <div className="p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg text-xs text-blue-300 flex items-center">
+          <Info className="w-4 h-4 mr-2 text-blue-400 flex-shrink-0" />
+          <span>
+            <strong>Simulated Forecast Generator (Demo Mode):</strong> Submissions compute client-side without reaching protected production endpoints.
+          </span>
+        </div>
+      )}
+
       <div>
         <div className="flex items-center justify-between mb-2">
           <label className="text-sm font-semibold text-white flex items-center">
-            <Zap className="w-4 h-4 mr-2 text-emerald-400" /> Select Charging Stations for Forecast
+            <Zap className={`w-4 h-4 mr-2 ${demoMode ? "text-blue-400" : "text-emerald-400"}`} />
+            Select Charging Stations ({demoMode ? "Demo Catalog" : "Live Registered"})
           </label>
-          <button
-            type="button"
-            onClick={selectAllStations}
-            className="text-xs text-emerald-400 hover:text-emerald-300 font-medium"
-          >
-            Select All
-          </button>
+          {availableStations.length > 0 && (
+            <button
+              type="button"
+              onClick={selectAllStations}
+              className={`text-xs font-medium hover:underline ${
+                demoMode ? "text-blue-400" : "text-emerald-400"
+              }`}
+            >
+              Select All
+            </button>
+          )}
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {availableStations.map((s) => {
-            const isSelected = selectedStations.includes(s.station_id);
-            return (
-              <button
-                type="button"
-                key={s.station_id}
-                onClick={() => toggleStation(s.station_id)}
-                className={`p-3 rounded-lg border text-left transition-all flex items-center justify-between ${
-                  isSelected
-                    ? "bg-emerald-500/10 border-emerald-500/50 text-white"
-                    : "bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700"
-                }`}
-              >
-                <div>
-                  <div className="font-mono font-bold text-sm">{s.station_id}</div>
-                  <div className="text-xs text-slate-400 capitalize">{s.site_id || "default"}</div>
-                </div>
-                <div className={`w-4 h-4 rounded flex items-center justify-center border text-xs ${
-                  isSelected ? "bg-emerald-500 border-emerald-500 text-black font-bold" : "border-slate-700"
-                }`}>
-                  {isSelected ? "✓" : ""}
-                </div>
-              </button>
-            );
-          })}
-        </div>
+
+        {availableStations.length === 0 ? (
+          <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-lg text-xs text-slate-400">
+            No stations available to select. In live mode, ensure the database is seeded or switch to <strong>Demo Mode</strong> to use simulated stations.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {availableStations.map((s) => {
+              const isSelected = selectedStations.includes(s.station_id);
+              return (
+                <button
+                  type="button"
+                  key={s.station_id}
+                  onClick={() => toggleStation(s.station_id)}
+                  className={`p-3 rounded-lg border text-left transition-all flex items-center justify-between ${
+                    isSelected
+                      ? demoMode
+                        ? "bg-blue-500/10 border-blue-500/50 text-white"
+                        : "bg-emerald-500/10 border-emerald-500/50 text-white"
+                      : "bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700"
+                  }`}
+                >
+                  <div>
+                    <div className="font-mono font-bold text-sm">{s.station_id}</div>
+                    <div className="text-xs text-slate-400 capitalize">{s.site_id || "default"}</div>
+                  </div>
+                  <div
+                    className={`w-4 h-4 rounded flex items-center justify-center border text-xs ${
+                      isSelected
+                        ? demoMode
+                          ? "bg-blue-500 border-blue-500 text-black font-bold"
+                          : "bg-emerald-500 border-emerald-500 text-black font-bold"
+                        : "border-slate-700"
+                    }`}
+                  >
+                    {isSelected ? "✓" : ""}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -177,7 +232,7 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
           />
         </div>
 
-        {/* Hour Selector (Enforces clean 00-23 hour alignment) */}
+        {/* Hour Selector */}
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <label className="text-sm font-semibold text-white flex items-center">
@@ -208,7 +263,7 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
         </div>
       </div>
 
-      {/* Explainer for the 30 ML Features */}
+      {/* Explainer */}
       <div className="bg-slate-950/70 border border-slate-800/80 rounded-lg p-3 text-xs">
         <button
           type="button"
@@ -230,7 +285,7 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
             </p>
             <ul className="list-disc list-inside space-y-1 pl-1 text-slate-300">
               <li><strong className="text-white">Calendar & Temporal (7 features):</strong> hour, day-of-week, is_weekend, cyclical harmonic encodings (sin_hour, cos_hour, sin_dayofweek, cos_dayofweek).</li>
-              <li><strong className="text-white">Autoregressive Historical Lags (16 features):</strong> lag arrivals and lag energy at 1h, 2h, 3h, 6h, 12h, 24h, 48h, and 168h (past week) looked up from the station history.</li>
+              <li><strong className="text-white">Autoregressive Historical Lags (16 features):</strong> lag arrivals and lag energy at 1h, 2h, 3h, 6h, 12h, 24h, 48h, and 168h looked up from station history.</li>
               <li><strong className="text-white">Rolling Window Statistics (6 features):</strong> rolling mean arrivals and energy over 6-hour, 24-hour, and 168-hour windows.</li>
               <li><strong className="text-white">Categorical Encoding (1 feature):</strong> learned station categorical integer embedding.</li>
             </ul>
@@ -241,11 +296,19 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
       <div className="pt-2">
         <button
           type="submit"
-          disabled={submitting}
-          className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
+          disabled={submitting || availableStations.length === 0}
+          className={`w-full font-semibold py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2 text-white disabled:opacity-50 ${
+            demoMode ? "bg-blue-600 hover:bg-blue-500" : "bg-emerald-600 hover:bg-emerald-500"
+          }`}
         >
           <Zap className="w-4 h-4" />
-          <span>{submitting ? "Computing Inference..." : "Generate Neural Demand Forecast"}</span>
+          <span>
+            {submitting
+              ? "Computing..."
+              : demoMode
+              ? "Generate Simulated Forecast (Demo)"
+              : "Generate Neural Demand Forecast (Live API)"}
+          </span>
         </button>
       </div>
     </form>

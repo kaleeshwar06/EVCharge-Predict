@@ -7,7 +7,8 @@ import {
   ForecastDetailRead,
   AdjustedDemandResponse,
 } from "../api";
-import { MessageSquare, CheckCircle2, AlertTriangle, ArrowRight, Zap } from "lucide-react";
+import { generateDemoFeedback, generateDemoAdjustedDemand } from "../demoService";
+import { MessageSquare, CheckCircle2, AlertTriangle, ArrowRight, Zap, Info } from "lucide-react";
 
 interface Props {
   demoMode: boolean;
@@ -16,7 +17,9 @@ interface Props {
 }
 
 const FeedbackForm: React.FC<Props> = ({ demoMode, forecast, onAdjustedDemand }) => {
-  const [allocationRunId, setAllocationRunId] = useState<string>("opt_run_" + Date.now().toString().slice(-6));
+  const [allocationRunId, setAllocationRunId] = useState<string>(
+    () => (demoMode ? "opt_run_demo_" : "opt_run_") + Date.now().toString().slice(-6)
+  );
   const [curtailmentPercent, setCurtailmentPercent] = useState<number>(10);
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -24,12 +27,10 @@ const FeedbackForm: React.FC<Props> = ({ demoMode, forecast, onAdjustedDemand })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (demoMode) {
-      setError("Feedback ingestion is disabled while Demo Mode is active.");
-      return;
-    }
     if (!forecast || !forecast.stations || forecast.stations.length === 0) {
-      setError("Please generate a forecast first (in the Forecast tab) so optimizer feedback can align to its intervals.");
+      setError(
+        "Please generate a forecast first (in the Forecast tab) so optimizer feedback can align to its station intervals."
+      );
       return;
     }
 
@@ -56,13 +57,35 @@ const FeedbackForm: React.FC<Props> = ({ demoMode, forecast, onAdjustedDemand })
       forecast_id: forecast.forecast_id,
       scenario_id: forecast.scenario_id,
       submitted_at: new Date().toISOString(),
-      optimizer_version: "opt-core-2.4.1",
+      optimizer_version: demoMode ? "opt-sim-1.0-demo" : "opt-core-2.4.1",
       stations: feedbackStations,
     };
 
     setSubmitting(true);
     setError(null);
     setSuccess(null);
+
+    // DEMO MODE: Fully isolated client-side mock simulation without invoking backend API
+    if (demoMode) {
+      try {
+        await new Promise((r) => setTimeout(r, 400));
+        const demoResp = generateDemoFeedback(req);
+        setSuccess(
+          `Demo feedback processed locally (ID: ${demoResp.feedback_id}, Status: ${demoResp.status}). Contract verified client-side.`
+        );
+        if (onAdjustedDemand) {
+          const adj = generateDemoAdjustedDemand(forecast, demoResp.feedback_id, curtailmentPercent);
+          onAdjustedDemand(adj);
+        }
+      } catch (err) {
+        setError(String(err));
+      } finally {
+        setSubmitting(false);
+      }
+      return;
+    }
+
+    // LIVE MODE: Call backend API
     try {
       const resp = await submitFeedback(req);
       setSuccess(
@@ -76,11 +99,19 @@ const FeedbackForm: React.FC<Props> = ({ demoMode, forecast, onAdjustedDemand })
       }
     } catch (err) {
       if (err instanceof ApiError) {
-        try {
-          const parsed = JSON.parse(err.message);
-          setError(typeof parsed.detail === "string" ? parsed.detail : err.message);
-        } catch {
-          setError(`${err.status}: ${err.message}`);
+        if (err.status === 401) {
+          setError(
+            "Authentication required (HTTP 401): Missing Bearer token. Production feedback submission is restricted to authorized optimizer services. Switch to Demo Mode for interactive simulation."
+          );
+        } else if (err.status === 403) {
+          setError("Forbidden (HTTP 403): Invalid API service token.");
+        } else {
+          try {
+            const parsed = JSON.parse(err.message);
+            setError(typeof parsed.detail === "string" ? parsed.detail : err.message);
+          } catch {
+            setError(`Error (${err.status}): ${err.message}`);
+          }
         }
       } else {
         setError(String(err));
@@ -90,27 +121,33 @@ const FeedbackForm: React.FC<Props> = ({ demoMode, forecast, onAdjustedDemand })
     }
   };
 
-  if (demoMode) {
-    return (
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 text-slate-400">
-        <p className="text-sm">Demo mode active — optimizer feedback submission is disabled.</p>
-      </div>
-    );
-  }
-
   return (
-    <form onSubmit={handleSubmit} className="bg-slate-900 border border-slate-800 rounded-xl p-6 text-slate-200 space-y-5">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-slate-900 border border-slate-800 rounded-xl p-6 text-slate-200 space-y-5"
+    >
       <div className="flex items-center justify-between pb-3 border-b border-slate-800">
         <div className="flex items-center space-x-2">
-          <MessageSquare className="w-5 h-5 text-indigo-400" />
-          <h3 className="font-semibold text-white">Post-Optimization Feedback Ingestion</h3>
+          <MessageSquare className={`w-5 h-5 ${demoMode ? "text-blue-400" : "text-indigo-400"}`} />
+          <h3 className="font-semibold text-white">
+            {demoMode ? "Simulated Optimization Feedback" : "Post-Optimization Feedback Ingestion"}
+          </h3>
         </div>
         {forecast && (
           <span className="text-xs bg-slate-950 px-2.5 py-1 rounded border border-slate-800 text-slate-400 font-mono">
-            Linked to: <strong className="text-emerald-400">{forecast.forecast_id}</strong>
+            Linked to: <strong className={demoMode ? "text-blue-400" : "text-emerald-400"}>{forecast.forecast_id}</strong>
           </span>
         )}
       </div>
+
+      {demoMode && (
+        <div className="p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg text-xs text-blue-300 flex items-center">
+          <Info className="w-4 h-4 mr-2 text-blue-400 flex-shrink-0" />
+          <span>
+            <strong>Simulated Feedback Engine (Demo Mode):</strong> Runs the complete optimization response & adjusted-demand derivation cycle purely in browser memory without contacting backend endpoints.
+          </span>
+        </div>
+      )}
 
       {!forecast && (
         <div className="p-3.5 bg-amber-500/10 border border-amber-500/30 rounded-lg text-xs text-amber-300">
@@ -120,7 +157,9 @@ const FeedbackForm: React.FC<Props> = ({ demoMode, forecast, onAdjustedDemand })
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-medium text-slate-400 mb-1">Allocation Run ID (Unique Idempotency Key):</label>
+          <label className="block text-xs font-medium text-slate-400 mb-1">
+            Allocation Run ID (Unique Idempotency Key):
+          </label>
           <input
             type="text"
             value={allocationRunId}
@@ -175,9 +214,17 @@ const FeedbackForm: React.FC<Props> = ({ demoMode, forecast, onAdjustedDemand })
       <button
         type="submit"
         disabled={submitting || !forecast}
-        className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-semibold py-2 px-6 rounded-lg transition-colors flex items-center justify-center space-x-2"
+        className={`w-full sm:w-auto font-semibold py-2 px-6 rounded-lg transition-colors flex items-center justify-center space-x-2 text-white disabled:opacity-50 ${
+          demoMode ? "bg-blue-600 hover:bg-blue-500" : "bg-indigo-600 hover:bg-indigo-500"
+        }`}
       >
-        <span>{submitting ? "Ingesting Feedback..." : "Submit Allocation Feedback"}</span>
+        <span>
+          {submitting
+            ? "Processing..."
+            : demoMode
+            ? "Submit Simulated Feedback (Demo)"
+            : "Submit Allocation Feedback (Live API)"}
+        </span>
         <ArrowRight className="w-4 h-4" />
       </button>
     </form>
