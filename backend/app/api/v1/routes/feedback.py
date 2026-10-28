@@ -29,18 +29,108 @@ router = APIRouter(prefix="/feedback", tags=["feedback"])
 
 @router.post(
     "",
+    status_code=201,
     response_model=FeedbackCreateResponse,
     summary="Submit optimizer allocation feedback",
     description=(
         "Accepts, validates, and persists allocation feedback from EVCharge-Opt. "
-        "Enforces deterministic idempotency using allocation_run_id and request payload hashing."
+        "Enforces deterministic idempotency using allocation_run_id and request payload hashing. "
+        "Returns HTTP 201 for new submissions, HTTP 200 for identical duplicate retries, "
+        "and HTTP 409 when the same allocation_run_id is reused with a different payload."
     ),
     responses={
-        201: {"description": "Feedback newly accepted and persisted"},
-        200: {"description": "Idempotent duplicate request recognized, original record returned"},
-        400: {"description": "Validation failure, scenario mismatch, or interval alignment error"},
-        404: {"description": "Referenced forecast or station not found"},
-        409: {"description": "Conflict: same allocation_run_id submitted with differing payload"},
+        201: {
+            "description": "Feedback newly accepted and persisted.",
+            "content": {
+                "application/json": {
+                    "schema": {"$ref": "#/components/schemas/FeedbackCreateResponse"},
+                    "example": {
+                        "contract_version": "1.0",
+                        "feedback_id": "fbk_1a2b3c4d5e6f",
+                        "allocation_run_id": "opt_run_20261026_001",
+                        "forecast_id": "fcst_7a8b9c0d1e2f",
+                        "scenario_id": "scenario_20261026_opt_run_01",
+                        "status": "accepted",
+                        "is_duplicate": False,
+                        "received_at": "2026-10-26T11:25:01Z",
+                        "feedback_url": "/api/v1/feedback/fbk_1a2b3c4d5e6f",
+                    },
+                }
+            },
+        },
+        200: {
+            "description": (
+                "Idempotent duplicate: allocation_run_id already exists and payload hash matches. "
+                "Returns the original feedback record with is_duplicate=true."
+            ),
+            "content": {
+                "application/json": {
+                    "schema": {"$ref": "#/components/schemas/FeedbackCreateResponse"},
+                    "example": {
+                        "contract_version": "1.0",
+                        "feedback_id": "fbk_1a2b3c4d5e6f",
+                        "allocation_run_id": "opt_run_20261026_001",
+                        "forecast_id": "fcst_7a8b9c0d1e2f",
+                        "scenario_id": "scenario_20261026_opt_run_01",
+                        "status": "accepted",
+                        "is_duplicate": True,
+                        "received_at": "2026-10-26T11:25:01Z",
+                        "feedback_url": "/api/v1/feedback/fbk_1a2b3c4d5e6f",
+                    },
+                }
+            },
+        },
+        400: {
+            "description": (
+                "Validation failure: scenario_id mismatch, interval not aligned to originating forecast, "
+                "or other semantic validation error."
+            ),
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {"detail": {"type": "string"}},
+                        "required": ["detail"],
+                    },
+                    "example": {"detail": "Submitted scenario_id 'x' does not match forecast scenario 'y'."},
+                }
+            },
+        },
+        404: {
+            "description": "Originating forecast or submitted station ID not found.",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {"detail": {"type": "string"}},
+                        "required": ["detail"],
+                    },
+                    "example": {"detail": "Originating forecast 'fcst_xyz' does not exist."},
+                }
+            },
+        },
+        409: {
+            "description": (
+                "Conflict: allocation_run_id was previously submitted with a different payload. "
+                "Reusing the same run identifier with modified content is prohibited."
+            ),
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {"detail": {"type": "string"}},
+                        "required": ["detail"],
+                    },
+                    "example": {
+                        "detail": (
+                            "Allocation run 'opt_run_20261026_001' was already submitted with "
+                            "different content. Reusing the same run identifier with modified "
+                            "data is prohibited."
+                        )
+                    },
+                }
+            },
+        },
     },
 )
 async def submit_feedback(

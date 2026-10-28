@@ -1,4 +1,4 @@
-﻿"""CLI command for ingesting ACN-Data JSON files into EVCharge-Predict."""
+"""CLI command for ingesting ACN-Data JSON files into EVCharge-Predict."""
 from __future__ import annotations
 
 import argparse
@@ -28,10 +28,11 @@ async def main_async(args: argparse.Namespace) -> int:
     print(f"Dry Run:     {args.dry_run}")
     print("-" * 60)
 
-    # Initialize tables if using local SQLite database
+    # Initialize tables only if using local SQLite database
     engine = get_engine()
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    if "sqlite" in str(engine.url).lower():
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
 
     mapping_service = StationMappingService()
     session_factory = get_session_factory()

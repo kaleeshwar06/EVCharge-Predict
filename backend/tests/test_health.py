@@ -88,3 +88,27 @@ async def test_readyz_models_unavailable(monkeypatch):
     assert data["models_loaded"] is False
     assert "Model manifest missing" in data["model_error"]
 
+
+@pytest.mark.asyncio
+async def test_readyz_schema_missing(monkeypatch):
+    """Validates /readyz returns 503 when the stations table is missing (relation does not exist)."""
+    from unittest.mock import AsyncMock, MagicMock
+
+    mock_conn = AsyncMock()
+    mock_conn.execute.side_effect = Exception('relation "stations" does not exist')
+    mock_ctx = AsyncMock()
+    mock_ctx.__aenter__.return_value = mock_conn
+    mock_ctx.__aexit__.return_value = None
+
+    mock_engine = MagicMock()
+    mock_engine.connect.return_value = mock_ctx
+    monkeypatch.setattr("app.api.v1.routes.ready.get_engine", lambda: mock_engine)
+
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        response = await client.get("/readyz")
+
+    assert response.status_code == 503
+    data = response.json()
+    assert data["status"] == "not_ready"
+    assert data["database_ready"] is False

@@ -3,8 +3,8 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends
 
-from app.api.v1.routes import feedback, forecasts, health, imports, ready, sessions, stations
-from app.core.security import verify_service_token
+from .routes import feedback, forecasts, health, imports, ready, sessions, stations
+from ...core.security import verify_service_token
 
 api_router = APIRouter()
 

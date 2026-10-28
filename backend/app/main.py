@@ -1,12 +1,14 @@
 """EVCharge-Predict FastAPI Application entrypoint."""
 from __future__ import annotations
-
+import sys, os, pathlib
+project_root = pathlib.Path(__file__).resolve().parents[1]
+sys.path.append(str(project_root))
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.v1.router import api_router as api_v1_router
-from app.api.v1.routes.health import healthz
-from app.api.v1.routes.ready import readyz
+from .api.v1.router import api_router as api_v1_router
+from .api.v1.routes.health import healthz
+from .api.v1.routes.ready import readyz
 from app.core.config import get_settings
 from app.core.middleware import RequestCorrelationMiddleware
 
@@ -35,6 +37,18 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/", tags=["root"], summary="API Root Overview")
+async def root_overview():
+    return {
+        "service": "EVCharge-Predict API",
+        "version": settings.api_version,
+        "status": "online",
+        "docs_url": docs_url or "/docs",
+        "health_url": "/healthz",
+        "ready_url": "/readyz",
+        "api_v1_prefix": "/api/v1"
+    }
 
 # Root-level health and readiness aliases (exempt from auth for deployment orchestrators)
 app.get(

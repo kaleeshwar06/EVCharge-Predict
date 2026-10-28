@@ -1,4 +1,4 @@
-﻿"""Readiness check endpoint — GET /readyz and GET /api/v1/readyz."""
+"""Readiness check endpoint — GET /readyz and GET /api/v1/readyz."""
 from __future__ import annotations
 
 from fastapi import APIRouter, status
@@ -25,7 +25,8 @@ async def readyz():
     try:
         engine = get_engine()
         async with engine.connect() as conn:
-            await conn.execute(text("SELECT 1"))
+            # Verify database connectivity AND schema availability
+            await conn.execute(text("SELECT 1 FROM stations LIMIT 1"))
             db_ready = True
     except Exception:
         db_ready = False

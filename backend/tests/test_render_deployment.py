@@ -207,6 +207,17 @@ class TestFrontendOriginConfiguration:
         assert "http://localhost:5173" not in allowed
         assert "http://127.0.0.1:5173" not in allowed
 
+    def test_cors_production_accepts_evcharge_predict_ui(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """In production, FRONTEND_ORIGIN allows https://evcharge-predict-ui.onrender.com."""
+        monkeypatch.setenv("APP_ENV", "production")
+        monkeypatch.setenv("API_AUTH_TOKEN", "valid-test-token-1234567890")
+        monkeypatch.setenv("FRONTEND_ORIGIN", "https://evcharge-predict-ui.onrender.com")
+        settings = Settings()
+        allowed = settings.get_allowed_cors_origins()
+        assert allowed == ["https://evcharge-predict-ui.onrender.com"]
+        assert "http://127.0.0.1:8001" not in allowed
+        assert "http://localhost:5173" not in allowed
+
     def test_cors_production_rejects_wildcard_origin(self, monkeypatch: pytest.MonkeyPatch) -> None:
         """In production, wildcard '*' cannot be combined with allow_credentials=True and fails startup."""
         monkeypatch.setenv("APP_ENV", "production")
@@ -214,5 +225,3 @@ class TestFrontendOriginConfiguration:
         monkeypatch.setenv("FRONTEND_ORIGIN", "*")
         with pytest.raises(ValueError, match=r"wildcard '\*' is not permitted"):
             Settings()
-
-

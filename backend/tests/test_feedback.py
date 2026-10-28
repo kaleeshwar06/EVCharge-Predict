@@ -462,3 +462,161 @@ def test_feedback_api_full_http_lifecycle(tmp_path):
         await engine.dispose()
 
     asyncio.run(run())
+
+
+# ─── 3. OpenAPI Schema Documentation Tests ────────────────────────────────────
+
+def test_openapi_feedback_post_documents_201_200_409():
+    """Verifies that POST /api/v1/feedback declares HTTP 201, 200, and 409 in the generated
+    OpenAPI schema. Guards against regressions where missing status_code= or responses=
+    omissions silently strip these codes from the documented contract.
+    """
+    from fastapi.openapi.utils import get_openapi
+
+    schema = get_openapi(title=app.title, version=app.version, routes=app.routes)
+    responses = schema["paths"]["/api/v1/feedback"]["post"]["responses"]
+
+    assert "201" in responses, "HTTP 201 must be declared in POST /api/v1/feedback OpenAPI responses"
+    assert "200" in responses, "HTTP 200 must be declared in POST /api/v1/feedback OpenAPI responses"
+    assert "409" in responses, "HTTP 409 must be declared in POST /api/v1/feedback OpenAPI responses"
+
+
+def test_openapi_feedback_post_201_and_200_reference_feedback_create_response_schema():
+    """Verifies that both HTTP 201 and HTTP 200 carry a content/application/json schema
+    referencing FeedbackCreateResponse, and HTTP 409 carries a detail-string schema.
+    """
+    from fastapi.openapi.utils import get_openapi
+
+    schema = get_openapi(title=app.title, version=app.version, routes=app.routes)
+    responses = schema["paths"]["/api/v1/feedback"]["post"]["responses"]
+
+    # HTTP 201 must carry FeedbackCreateResponse schema
+    assert "content" in responses["201"], (
+        "HTTP 201 must include a content/schema block; only a bare description was found"
+    )
+    schema_201 = responses["201"]["content"]["application/json"]["schema"]
+    assert schema_201.get("$ref") == "#/components/schemas/FeedbackCreateResponse", (
+        f"HTTP 201 schema ref must point to FeedbackCreateResponse; got {schema_201}"
+    )
+
+    # HTTP 200 must carry FeedbackCreateResponse schema
+    assert "content" in responses["200"], (
+        "HTTP 200 must include a content/schema block; only a bare description was found"
+    )
+    schema_200 = responses["200"]["content"]["application/json"]["schema"]
+    assert schema_200.get("$ref") == "#/components/schemas/FeedbackCreateResponse", (
+        f"HTTP 200 schema ref must point to FeedbackCreateResponse; got {schema_200}"
+    )
+
+    # HTTP 409 must carry a detail-string schema
+    assert "content" in responses["409"], (
+        "HTTP 409 must include a content/schema block; only a bare description was found"
+    )
+    schema_409 = responses["409"]["content"]["application/json"]["schema"]
+    props = schema_409.get("properties", {})
+    assert "detail" in props, (
+        f"HTTP 409 schema must have a 'detail' property; got properties: {props}"
+    )
+    assert props["detail"].get("type") == "string", (
+        f"HTTP 409 'detail' must be type string; got: {props['detail']}"
+    )
+
+    # FeedbackCreateResponse must be registered in components/schemas
+    assert "FeedbackCreateResponse" in schema.get("components", {}).get("schemas", {}), (
+        "FeedbackCreateResponse must appear in OpenAPI components/schemas"
+    )
+
+
+def test_openapi_feedback_post_runtime_201_and_200_match_documented_schema(tmp_path):
+    """Confirms that the actual runtime HTTP 201 (new submission) and HTTP 200 (idempotent
+    retry) response bodies are parseable by FeedbackCreateResponse — the model referenced
+    in the OpenAPI schema for both status codes.
+    """
+    from app.schemas.feedback import FeedbackCreateResponse as FCR
+
+    async def run():
+        db_file = tmp_path / "test_openapi_runtime.db"
+        engine = create_async_engine(f"sqlite+aiosqlite:///{db_file}", echo=False)
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+        sf = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+
+        # Minimal baseline: one station + one forecast interval for ST-001
+        async with sf() as session:
+            st1 = Station(station_id="ST-001", source_station_id="src-oas-001", site_id="site-oas")
+            session.add(st1)
+            await session.flush()
+            fcst_start = datetime(2026, 10, 27, 6, 0, tzinfo=timezone.utc)
+            forecast = Forecast(
+                forecast_id="fcst_oas_test_001",
+                scenario_id="scenario_oas_001",
+                generated_at=datetime(2026, 10, 27, 5, 0, tzinfo=timezone.utc),
+                forecast_start=fcst_start,
+                forecast_end=fcst_start + timedelta(hours=6),
+                interval_minutes=60,
+                horizon_intervals=6,
+                status="completed",
+                demand_type="baseline",
+                model_version="1.0",
+                training_data_type="synthetic",
+            )
+            session.add(forecast)
+            await session.flush()
+            fi = ForecastInterval(
+                forecast_id=forecast.id,
+                station_id=st1.id,
+                interval_start=fcst_start,
+                interval_end=fcst_start + timedelta(hours=1),
+                predicted_arrivals=1,
+                predicted_energy_kwh=Decimal("20.000"),
+            )
+            session.add(fi)
+            await session.commit()
+
+        async def override_get_db():
+            async with sf() as session:
+                yield session
+
+        app.dependency_overrides[get_db_session] = override_get_db
+
+        payload = {
+            "contract_version": "1.0",
+            "allocation_run_id": "run_oas_schema_check_001",
+            "forecast_id": "fcst_oas_test_001",
+            "scenario_id": "scenario_oas_001",
+            "submitted_at": "2026-10-27T05:30:00Z",
+            "stations": [{
+                "station_id": "ST-001",
+                "intervals": [{
+                    "interval_start": "2026-10-27T06:00:00Z",
+                    "interval_end": "2026-10-27T07:00:00Z",
+                    "allocated_energy_kwh": 25.0,
+                }],
+            }],
+        }
+
+        transport = ASGITransport(app=app)
+        async with AsyncClient(transport=transport, base_url="http://test") as client:
+            # HTTP 201 — new submission; body must validate against FeedbackCreateResponse
+            res_201 = await client.post("/api/v1/feedback", json=payload)
+            assert res_201.status_code == 201, (
+                f"Expected 201, got {res_201.status_code}: {res_201.text}"
+            )
+            parsed_201 = FCR.model_validate(res_201.json())
+            assert parsed_201.is_duplicate is False
+            assert parsed_201.status == "accepted"
+            assert parsed_201.feedback_id.startswith("fbk_")
+
+            # HTTP 200 — identical retry; body must validate against FeedbackCreateResponse
+            res_200 = await client.post("/api/v1/feedback", json=payload)
+            assert res_200.status_code == 200, (
+                f"Expected 200, got {res_200.status_code}: {res_200.text}"
+            )
+            parsed_200 = FCR.model_validate(res_200.json())
+            assert parsed_200.is_duplicate is True
+            assert parsed_200.feedback_id == parsed_201.feedback_id
+
+        app.dependency_overrides.clear()
+        await engine.dispose()
+
+    asyncio.run(run())
