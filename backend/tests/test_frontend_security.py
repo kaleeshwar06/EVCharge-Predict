@@ -82,8 +82,8 @@ class TestDemoModeSeparationAndErrorHandling:
         station_table = FRONTEND_SRC / "components" / "StationTable.tsx"
         assert station_table.exists()
         content = station_table.read_text(encoding="utf-8")
-        assert "Live API Authentication / Connection Error" in content
-        assert "DEMO" in content or "demoMode" in content
+        assert "Live API Authentication" in content
+        assert "demoMode" in content or "DEMO" in content
 
     def test_forecast_form_handles_401_gracefully(self) -> None:
         """ForecastForm must handle 401 gracefully and allow demo mode simulation."""

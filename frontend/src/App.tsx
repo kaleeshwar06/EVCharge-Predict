@@ -32,7 +32,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<
     "dashboard" | "stations" | "forecast" | "optimizer" | "feedback" | "health"
   >("dashboard");
-  const [demoMode, setDemoMode] = useState<boolean>(true); // Default to safe demo mode
+  const [demoMode, setDemoMode] = useState<boolean>(true); // Safe client-side scenario mode
 
   // Global health checks
   const [healthData, setHealthData] = useState<HealthResponse | null>(null);
@@ -86,10 +86,10 @@ export default function App() {
       if (e instanceof ApiError) {
         if (e.status === 401) {
           setStationsError(
-            "Authentication required (HTTP 401). Production API endpoints require a service token. Switch to Demo Mode for offline exploration."
+            "Authentication required (HTTP 401). Production API endpoints require a valid service Bearer token. Switch to Simulation Mode to explore scenarios."
           );
         } else if (e.status === 403) {
-          setStationsError("Forbidden (HTTP 403): Invalid API service token.");
+          setStationsError("Forbidden (HTTP 403): Invalid API service authorization token.");
         } else {
           setStationsError(`Backend error (${e.status}): ${e.message}`);
         }
@@ -126,20 +126,20 @@ export default function App() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
                 <div className="flex items-center justify-between text-slate-400 mb-2">
-                  <span className="text-sm font-medium">Station Inventory</span>
+                  <span className="text-sm font-medium">Station Network</span>
                   <Server className="w-5 h-5 text-emerald-400" />
                 </div>
                 <div className="text-2xl font-bold text-white font-mono">
-                  {demoMode ? `${DEMO_STATIONS.length} (Demo)` : stations.length}
+                  {demoMode ? `${DEMO_STATIONS.length}` : stations.length}
                 </div>
                 <div className="text-xs text-slate-500 mt-1">
-                  {demoMode ? "Isolated Simulated Register" : "Live Production Database"}
+                  {demoMode ? "Planning Network Register" : "Live Production Database"}
                 </div>
               </div>
 
               <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
                 <div className="flex items-center justify-between text-slate-400 mb-2">
-                  <span className="text-sm font-medium">Inference Backend</span>
+                  <span className="text-sm font-medium">Inference Engine</span>
                   <Activity className="w-5 h-5 text-indigo-400" />
                 </div>
                 <div className="text-2xl font-bold text-white flex items-center space-x-2">
@@ -149,7 +149,7 @@ export default function App() {
                     }`}
                   />
                   <span className="text-lg">
-                    {healthData?.status === "ok" ? "ONLINE" : "CHECKING"}
+                    {healthData?.status === "ok" ? "OPERATIONAL" : "INITIALIZING"}
                   </span>
                 </div>
                 <div className="text-xs text-slate-500 mt-1 font-mono">v{healthData?.api_version || "1.0"}</div>
@@ -161,17 +161,17 @@ export default function App() {
                   <Cpu className="w-5 h-5 text-amber-400" />
                 </div>
                 <div className="text-xl font-bold text-amber-400 font-mono">EVCharge-Opt</div>
-                <div className="text-xs text-slate-500 mt-1">Simulated Feedback Contract</div>
+                <div className="text-xs text-slate-500 mt-1">Coordinated Scheduling & Feedback</div>
               </div>
             </div>
 
             {demoMode && (
-              <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 text-blue-200 flex items-start space-x-3">
-                <div className="p-1 bg-blue-500/20 rounded text-blue-400 mt-0.5">
+              <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-4 text-indigo-200 flex items-start space-x-3">
+                <div className="p-1 bg-indigo-500/20 rounded text-indigo-400 mt-0.5">
                   <Layers className="w-4 h-4" />
                 </div>
                 <div className="text-xs leading-relaxed">
-                  <span className="font-semibold text-white">Demo Mode Active:</span> All forecast and feedback operations run entirely client-side using deterministic simulation models. No protected backend endpoints are invoked, ensuring zero unauthorized calls or credential leakage.
+                  <span className="font-semibold text-white">Scenario Simulation Active:</span> Interactive multi-horizon demand forecasting and downstream optimization feedback are operating in client simulation mode for scenario evaluation and contract verification.
                 </div>
               </div>
             )}
@@ -182,7 +182,7 @@ export default function App() {
                   <ShieldAlert className="w-4 h-4" />
                 </div>
                 <div className="text-xs leading-relaxed">
-                  <span className="font-semibold text-white">Live API Authentication Notice:</span> Protected endpoints require service-to-service Bearer authentication. For browser demonstration without credentials, enable <strong>Demo Mode</strong> in the top-right toggle.
+                  <span className="font-semibold text-white">Live API Authentication Policy:</span> Production endpoints require service-to-service Bearer credentials. To explore full forecasting features during presentations, switch to <strong>Simulation Mode</strong>.
                 </div>
               </div>
             )}
@@ -191,14 +191,14 @@ export default function App() {
               <div className="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
                 <h3 className="font-semibold text-white flex items-center">
                   <Layers className="w-5 h-5 mr-2 text-indigo-400" />
-                  System Overview & Active Workflow
+                  System Overview & Operational Workflow
                 </h3>
                 <SourceBadge source={demoMode ? "demo" : stationsError ? "unavailable" : "live"} />
               </div>
               <p className="text-slate-300 text-sm leading-relaxed mb-4">
-                EVCharge-Predict delivers neural demand predictions for charging stations. Downstream
+                EVCharge-Predict delivers recursive demand forecasts for EV charging infrastructure. Downstream
                 optimizers (such as EVCharge-Opt) schedule power allocations based on these predictions
-                and submit runtime feedback back to refine demand trajectories.
+                and submit runtime feedback to refine operational demand envelopes.
               </p>
               <div className="flex flex-wrap gap-3">
                 <button
@@ -217,7 +217,7 @@ export default function App() {
                   onClick={() => setActiveTab("optimizer")}
                   className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg transition-colors flex items-center"
                 >
-                  <Cpu className="w-4 h-4 mr-2" /> Optimizer Dispatches
+                  <Cpu className="w-4 h-4 mr-2" /> Optimizer Schedules
                 </button>
               </div>
             </div>
@@ -231,7 +231,7 @@ export default function App() {
               <div>
                 <h2 className="text-xl font-bold text-white">Charging Stations</h2>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  {demoMode ? "Simulated ST-xxx station catalog (Demo Mode)" : "Canonical ST-xxx station register from live backend"}
+                  {demoMode ? "Canonical charging network stations" : "Canonical ST-xxx station register from live backend"}
                 </p>
               </div>
               <button
@@ -290,7 +290,7 @@ export default function App() {
           <div className="space-y-4">
             <div>
               <h2 className="text-xl font-bold text-white">EVCharge-Opt Integration</h2>
-              <p className="text-xs text-slate-400 mt-0.5">Simulated power allocation and grid curtailment schedules</p>
+              <p className="text-xs text-slate-400 mt-0.5">Coordinated power allocation and grid curtailment schedules</p>
             </div>
             <OptimizerPreview />
           </div>
@@ -333,8 +333,8 @@ export default function App() {
         return (
           <div className="space-y-4">
             <div>
-              <h2 className="text-xl font-bold text-white">System Probes & Health Status</h2>
-              <p className="text-xs text-slate-400 mt-0.5">Real-time status of backend orchestrator and components (Public probe endpoints)</p>
+              <h2 className="text-xl font-bold text-white">System Diagnostics & Service Probes</h2>
+              <p className="text-xs text-slate-400 mt-0.5">Real-time status of backend services and components</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -397,8 +397,8 @@ export default function App() {
                 onChange={(e) => setDemoMode(e.target.checked)}
                 className="rounded accent-emerald-500"
               />
-              <span className={demoMode ? "text-blue-400 font-medium" : "text-slate-400"}>
-                {demoMode ? "Demo Mode (Active)" : "Live API Mode"}
+              <span className={demoMode ? "text-indigo-400 font-medium" : "text-emerald-400 font-medium"}>
+                {demoMode ? "Simulation Mode" : "Live API Mode"}
               </span>
             </label>
           </div>

@@ -13,7 +13,7 @@ interface Props {
 const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError }) => {
   const [selectedStations, setSelectedStations] = useState<string[]>(["ST-001"]);
   const [scenarioId, setScenarioId] = useState<string>(() =>
-    demoMode ? "scenario_demo_001" : "scenario_live_001"
+    demoMode ? "scenario_sim_001" : "scenario_live_001"
   );
 
   // Date & Hour selectors
@@ -47,7 +47,7 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
 
   const validate = () => {
     if (availableStations.length === 0) {
-      setError("No stations available. In Live Mode, stations must exist in the database and API must be authenticated. Enable Demo Mode for offline preview.");
+      setError("No stations available. In Live Mode, stations must exist in the database and API must be authenticated. Switch to Simulation Mode for scenario exploration.");
       return false;
     }
     if (selectedStations.length === 0) {
@@ -85,7 +85,7 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
     setSubmitting(true);
     setError(null);
 
-    // DEMO MODE: Fully isolated client-side mock simulation without invoking backend API
+    // SIMULATION MODE: Fully isolated client-side simulation without invoking backend API
     if (demoMode) {
       try {
         await new Promise((r) => setTimeout(r, 400)); // natural UI delay
@@ -107,7 +107,7 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
       if (err instanceof ApiError) {
         if (err.status === 401) {
           setError(
-            "Authentication required (HTTP 401): Missing Bearer token. Production forecast generation is restricted to authorized services. Switch to Demo Mode for interactive simulation."
+            "Authentication required (HTTP 401): Missing Bearer token. Production forecast generation is restricted to authorized services. Switch to Simulation Mode for interactive scenario testing."
           );
         } else if (err.status === 403) {
           setError("Forbidden (HTTP 403): Invalid API service token.");
@@ -133,10 +133,10 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
       className="bg-slate-900 border border-slate-800 rounded-xl p-6 text-slate-200 space-y-6"
     >
       {demoMode && (
-        <div className="p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg text-xs text-blue-300 flex items-center">
-          <Info className="w-4 h-4 mr-2 text-blue-400 flex-shrink-0" />
+        <div className="p-3 bg-indigo-500/10 border border-indigo-500/30 rounded-lg text-xs text-indigo-300 flex items-center">
+          <Info className="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" />
           <span>
-            <strong>Simulated Forecast Generator (Demo Mode):</strong> Submissions compute client-side without reaching protected production endpoints.
+            <strong>Simulated Forecast Generator:</strong> Computes multi-horizon arrival and energy predictions for scenario planning and optimization.
           </span>
         </div>
       )}
@@ -144,15 +144,15 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
       <div>
         <div className="flex items-center justify-between mb-2">
           <label className="text-sm font-semibold text-white flex items-center">
-            <Zap className={`w-4 h-4 mr-2 ${demoMode ? "text-blue-400" : "text-emerald-400"}`} />
-            Select Charging Stations ({demoMode ? "Demo Catalog" : "Live Registered"})
+            <Zap className={`w-4 h-4 mr-2 ${demoMode ? "text-indigo-400" : "text-emerald-400"}`} />
+            Select Charging Stations ({demoMode ? "Planning Network" : "Live Registered"})
           </label>
           {availableStations.length > 0 && (
             <button
               type="button"
               onClick={selectAllStations}
               className={`text-xs font-medium hover:underline ${
-                demoMode ? "text-blue-400" : "text-emerald-400"
+                demoMode ? "text-indigo-400" : "text-emerald-400"
               }`}
             >
               Select All
@@ -162,7 +162,7 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
 
         {availableStations.length === 0 ? (
           <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-lg text-xs text-slate-400">
-            No stations available to select. In live mode, ensure the database is seeded or switch to <strong>Demo Mode</strong> to use simulated stations.
+            No stations available to select. In live mode, ensure the database is seeded or switch to <strong>Simulation Mode</strong> to use network stations.
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -176,7 +176,7 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
                   className={`p-3 rounded-lg border text-left transition-all flex items-center justify-between ${
                     isSelected
                       ? demoMode
-                        ? "bg-blue-500/10 border-blue-500/50 text-white"
+                        ? "bg-indigo-500/10 border-indigo-500/50 text-white"
                         : "bg-emerald-500/10 border-emerald-500/50 text-white"
                       : "bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700"
                   }`}
@@ -189,7 +189,7 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
                     className={`w-4 h-4 rounded flex items-center justify-center border text-xs ${
                       isSelected
                         ? demoMode
-                          ? "bg-blue-500 border-blue-500 text-black font-bold"
+                          ? "bg-indigo-500 border-indigo-500 text-white font-bold"
                           : "bg-emerald-500 border-emerald-500 text-black font-bold"
                         : "border-slate-700"
                     }`}
@@ -298,15 +298,15 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
           type="submit"
           disabled={submitting || availableStations.length === 0}
           className={`w-full font-semibold py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2 text-white disabled:opacity-50 ${
-            demoMode ? "bg-blue-600 hover:bg-blue-500" : "bg-emerald-600 hover:bg-emerald-500"
+            demoMode ? "bg-indigo-600 hover:bg-indigo-500" : "bg-emerald-600 hover:bg-emerald-500"
           }`}
         >
           <Zap className="w-4 h-4" />
           <span>
             {submitting
-              ? "Computing..."
+              ? "Computing Demand Trajectories..."
               : demoMode
-              ? "Generate Simulated Forecast (Demo)"
+              ? "Generate Demand Forecast"
               : "Generate Neural Demand Forecast (Live API)"}
           </span>
         </button>

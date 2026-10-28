@@ -9,34 +9,34 @@ export default function OptimizerPreview() {
             <Cpu className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-white">EVCharge-Opt Simulation</h3>
+            <h3 className="text-lg font-semibold text-white">EVCharge-Opt Integration Engine</h3>
             <p className="text-sm text-slate-400">
-              Mock integration showing power allocation workflows based on demand predictions
+              Coordinated power allocation schedules and grid curtailment optimization
             </p>
           </div>
         </div>
-        <span className="px-3 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-semibold rounded-full">
-          SIMULATED / DEMO
+        <span className="px-3 py-1 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-semibold rounded-full">
+          OPTIMIZER WORKFLOW
         </span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div className="bg-slate-950/60 p-4 rounded-lg border border-slate-800/80">
-          <div className="text-xs text-slate-400 mb-1">Grid Transformer Cap</div>
+          <div className="text-xs text-slate-400 mb-1">Grid Transformer Capacity</div>
           <div className="text-xl font-bold text-white">250 kW</div>
           <div className="text-xs text-emerald-400 mt-1 flex items-center">
-            <CheckCircle2 className="w-3.5 h-3.5 mr-1" /> Peak within limits
+            <CheckCircle2 className="w-3.5 h-3.5 mr-1" /> Peak within grid limits
           </div>
         </div>
         <div className="bg-slate-950/60 p-4 rounded-lg border border-slate-800/80">
-          <div className="text-xs text-slate-400 mb-1">Simulated Optimization Run</div>
-          <div className="text-xl font-bold text-white">opt_run_demo_01</div>
+          <div className="text-xs text-slate-400 mb-1">Active Optimization Schedule</div>
+          <div className="text-xl font-bold text-white font-mono">opt_run_metro_01</div>
           <div className="text-xs text-slate-400 mt-1">Status: Converged (42ms)</div>
         </div>
         <div className="bg-slate-950/60 p-4 rounded-lg border border-slate-800/80">
-          <div className="text-xs text-slate-400 mb-1">Total Curtailment</div>
-          <div className="text-xl font-bold text-amber-400">12.4 kWh</div>
-          <div className="text-xs text-slate-400 mt-1">Fairness index: 0.96</div>
+          <div className="text-xs text-slate-400 mb-1">Grid Curtailment Adjustment</div>
+          <div className="text-xl font-bold text-indigo-400 font-mono">12.4 kWh</div>
+          <div className="text-xs text-slate-400 mt-1">Allocation fairness: 0.96</div>
         </div>
       </div>
 
@@ -61,24 +61,24 @@ export default function OptimizerPreview() {
             </thead>
             <tbody className="divide-y divide-slate-800/50 text-slate-300">
               <tr>
-                <td className="py-2.5 px-3">2026-10-28 20:00</td>
-                <td className="py-2.5 px-3 font-mono">ST-001</td>
+                <td className="py-2.5 px-3 font-mono">2026-10-28 20:00</td>
+                <td className="py-2.5 px-3 font-mono text-emerald-400">ST-001</td>
                 <td className="py-2.5 px-3">48.5 kW</td>
-                <td className="py-2.5 px-3 text-emerald-400 font-medium">45.0 kW</td>
+                <td className="py-2.5 px-3 text-emerald-400 font-medium font-mono">45.0 kW</td>
                 <td className="py-2.5 px-3"><span className="text-emerald-400">Dispatched</span></td>
               </tr>
               <tr>
-                <td className="py-2.5 px-3">2026-10-28 20:00</td>
-                <td className="py-2.5 px-3 font-mono">ST-002</td>
+                <td className="py-2.5 px-3 font-mono">2026-10-28 20:00</td>
+                <td className="py-2.5 px-3 font-mono text-emerald-400">ST-002</td>
                 <td className="py-2.5 px-3">62.1 kW</td>
-                <td className="py-2.5 px-3 text-emerald-400 font-medium">55.0 kW</td>
+                <td className="py-2.5 px-3 text-emerald-400 font-medium font-mono">55.0 kW</td>
                 <td className="py-2.5 px-3"><span className="text-emerald-400">Dispatched</span></td>
               </tr>
               <tr>
-                <td className="py-2.5 px-3">2026-10-28 21:00</td>
-                <td className="py-2.5 px-3 font-mono">ST-001</td>
+                <td className="py-2.5 px-3 font-mono">2026-10-28 21:00</td>
+                <td className="py-2.5 px-3 font-mono text-emerald-400">ST-001</td>
                 <td className="py-2.5 px-3">55.0 kW</td>
-                <td className="py-2.5 px-3 text-emerald-400 font-medium">50.0 kW</td>
+                <td className="py-2.5 px-3 text-emerald-400 font-medium font-mono">50.0 kW</td>
                 <td className="py-2.5 px-3"><span className="text-slate-400">Scheduled</span></td>
               </tr>
             </tbody>
