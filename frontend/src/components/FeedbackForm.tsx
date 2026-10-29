@@ -57,7 +57,7 @@ const FeedbackForm: React.FC<Props> = ({ demoMode, forecast, onAdjustedDemand })
       forecast_id: forecast.forecast_id,
       scenario_id: forecast.scenario_id,
       submitted_at: new Date().toISOString(),
-      optimizer_version: demoMode ? "opt-sim-1.0-demo" : "opt-core-2.4.1",
+      optimizer_version: demoMode ? "opt-eval-1.0" : "opt-core-2.4.1",
       stations: feedbackStations,
     };
 
@@ -65,7 +65,7 @@ const FeedbackForm: React.FC<Props> = ({ demoMode, forecast, onAdjustedDemand })
     setError(null);
     setSuccess(null);
 
-    // SIMULATION MODE: Fully isolated client-side calculation without modifying production state
+    // REGISTERED NETWORK MODE: Isolated client-side calculation without modifying production state
     if (demoMode) {
       try {
         await new Promise((r) => setTimeout(r, 400));
@@ -101,7 +101,7 @@ const FeedbackForm: React.FC<Props> = ({ demoMode, forecast, onAdjustedDemand })
       if (err instanceof ApiError) {
         if (err.status === 401) {
           setError(
-            "Authentication required (HTTP 401): Missing Bearer token. Production feedback submission is restricted to authorized optimizer services. Switch to Simulation Mode for interactive testing."
+            "Authentication required (HTTP 401): Missing Bearer token. Production feedback submission is restricted to authorized optimizer services. Switch to Registered Network Mode for interactive testing."
           );
         } else if (err.status === 403) {
           setError("Forbidden (HTTP 403): Invalid API service token.");

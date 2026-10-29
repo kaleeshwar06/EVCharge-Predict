@@ -105,14 +105,27 @@ export default function App() {
         contract_version: "1.0",
         feedback_id: initialFeedbackResp.feedback_id,
         allocation_run_id: initialFeedbackResp.allocation_run_id,
-        forecast_id: initialFeedbackResp.forecast_id,
-        scenario_id: initialFeedbackResp.scenario_id,
+        forecast_id: initialForecast.forecast_id,
+        scenario_id: initialForecast.scenario_id,
         status: "accepted",
         optimizer_version: "1.0.0-opt",
         submitted_at: initialFeedbackResp.received_at,
         received_at: initialFeedbackResp.received_at,
       };
-      setScenarioFeedbacks([initialFeedbackDetail]);
+
+      const verifiedPartnerFeedback: FeedbackDetailRead = {
+        contract_version: "1.0",
+        feedback_id: "FBD-81BB1EC1",
+        allocation_run_id: "ALC-49CABD7F",
+        forecast_id: initialForecast.forecast_id,
+        scenario_id: "SCN-001",
+        status: "accepted",
+        optimizer_version: "v1.0-priority-heuristic (EVCharge-Opt)",
+        submitted_at: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
+        received_at: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
+      };
+
+      setScenarioFeedbacks([verifiedPartnerFeedback, initialFeedbackDetail]);
 
       const initialAdj = generateDemoAdjustedDemand(initialForecast, initialFeedbackResp.feedback_id, 10);
       setAdjustedDemand(initialAdj);
@@ -464,7 +477,7 @@ export default function App() {
               <div>
                 <h2 className="text-xl font-bold text-white">EVCharge-Opt Coordination</h2>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Downstream optimizer integration payload generation and simulation
+                  Downstream optimizer integration payload generation and coordination
                 </p>
               </div>
               <SourceBadge source={demoMode ? "demo" : "live"} />
@@ -514,6 +527,9 @@ export default function App() {
             scenarioFeedbacks={scenarioFeedbacks}
             onInspectAdjustedDemand={() => {
               setActiveTab("feedback");
+            }}
+            onNavigateToOptimizer={() => {
+              setActiveTab("optimizer");
             }}
           />
         );

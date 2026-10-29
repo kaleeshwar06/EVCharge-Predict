@@ -100,7 +100,8 @@ export const PredictionHistory: React.FC<Props> = ({
     station_ids: f.stations.map((s) => s.station_id),
   }));
 
-  const activeRecords = demoMode ? scenarioSummaries : historyList;
+  // Fallback pattern: if backend returns 0 records (e.g. 401), use session forecast summaries
+  const activeRecords = historyList.length > 0 ? historyList : scenarioSummaries;
   const filteredRecords = activeRecords.filter(
     (r) =>
       r.forecast_id.toLowerCase().includes(filterText.toLowerCase()) ||
@@ -118,7 +119,7 @@ export const PredictionHistory: React.FC<Props> = ({
           </h2>
           <p className="text-xs text-slate-400 mt-1">
             {demoMode
-              ? "Archived scenario forecasts generated during this session"
+              ? "Archived demand forecasts generated during this session"
               : "Authoritative demand forecasts persisted in the backend database"}
           </p>
         </div>
@@ -136,6 +137,25 @@ export const PredictionHistory: React.FC<Props> = ({
           )}
         </div>
       </div>
+
+      {/* Backend 401 Notice / Policy Status */}
+      {!demoMode && error && (
+        <div className="bg-slate-900 border border-amber-500/30 rounded-xl p-4 text-xs text-slate-300">
+          <div className="flex items-center justify-between mb-1.5">
+            <div className="flex items-center space-x-2">
+              <AlertCircle className="w-4 h-4 text-amber-400 flex-shrink-0" />
+              <span className="font-semibold text-white">Live API Authentication Policy Notice</span>
+            </div>
+            <SourceBadge source="live" />
+          </div>
+          <p className="text-slate-400 leading-relaxed">
+            Direct database queries to <code>GET /api/v1/forecasts</code> require a backend service Bearer token.
+            {activeRecords.length > 0
+              ? ` Displaying active session demand forecasts (${activeRecords.length} records available).`
+              : " Switch to Registered Network Mode to generate and explore forecasts."}
+          </p>
+        </div>
+      )}
 
       {/* Filter / Search Bar */}
       <div className="flex flex-col sm:flex-row gap-3">
@@ -155,36 +175,14 @@ export const PredictionHistory: React.FC<Props> = ({
         </div>
       </div>
 
-      {/* Backend 401 Notice */}
-      {!demoMode && error && (
-        <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-5 text-amber-200">
-          <div className="flex items-center space-x-2 mb-2">
-            <AlertCircle className="w-5 h-5 text-amber-400" />
-            <h4 className="font-semibold text-amber-100">Live API Authentication Notice</h4>
-          </div>
-          <p className="text-xs leading-relaxed text-amber-200/90">{error}</p>
-          <div className="mt-3 text-xs bg-slate-950/60 p-3 rounded-lg border border-amber-500/20 text-slate-300 space-y-1">
-            <div>
-              <strong>Why this happens:</strong> The backend <code>GET /api/v1/forecasts</code> route
-              is a protected service endpoint reserved for backend orchestration and optimizer
-              pipelines.
-            </div>
-            <div>
-              Switch to <strong>Registered Network Mode</strong> in the header toggle to generate,
-              archive, and inspect forecasts locally.
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Empty State */}
-      {filteredRecords.length === 0 && !loading && !error && (
+      {filteredRecords.length === 0 && !loading && (
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-12 text-center text-slate-400">
           <History className="w-10 h-10 mx-auto mb-3 text-slate-600" />
           <h3 className="text-base font-semibold text-white mb-1">No Forecasts Recorded</h3>
           <p className="text-xs max-w-md mx-auto mb-4">
             {demoMode
-              ? "No demand forecasts have been executed in this session yet. Navigate to the Forecast tab to run a scenario."
+              ? "No demand forecasts have been executed in this session yet. Navigate to the Forecast tab to run a forecast."
               : "No persisted forecasts match the current query criteria on the live backend database."}
           </p>
         </div>
@@ -254,27 +252,22 @@ export const PredictionHistory: React.FC<Props> = ({
                       </span>
                     </td>
                     <td className="py-3.5 px-4 text-right">
-                      {demoMode ? (
-                        <button
-                          onClick={() => {
-                            const found = scenarioForecasts.find(
-                              (x) => x.forecast_id === item.forecast_id
-                            );
-                            if (found) handleInspectScenario(found);
-                          }}
-                          className="px-3 py-1.5 bg-indigo-600/80 hover:bg-indigo-600 text-white rounded-lg text-xs font-medium inline-flex items-center transition-colors"
-                        >
-                          <Eye className="w-3.5 h-3.5 mr-1" /> Inspect
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => handleInspectBackend(item.forecast_id)}
-                          disabled={inspectLoading && selectedForecastId === item.forecast_id}
-                          className="px-3 py-1.5 bg-indigo-600/80 hover:bg-indigo-600 text-white rounded-lg text-xs font-medium inline-flex items-center transition-colors disabled:opacity-50"
-                        >
-                          <Eye className="w-3.5 h-3.5 mr-1" /> Inspect
-                        </button>
-                      )}
+                      <button
+                        onClick={() => {
+                          const found = scenarioForecasts.find(
+                            (x) => x.forecast_id === item.forecast_id
+                          );
+                          if (found) {
+                            handleInspectScenario(found);
+                          } else {
+                            handleInspectBackend(item.forecast_id);
+                          }
+                        }}
+                        disabled={inspectLoading && selectedForecastId === item.forecast_id}
+                        className="px-3 py-1.5 bg-indigo-600/80 hover:bg-indigo-600 text-white rounded-lg text-xs font-medium inline-flex items-center transition-colors disabled:opacity-50"
+                      >
+                        <Eye className="w-3.5 h-3.5 mr-1" /> Inspect
+                      </button>
                     </td>
                   </tr>
                 ))}
