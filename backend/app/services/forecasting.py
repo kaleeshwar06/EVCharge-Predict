@@ -1,4 +1,4 @@
-﻿"""Recursive 6-hour forecasting engine matching the shared integration contract."""
+"""Recursive 6-hour forecasting engine matching the shared integration contract."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -20,6 +20,7 @@ from app.schemas.forecast import (
     ForecastCreateResponse,
     ForecastDetailRead,
     ForecastIntervalRead,
+    ForecastSummaryRead,
     HorizonMetadata,
     ModelProvenanceMetadata,
     StationForecastRead,
@@ -370,3 +371,67 @@ class ForecastingEngine:
         if not latest_fcst_id:
             return None
         return await ForecastingEngine.get_forecast_by_id(db, latest_fcst_id)
+
+    @staticmethod
+    async def list_forecasts(
+        db: AsyncSession,
+        scenario_id: Optional[str] = None,
+        station_id: Optional[str] = None,
+        limit: int = 50,
+        offset: int = 0,
+    ) -> List[ForecastSummaryRead]:
+        """Lists persisted forecast summaries ordered by newest first with station associations."""
+        query = (
+            select(Forecast)
+            .order_by(Forecast.generated_at.desc(), Forecast.id.desc())
+            .limit(limit)
+            .offset(offset)
+        )
+        if scenario_id:
+            query = query.where(Forecast.scenario_id == scenario_id)
+
+        res = await db.execute(query)
+        forecast_objs = res.scalars().all()
+        if not forecast_objs:
+            return []
+
+        # Collect distinct station canonical IDs for each forecast
+        summaries: List[ForecastSummaryRead] = []
+        for fo in forecast_objs:
+            q_stations = (
+                select(Station.station_id)
+                .distinct()
+                .join(ForecastInterval, ForecastInterval.station_id == Station.id)
+                .where(ForecastInterval.forecast_id == fo.id)
+                .order_by(Station.station_id)
+            )
+            res_st = await db.execute(q_stations)
+            station_ids = list(res_st.scalars().all())
+
+            # Optional filter by station_id
+            if station_id and station_id not in station_ids:
+                continue
+
+            f_gen = fo.generated_at if fo.generated_at.tzinfo else fo.generated_at.replace(tzinfo=timezone.utc)
+            f_start = fo.forecast_start if fo.forecast_start.tzinfo else fo.forecast_start.replace(tzinfo=timezone.utc)
+            f_end = fo.forecast_end if fo.forecast_end.tzinfo else fo.forecast_end.replace(tzinfo=timezone.utc)
+
+            summaries.append(
+                ForecastSummaryRead(
+                    contract_version="1.0",
+                    forecast_id=fo.forecast_id,
+                    scenario_id=fo.scenario_id,
+                    status=fo.status,
+                    demand_type=fo.demand_type,
+                    generated_at=f_gen,
+                    forecast_start=f_start,
+                    forecast_end=f_end,
+                    interval_minutes=fo.interval_minutes,
+                    horizon_intervals=fo.horizon_intervals,
+                    station_count=len(station_ids),
+                    station_ids=station_ids,
+                )
+            )
+
+        return summaries
+

@@ -10,6 +10,8 @@ import {
   Layers,
   CheckCircle2,
   RefreshCw,
+  History,
+  TrendingUp,
 } from "lucide-react";
 import StationTable from "./components/StationTable";
 import ForecastForm from "./components/ForecastForm";
@@ -17,8 +19,19 @@ import ForecastChart from "./components/ForecastChart";
 import OptimizerPreview from "./components/OptimizerPreview";
 import FeedbackForm from "./components/FeedbackForm";
 import SourceBadge from "./components/SourceBadge";
-import { fetchStations, StationRead, ApiError, API_BASE_URL, ForecastDetailRead, AdjustedDemandResponse } from "./api";
-import { DEMO_STATIONS } from "./demoService";
+import PredictionHistory from "./components/PredictionHistory";
+import ModelAccuracy from "./components/ModelAccuracy";
+import FeedbackHistory from "./components/FeedbackHistory";
+import {
+  fetchStations,
+  StationRead,
+  ApiError,
+  API_BASE_URL,
+  ForecastDetailRead,
+  AdjustedDemandResponse,
+  FeedbackDetailRead,
+} from "./api";
+import { DEMO_STATIONS, generateDemoForecast, generateDemoFeedback, generateDemoAdjustedDemand } from "./demoService";
 
 interface HealthResponse {
   service?: string;
@@ -30,9 +43,9 @@ interface HealthResponse {
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<
-    "dashboard" | "stations" | "forecast" | "optimizer" | "feedback" | "health"
+    "dashboard" | "stations" | "forecast" | "history" | "accuracy" | "optimizer" | "feedback" | "feedbackHistory" | "health"
   >("dashboard");
-  const [demoMode, setDemoMode] = useState<boolean>(true); // Safe client-side scenario mode
+  const [demoMode, setDemoMode] = useState<boolean>(true); // Safe client-side scenario planning mode
 
   // Global health checks
   const [healthData, setHealthData] = useState<HealthResponse | null>(null);
@@ -43,12 +56,63 @@ export default function App() {
   const [stationsLoading, setStationsLoading] = useState<boolean>(false);
   const [stationsError, setStationsError] = useState<string | null>(null);
 
-  // Forecast data
+  // Forecast data & session history
   const [forecast, setForecast] = useState<ForecastDetailRead | null>(null);
   const [forecastError, setForecastError] = useState<string | null>(null);
+  const [scenarioForecasts, setScenarioForecasts] = useState<ForecastDetailRead[]>([]);
 
-  // Adjusted demand data
+  // Feedback data & session history
   const [adjustedDemand, setAdjustedDemand] = useState<AdjustedDemandResponse | null>(null);
+  const [scenarioFeedbacks, setScenarioFeedbacks] = useState<FeedbackDetailRead[]>([]);
+
+  // Initialize seed forecast and feedback in scenario planning mode so initial tabs are rich
+  useEffect(() => {
+    if (scenarioForecasts.length === 0) {
+      const initialForecast = generateDemoForecast({
+        scenario_id: "scenario_campus_baseline_01",
+        station_ids: ["ST-001", "ST-002", "ST-003"],
+        forecast_start: new Date().toISOString(),
+        interval_minutes: 60,
+        horizon_intervals: 6,
+      });
+      setForecast(initialForecast);
+      setScenarioForecasts([initialForecast]);
+
+      const initialFeedbackResp = generateDemoFeedback({
+        allocation_run_id: "opt_run_baseline_01",
+        forecast_id: initialForecast.forecast_id,
+        scenario_id: initialForecast.scenario_id,
+        submitted_at: new Date().toISOString(),
+        stations: [
+          {
+            station_id: "ST-001",
+            intervals: initialForecast.stations[0].intervals.map((intv) => ({
+              interval_start: intv.interval_start,
+              interval_end: intv.interval_end,
+              allocated_energy_kwh: Number((intv.predicted_energy_kwh * 0.9).toFixed(2)),
+              available_capacity_kw: 50.0,
+            })),
+          },
+        ],
+      });
+
+      const initialFeedbackDetail: FeedbackDetailRead = {
+        contract_version: "1.0",
+        feedback_id: initialFeedbackResp.feedback_id,
+        allocation_run_id: initialFeedbackResp.allocation_run_id,
+        forecast_id: initialFeedbackResp.forecast_id,
+        scenario_id: initialFeedbackResp.scenario_id,
+        status: "accepted",
+        optimizer_version: "1.0.0-opt",
+        submitted_at: initialFeedbackResp.received_at,
+        received_at: initialFeedbackResp.received_at,
+      };
+      setScenarioFeedbacks([initialFeedbackDetail]);
+
+      const initialAdj = generateDemoAdjustedDemand(initialForecast, initialFeedbackResp.feedback_id, 10);
+      setAdjustedDemand(initialAdj);
+    }
+  }, []);
 
   const checkLiveApi = async () => {
     try {
@@ -86,7 +150,7 @@ export default function App() {
       if (e instanceof ApiError) {
         if (e.status === 401) {
           setStationsError(
-            "Authentication required (HTTP 401). Production API endpoints require a valid service Bearer token. Switch to Simulation Mode to explore scenarios."
+            "Authentication required (HTTP 401). Production API endpoints require a valid service Bearer token. Switch to Scenario Planning Mode to explore scenarios."
           );
         } else if (e.status === 403) {
           setStationsError("Forbidden (HTTP 403): Invalid API service authorization token.");
@@ -109,13 +173,37 @@ export default function App() {
     loadStations();
   }, [demoMode]);
 
+  const handleForecastSuccess = (newForecast: ForecastDetailRead) => {
+    setForecast(newForecast);
+    setScenarioForecasts((prev) => [newForecast, ...prev.filter((f) => f.forecast_id !== newForecast.forecast_id)]);
+  };
+
+  const handleAdjustedDemand = (adj: AdjustedDemandResponse) => {
+    setAdjustedDemand(adj);
+    const newFeedbackDetail: FeedbackDetailRead = {
+      contract_version: adj.contract_version,
+      feedback_id: adj.feedback_id,
+      allocation_run_id: adj.allocation_run_id,
+      forecast_id: adj.forecast_id,
+      scenario_id: adj.scenario_id,
+      status: "accepted",
+      optimizer_version: "1.0.0-opt",
+      submitted_at: adj.computed_at,
+      received_at: adj.computed_at,
+    };
+    setScenarioFeedbacks((prev) => [newFeedbackDetail, ...prev.filter((fb) => fb.feedback_id !== adj.feedback_id)]);
+  };
+
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: BarChart3 },
     { id: "stations", label: "Stations", icon: Server },
     { id: "forecast", label: "Forecast", icon: Zap },
-    { id: "optimizer", label: "Optimizer", icon: Cpu },
-    { id: "feedback", label: "Feedback", icon: MessageSquare },
-    { id: "health", label: "Health", icon: Activity },
+    { id: "history", label: "Prediction History", icon: History },
+    { id: "accuracy", label: "Model Accuracy", icon: TrendingUp },
+    { id: "optimizer", label: "Optimization Coordination", icon: Cpu },
+    { id: "feedback", label: "Feedback Ingestion", icon: MessageSquare },
+    { id: "feedbackHistory", label: "Feedback History", icon: Layers },
+    { id: "health", label: "Health Probes", icon: Activity },
   ] as const;
 
   const renderTab = () => {
@@ -171,7 +259,7 @@ export default function App() {
                   <Layers className="w-4 h-4" />
                 </div>
                 <div className="text-xs leading-relaxed">
-                  <span className="font-semibold text-white">Scenario Simulation Active:</span> Interactive multi-horizon demand forecasting and downstream optimization feedback are operating in client simulation mode for scenario evaluation and contract verification.
+                  <span className="font-semibold text-white">Scenario Planning Active:</span> Interactive multi-horizon demand forecasting and downstream optimization feedback are operating in client scenario mode for scenario evaluation and contract verification.
                 </div>
               </div>
             )}
@@ -182,7 +270,7 @@ export default function App() {
                   <ShieldAlert className="w-4 h-4" />
                 </div>
                 <div className="text-xs leading-relaxed">
-                  <span className="font-semibold text-white">Live API Authentication Policy:</span> Production endpoints require service-to-service Bearer credentials. To explore full forecasting features during presentations, switch to <strong>Simulation Mode</strong>.
+                  <span className="font-semibold text-white">Live API Authentication Policy:</span> Production endpoints require service-to-service Bearer credentials. To explore full forecasting features during presentations, switch to <strong>Scenario Planning Mode</strong>.
                 </div>
               </div>
             )}
@@ -211,13 +299,19 @@ export default function App() {
                   onClick={() => setActiveTab("forecast")}
                   className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg transition-colors flex items-center"
                 >
-                  <Zap className="w-4 h-4 mr-2" /> Run Forecast
+                  <Zap className="w-4 h-4 mr-2" /> Demand Forecast
                 </button>
                 <button
-                  onClick={() => setActiveTab("optimizer")}
+                  onClick={() => setActiveTab("history")}
                   className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg transition-colors flex items-center"
                 >
-                  <Cpu className="w-4 h-4 mr-2" /> Optimizer Schedules
+                  <History className="w-4 h-4 mr-2" /> Prediction History
+                </button>
+                <button
+                  onClick={() => setActiveTab("accuracy")}
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-medium rounded-lg transition-colors flex items-center"
+                >
+                  <TrendingUp className="w-4 h-4 mr-2 text-indigo-400" /> Model Accuracy
                 </button>
               </div>
             </div>
@@ -258,40 +352,65 @@ export default function App() {
               <div>
                 <h2 className="text-xl font-bold text-white">Demand Forecast Generator</h2>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Generate hour-aligned multi-horizon arrival and energy predictions
+                  Generate six-interval recursive demand trajectories for station schedules
                 </p>
               </div>
-              <SourceBadge source={demoMode ? "demo" : forecastError ? "unavailable" : "live"} />
+              <SourceBadge source={demoMode ? "demo" : "live"} />
             </div>
-
-            {forecastError && (
-              <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-sm text-red-300 flex items-center">
-                <ShieldAlert className="w-4 h-4 mr-2 text-red-400 flex-shrink-0" />
-                <span>{forecastError}</span>
-              </div>
-            )}
 
             <ForecastForm
               stations={stations}
               demoMode={demoMode}
-              onSuccess={(data) => {
-                setForecast(data);
-                setForecastError(null);
-              }}
-              setError={setForecastError}
+              onSuccess={handleForecastSuccess}
+              setError={(err) => setForecastError(err)}
             />
 
-            {forecast && <ForecastChart forecast={forecast} demoMode={demoMode} />}
+            {forecastError && (
+              <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-xs text-red-300">
+                {forecastError}
+              </div>
+            )}
+
+            {forecast && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-semibold text-white">Generated Forecast Trajectory</h3>
+                  <SourceBadge source={demoMode ? "demo" : "live"} />
+                </div>
+                <ForecastChart forecast={forecast} />
+              </div>
+            )}
           </div>
         );
 
+      case "history":
+        return (
+          <PredictionHistory
+            demoMode={demoMode}
+            scenarioForecasts={scenarioForecasts}
+            onSelectForecast={(selected) => {
+              setForecast(selected);
+              setActiveTab("forecast");
+            }}
+          />
+        );
+
+      case "accuracy":
+        return <ModelAccuracy />;
+
       case "optimizer":
         return (
-          <div className="space-y-4">
-            <div>
-              <h2 className="text-xl font-bold text-white">EVCharge-Opt Integration</h2>
-              <p className="text-xs text-slate-400 mt-0.5">Coordinated power allocation and grid curtailment schedules</p>
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-bold text-white">EVCharge-Opt Coordination</h2>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  Downstream optimizer integration payload generation and simulation
+                </p>
+              </div>
+              <SourceBadge source={demoMode ? "demo" : "live"} />
             </div>
+
             <OptimizerPreview />
           </div>
         );
@@ -301,7 +420,7 @@ export default function App() {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-xl font-bold text-white">Optimization Feedback</h2>
+                <h2 className="text-xl font-bold text-white">Optimization Feedback Ingestion</h2>
                 <p className="text-xs text-slate-400 mt-0.5">
                   Ingest feedback from optimizer and inspect adjusted demand curves
                 </p>
@@ -310,7 +429,7 @@ export default function App() {
             </div>
 
             <FeedbackForm
-              onAdjustedDemand={(data) => setAdjustedDemand(data)}
+              onAdjustedDemand={handleAdjustedDemand}
               demoMode={demoMode}
               forecast={forecast}
             />
@@ -327,6 +446,17 @@ export default function App() {
               </div>
             )}
           </div>
+        );
+
+      case "feedbackHistory":
+        return (
+          <FeedbackHistory
+            demoMode={demoMode}
+            scenarioFeedbacks={scenarioFeedbacks}
+            onInspectAdjustedDemand={() => {
+              setActiveTab("feedback");
+            }}
+          />
         );
 
       case "health":
@@ -398,7 +528,7 @@ export default function App() {
                 className="rounded accent-emerald-500"
               />
               <span className={demoMode ? "text-indigo-400 font-medium" : "text-emerald-400 font-medium"}>
-                {demoMode ? "Simulation Mode" : "Live API Mode"}
+                {demoMode ? "Scenario Planning Mode" : "Live API Mode"}
               </span>
             </label>
           </div>

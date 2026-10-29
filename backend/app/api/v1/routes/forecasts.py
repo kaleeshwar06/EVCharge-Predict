@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import logging
-from typing import Optional
+from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -12,6 +12,7 @@ from app.schemas.forecast import (
     ForecastCreateRequest,
     ForecastCreateResponse,
     ForecastDetailRead,
+    ForecastSummaryRead,
 )
 from app.services.feedback_service import FeedbackService
 from app.services.forecasting import (
@@ -63,6 +64,24 @@ async def create_forecast(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Forecast generation failed: {str(err)}",
         )
+
+
+@router.get(
+    "",
+    response_model=List[ForecastSummaryRead],
+    summary="List saved forecasts",
+    description="Retrieves a summarized history of saved demand forecasts with optional filtering.",
+)
+async def list_forecasts(
+    scenario_id: Optional[str] = Query(None, description="Filter by scenario ID"),
+    station_id: Optional[str] = Query(None, description="Filter by station ID"),
+    limit: int = Query(50, ge=1, le=100, description="Max records to return"),
+    offset: int = Query(0, ge=0, description="Records offset"),
+    db: AsyncSession = Depends(get_db_session),
+) -> List[ForecastSummaryRead]:
+    return await ForecastingEngine.list_forecasts(
+        db, scenario_id=scenario_id, station_id=station_id, limit=limit, offset=offset
+    )
 
 
 @router.get(

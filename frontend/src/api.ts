@@ -186,4 +186,57 @@ export async function submitFeedback(req: FeedbackCreateRequest): Promise<Feedba
   return request("/feedback", { method: "POST", body: JSON.stringify(req) });
 }
 
+export interface ForecastSummaryRead {
+  contract_version: string;
+  forecast_id: string;
+  scenario_id: string;
+  status: string;
+  demand_type: string;
+  generated_at: string;
+  forecast_start: string;
+  forecast_end: string;
+  interval_minutes: number;
+  horizon_intervals: number;
+  station_count: number;
+  station_ids: string[];
+}
+
+export interface FeedbackDetailRead {
+  contract_version: string;
+  feedback_id: string;
+  allocation_run_id: string;
+  forecast_id: string;
+  scenario_id: string;
+  status: string;
+  optimizer_version?: string;
+  submitted_at: string;
+  received_at: string;
+}
+
+export async function fetchForecastHistory(params?: {
+  scenario_id?: string;
+  station_id?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<ForecastSummaryRead[]> {
+  const q = new URLSearchParams();
+  if (params?.scenario_id) q.set("scenario_id", params.scenario_id);
+  if (params?.station_id) q.set("station_id", params.station_id);
+  if (params?.limit) q.set("limit", String(params.limit));
+  if (params?.offset) q.set("offset", String(params.offset));
+  const queryStr = q.toString() ? `?${q.toString()}` : "";
+  return request(`/forecasts${queryStr}`, { method: "GET" });
+}
+
+export async function fetchFeedbackHistory(params?: {
+  forecast_id?: string;
+  scenario_id?: string;
+}): Promise<FeedbackDetailRead[]> {
+  const q = new URLSearchParams();
+  if (params?.forecast_id) q.set("forecast_id", params.forecast_id);
+  if (params?.scenario_id) q.set("scenario_id", params.scenario_id);
+  const queryStr = q.toString() ? `?${q.toString()}` : "";
+  return request(`/feedback${queryStr}`, { method: "GET" });
+}
+
 export { ApiError };

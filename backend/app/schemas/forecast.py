@@ -1,4 +1,4 @@
-﻿"""Pydantic v2 schemas for the Forecast API matching the integration contract."""
+"""Pydantic v2 schemas for the Forecast API matching the integration contract."""
 from __future__ import annotations
 
 from datetime import datetime, timezone
@@ -113,6 +113,28 @@ class ModelProvenanceMetadata(BaseModel):
     training_data_fingerprint: Optional[str] = None
 
 
+class ForecastSummaryRead(BaseModel):
+    """Summary of a saved forecast for prediction history listings."""
+    contract_version: str = Field("1.0")
+    forecast_id: str
+    scenario_id: str
+    status: str
+    demand_type: str = "baseline"
+    generated_at: datetime
+    forecast_start: datetime
+    forecast_end: datetime
+    interval_minutes: int = 60
+    horizon_intervals: int = 6
+    station_count: int
+    station_ids: List[str]
+
+    model_config = ConfigDict(from_attributes=True)
+
+    @field_serializer("generated_at", "forecast_start", "forecast_end", when_used="json")
+    def serialize_datetime(self, dt: datetime) -> str:
+        return dt.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
 class ForecastDetailRead(BaseModel):
     """Full detail forecast response matching the contract."""
     contract_version: str = Field("1.0")
@@ -129,3 +151,4 @@ class ForecastDetailRead(BaseModel):
     @field_serializer("generated_at", when_used="json")
     def serialize_datetime(self, dt: datetime) -> str:
         return dt.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+

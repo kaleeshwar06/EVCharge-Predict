@@ -136,7 +136,7 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
         <div className="p-3 bg-indigo-500/10 border border-indigo-500/30 rounded-lg text-xs text-indigo-300 flex items-center">
           <Info className="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" />
           <span>
-            <strong>Simulated Forecast Generator:</strong> Computes multi-horizon arrival and energy predictions for scenario planning and optimization.
+            <strong>Scenario Demand Forecast Generator:</strong> Computes multi-horizon arrival and energy predictions for scenario planning and optimization coordination.
           </span>
         </div>
       )}
