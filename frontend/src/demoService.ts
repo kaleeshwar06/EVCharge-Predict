@@ -8,6 +8,7 @@ export const DEMO_STATIONS: StationRead[] = [
     site_id: "caltech",
     created_at: "2026-10-01T00:00:00Z",
     updated_at: "2026-10-01T00:00:00Z",
+    origin_source: "scenario_catalog",
   },
   {
     id: 102,
@@ -16,6 +17,7 @@ export const DEMO_STATIONS: StationRead[] = [
     site_id: "caltech",
     created_at: "2026-10-01T00:00:00Z",
     updated_at: "2026-10-01T00:00:00Z",
+    origin_source: "scenario_catalog",
   },
   {
     id: 103,
@@ -24,6 +26,7 @@ export const DEMO_STATIONS: StationRead[] = [
     site_id: "caltech-provisional",
     created_at: "2026-10-01T00:00:00Z",
     updated_at: "2026-10-01T00:00:00Z",
+    origin_source: "scenario_catalog",
   },
 ];
 

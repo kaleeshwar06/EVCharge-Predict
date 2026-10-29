@@ -5,6 +5,7 @@ export interface StationRead {
   site_id?: string | null;
   created_at: string;
   updated_at: string;
+  origin_source?: "live" | "scenario_catalog";
 }
 
 export interface ForecastCreateRequest {

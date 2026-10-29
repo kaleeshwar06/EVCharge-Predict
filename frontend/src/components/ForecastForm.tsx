@@ -6,11 +6,20 @@ import { Zap, Clock, Calendar, HelpCircle, ChevronDown, ChevronUp, Layers, Info 
 interface Props {
   stations: StationRead[];
   demoMode: boolean;
+  stationSource?: "live" | "scenario_catalog" | "scenario_catalog_empty" | "scenario_catalog_fallback";
+  stationNotice?: string | null;
   onSuccess: (data: any) => void;
   setError: (msg: string | null) => void;
 }
 
-const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError }) => {
+const ForecastForm: React.FC<Props> = ({
+  stations,
+  demoMode,
+  stationSource = "scenario_catalog",
+  stationNotice,
+  onSuccess,
+  setError,
+}) => {
   const [selectedStations, setSelectedStations] = useState<string[]>(["ST-001"]);
   const [scenarioId, setScenarioId] = useState<string>(() =>
     demoMode ? "scenario_sim_001" : "scenario_live_001"
@@ -23,9 +32,8 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [showFeatureExplainer, setShowFeatureExplainer] = useState<boolean>(false);
 
-  const availableStations = demoMode
-    ? DEMO_STATIONS
-    : stations;
+  // Guaranteed usable stations: use provided stations or fallback to DEMO_STATIONS
+  const availableStations = stations.length > 0 ? stations : DEMO_STATIONS;
 
   const toggleStation = (id: string) => {
     setSelectedStations((prev) =>
@@ -45,9 +53,18 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
     setSelectedHour(d.getUTCHours());
   };
 
+  // Determine if any selected stations belong to the scenario-planning catalog
+  const selectedStationObjects = availableStations.filter((s) =>
+    selectedStations.includes(s.station_id)
+  );
+  const hasScenarioCatalogSelection =
+    demoMode ||
+    stationSource !== "live" ||
+    selectedStationObjects.some((s) => s.origin_source === "scenario_catalog");
+
   const validate = () => {
     if (availableStations.length === 0) {
-      setError("No stations available. In Live Mode, stations must exist in the database and API must be authenticated. Switch to Simulation Mode for scenario exploration.");
+      setError("No stations available. Select from scenario-planning catalog or live registry.");
       return false;
     }
     if (selectedStations.length === 0) {
@@ -85,11 +102,16 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
     setSubmitting(true);
     setError(null);
 
-    // SIMULATION MODE: Fully isolated client-side simulation without invoking backend API
-    if (demoMode) {
+    // SCENARIO WORKFLOW ROUTING:
+    // If running in Scenario Planning Mode OR any selected station is from the scenario-planning catalog,
+    // automatically route through the isolated scenario forecasting engine.
+    // This prevents unseeded catalog stations from being submitted as live database entities.
+    if (demoMode || hasScenarioCatalogSelection) {
       try {
-        await new Promise((r) => setTimeout(r, 400)); // natural UI delay
+        await new Promise((r) => setTimeout(r, 400)); // Natural UI transition delay
         const demoResult = generateDemoForecast(req);
+        // Explicitly label result provenance
+        demoResult.demand_type = demoMode ? "scenario_planning" : "scenario_catalog_forecast";
         onSuccess(demoResult);
       } catch (err) {
         setError(String(err));
@@ -99,7 +121,7 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
       return;
     }
 
-    // LIVE MODE: Call backend API
+    // LIVE REGISTERED STATIONS: Call backend API
     try {
       const data = await createForecast(req);
       onSuccess(data);
@@ -107,7 +129,7 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
       if (err instanceof ApiError) {
         if (err.status === 401) {
           setError(
-            "Authentication required (HTTP 401): Missing Bearer token. Production forecast generation is restricted to authorized services. Switch to Simulation Mode for interactive scenario testing."
+            "Authentication required (HTTP 401): Missing Bearer token. Production forecast generation is restricted to authorized services. Fallback scenario forecasting is available for scenario catalog stations."
           );
         } else if (err.status === 403) {
           setError("Forbidden (HTTP 403): Invalid API service token.");
@@ -141,66 +163,106 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
         </div>
       )}
 
+      {/* Station Selector with Automatic Provenance Badge */}
       <div>
-        <div className="flex items-center justify-between mb-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
           <label className="text-sm font-semibold text-white flex items-center">
-            <Zap className={`w-4 h-4 mr-2 ${demoMode ? "text-indigo-400" : "text-emerald-400"}`} />
-            Select Charging Stations ({demoMode ? "Planning Network" : "Live Registered"})
+            <Zap className={`w-4 h-4 mr-2 ${demoMode || hasScenarioCatalogSelection ? "text-indigo-400" : "text-emerald-400"}`} />
+            Select Charging Stations
           </label>
-          {availableStations.length > 0 && (
-            <button
-              type="button"
-              onClick={selectAllStations}
-              className={`text-xs font-medium hover:underline ${
-                demoMode ? "text-indigo-400" : "text-emerald-400"
-              }`}
-            >
-              Select All
-            </button>
-          )}
+          <div className="flex items-center space-x-3">
+            {stationSource === "live" ? (
+              <span className="inline-flex items-center text-[11px] font-mono font-medium text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse" />
+                Live Registry Stations
+              </span>
+            ) : (
+              <span className="inline-flex items-center text-[11px] font-mono font-medium text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 mr-1.5" />
+                Scenario Planning Catalog
+              </span>
+            )}
+            {availableStations.length > 0 && (
+              <button
+                type="button"
+                onClick={selectAllStations}
+                className="text-xs font-medium text-slate-400 hover:text-slate-200 underline"
+              >
+                Select All
+              </button>
+            )}
+          </div>
         </div>
 
-        {availableStations.length === 0 ? (
-          <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-lg text-xs text-slate-400">
-            No stations available to select. In live mode, ensure the database is seeded or switch to <strong>Simulation Mode</strong> to use network stations.
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {availableStations.map((s) => {
-              const isSelected = selectedStations.includes(s.station_id);
-              return (
-                <button
-                  type="button"
-                  key={s.station_id}
-                  onClick={() => toggleStation(s.station_id)}
-                  className={`p-3 rounded-lg border text-left transition-all flex items-center justify-between ${
-                    isSelected
-                      ? demoMode
-                        ? "bg-indigo-500/10 border-indigo-500/50 text-white"
-                        : "bg-emerald-500/10 border-emerald-500/50 text-white"
-                      : "bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700"
-                  }`}
-                >
-                  <div>
-                    <div className="font-mono font-bold text-sm">{s.station_id}</div>
-                    <div className="text-xs text-slate-400 capitalize">{s.site_id || "default"}</div>
-                  </div>
-                  <div
-                    className={`w-4 h-4 rounded flex items-center justify-center border text-xs ${
-                      isSelected
-                        ? demoMode
-                          ? "bg-indigo-500 border-indigo-500 text-white font-bold"
-                          : "bg-emerald-500 border-emerald-500 text-black font-bold"
-                        : "border-slate-700"
-                    }`}
-                  >
-                    {isSelected ? "✓" : ""}
-                  </div>
-                </button>
-              );
-            })}
+        {/* Small, Professional Provenance & Routing Notice */}
+        {!demoMode && (
+          <div className="mb-3 px-3 py-2 bg-slate-950/80 border border-slate-800 rounded-lg text-xs flex items-start space-x-2 text-slate-400">
+            <Info className="w-4 h-4 text-indigo-400 flex-shrink-0 mt-0.5" />
+            <div className="leading-relaxed">
+              {stationNotice ? (
+                <span>{stationNotice}</span>
+              ) : stationSource === "live" ? (
+                <span>Stations loaded directly from the live backend database.</span>
+              ) : (
+                <span>Scenario-planning station catalog active.</span>
+              )}
+              {hasScenarioCatalogSelection && (
+                <span className="block text-[11px] text-indigo-300 mt-0.5 font-medium">
+                  Notice: Forecasts for scenario-catalog stations will use the scenario engine to ensure safe evaluation.
+                </span>
+              )}
+            </div>
           </div>
         )}
+
+        {/* Station Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {availableStations.map((s) => {
+            const isSelected = selectedStations.includes(s.station_id);
+            const isScenarioStation = s.origin_source === "scenario_catalog" || demoMode || stationSource !== "live";
+            return (
+              <button
+                type="button"
+                key={s.station_id}
+                onClick={() => toggleStation(s.station_id)}
+                className={`p-3 rounded-lg border text-left transition-all flex items-center justify-between ${
+                  isSelected
+                    ? isScenarioStation
+                      ? "bg-indigo-500/10 border-indigo-500/50 text-white"
+                      : "bg-emerald-500/10 border-emerald-500/50 text-white"
+                    : "bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700"
+                }`}
+              >
+                <div>
+                  <div className="flex items-center space-x-1.5">
+                    <span className="font-mono font-bold text-sm">{s.station_id}</span>
+                    <span
+                      className={`text-[9px] px-1.5 py-0.2 rounded font-mono uppercase ${
+                        isScenarioStation
+                          ? "bg-indigo-500/20 text-indigo-300"
+                          : "bg-emerald-500/20 text-emerald-300"
+                      }`}
+                    >
+                      {isScenarioStation ? "Scenario" : "Live"}
+                    </span>
+                  </div>
+                  <div className="text-xs text-slate-400 capitalize mt-0.5">{s.site_id || "default"}</div>
+                </div>
+                <div
+                  className={`w-4 h-4 rounded flex items-center justify-center border text-xs ${
+                    isSelected
+                      ? isScenarioStation
+                        ? "bg-indigo-500 border-indigo-500 text-white font-bold"
+                        : "bg-emerald-500 border-emerald-500 text-black font-bold"
+                      : "border-slate-700"
+                  }`}
+                >
+                  {isSelected ? "✓" : ""}
+                </div>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -263,7 +325,7 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
         </div>
       </div>
 
-      {/* Explainer */}
+      {/* Feature Engineering Explainer */}
       <div className="bg-slate-950/70 border border-slate-800/80 rounded-lg p-3 text-xs">
         <button
           type="button"
@@ -298,7 +360,7 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
           type="submit"
           disabled={submitting || availableStations.length === 0}
           className={`w-full font-semibold py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2 text-white disabled:opacity-50 ${
-            demoMode ? "bg-indigo-600 hover:bg-indigo-500" : "bg-emerald-600 hover:bg-emerald-500"
+            demoMode || hasScenarioCatalogSelection ? "bg-indigo-600 hover:bg-indigo-500" : "bg-emerald-600 hover:bg-emerald-500"
           }`}
         >
           <Zap className="w-4 h-4" />
@@ -307,7 +369,9 @@ const ForecastForm: React.FC<Props> = ({ stations, demoMode, onSuccess, setError
               ? "Computing Demand Trajectories..."
               : demoMode
               ? "Generate Demand Forecast"
-              : "Generate Neural Demand Forecast (Live API)"}
+              : hasScenarioCatalogSelection
+              ? "Generate Scenario Demand Forecast (Catalog Fallback)"
+              : "Generate Live Demand Forecast (Live API)"}
           </span>
         </button>
       </div>

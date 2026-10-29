@@ -55,6 +55,10 @@ export default function App() {
   const [stations, setStations] = useState<StationRead[]>([]);
   const [stationsLoading, setStationsLoading] = useState<boolean>(false);
   const [stationsError, setStationsError] = useState<string | null>(null);
+  const [stationSource, setStationSource] = useState<
+    "live" | "scenario_catalog" | "scenario_catalog_empty" | "scenario_catalog_fallback"
+  >("scenario_catalog");
+  const [stationNotice, setStationNotice] = useState<string | null>(null);
 
   // Forecast data & session history
   const [forecast, setForecast] = useState<ForecastDetailRead | null>(null);
@@ -134,6 +138,8 @@ export default function App() {
   const loadStations = async () => {
     if (demoMode) {
       setStations(DEMO_STATIONS);
+      setStationSource("scenario_catalog");
+      setStationNotice(null);
       setStationsError(null);
       setStationsLoading(false);
       return;
@@ -143,22 +149,41 @@ export default function App() {
     setStationsError(null);
     try {
       const data = await fetchStations();
-      setStations(data);
-      setStationsError(null);
+      if (data && data.length > 0) {
+        const taggedStations = data.map((st) => ({ ...st, origin_source: "live" as const }));
+        setStations(taggedStations);
+        setStationSource("live");
+        setStationNotice("Connected to live station registry (" + data.length + " active stations).");
+        setStationsError(null);
+      } else {
+        // Automatic fallback when live registry is empty
+        setStations(DEMO_STATIONS);
+        setStationSource("scenario_catalog_empty");
+        setStationNotice("Live station registry returned 0 stations. Automatically loaded scenario-planning catalog.");
+        setStationsError(null);
+      }
     } catch (e) {
-      setStations([]); // Do NOT fallback to demo stations on live API failure
+      // Automatic fallback on 401, 403, network, or server error while keeping selector functional
+      setStations(DEMO_STATIONS);
+      setStationSource("scenario_catalog_fallback");
       if (e instanceof ApiError) {
         if (e.status === 401) {
-          setStationsError(
-            "Authentication required (HTTP 401). Production API endpoints require a valid service Bearer token. Switch to Scenario Planning Mode to explore scenarios."
-          );
+          const msg = "Live API Authentication required (HTTP 401). Displaying scenario-planning catalog (ST-001, ST-002, ST-003) for safe interactive forecasting.";
+          setStationsError(msg);
+          setStationNotice(msg);
         } else if (e.status === 403) {
-          setStationsError("Forbidden (HTTP 403): Invalid API service authorization token.");
+          const msg = "Forbidden (HTTP 403): Invalid token. Showing scenario-planning catalog.";
+          setStationsError(msg);
+          setStationNotice(msg);
         } else {
-          setStationsError(`Backend error (${e.status}): ${e.message}`);
+          const msg = `Backend API unavailable (${e.status}). Showing scenario-planning catalog.`;
+          setStationsError(msg);
+          setStationNotice(msg);
         }
       } else {
-        setStationsError(`Network/API error: ${String(e)}`);
+        const msg = `Network failure communicating with API. Showing scenario-planning catalog.`;
+        setStationsError(msg);
+        setStationNotice(msg);
       }
     } finally {
       setStationsLoading(false);
@@ -341,6 +366,8 @@ export default function App() {
               loading={stationsLoading}
               error={stationsError}
               demoMode={demoMode}
+              stationSource={stationSource}
+              stationNotice={stationNotice}
             />
           </div>
         );
@@ -361,6 +388,8 @@ export default function App() {
             <ForecastForm
               stations={stations}
               demoMode={demoMode}
+              stationSource={stationSource}
+              stationNotice={stationNotice}
               onSuccess={handleForecastSuccess}
               setError={(err) => setForecastError(err)}
             />

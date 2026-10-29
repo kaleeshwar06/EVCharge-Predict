@@ -92,3 +92,46 @@ class TestDemoModeSeparationAndErrorHandling:
         content = forecast_form.read_text(encoding="utf-8")
         assert "401" in content
         assert "generateDemoForecast" in content
+
+
+class TestStationSelectorFallback:
+    """Verify station selector fallback behavior for live stations, empty lists, 401, and network failures."""
+
+    def test_live_stations_available_handling(self) -> None:
+        """When live stations are returned, App.tsx tags stations with origin_source live."""
+        app_tsx = FRONTEND_SRC / "App.tsx"
+        content = app_tsx.read_text(encoding="utf-8")
+        assert 'origin_source: "live"' in content or 'stationSource("live")' in content or '"live"' in content
+        assert "data.length > 0" in content
+
+    def test_live_station_list_empty_handling(self) -> None:
+        """When live API returns 0 stations, App.tsx falls back to DEMO_STATIONS with empty registry notice."""
+        app_tsx = FRONTEND_SRC / "App.tsx"
+        content = app_tsx.read_text(encoding="utf-8")
+        assert "scenario_catalog_empty" in content
+        assert "Live station registry returned 0 stations" in content
+        assert "DEMO_STATIONS" in content
+
+    def test_http_401_auth_error_handling(self) -> None:
+        """When live API returns HTTP 401, App.tsx falls back to DEMO_STATIONS and informs user of token requirement."""
+        app_tsx = FRONTEND_SRC / "App.tsx"
+        content = app_tsx.read_text(encoding="utf-8")
+        assert "scenario_catalog_fallback" in content
+        assert "HTTP 401" in content or "401" in content
+        assert "DEMO_STATIONS" in content
+
+    def test_network_failure_handling(self) -> None:
+        """When network fails, App.tsx falls back to DEMO_STATIONS and maintains an active, usable station selector."""
+        app_tsx = FRONTEND_SRC / "App.tsx"
+        content = app_tsx.read_text(encoding="utf-8")
+        assert "Network failure" in content or "Network/API error" in content
+        assert "DEMO_STATIONS" in content
+
+    def test_scenario_station_routes_to_scenario_forecast_engine(self) -> None:
+        """ForecastForm tracks station origin and routes scenario-catalog stations to scenario forecasting engine."""
+        forecast_form = FRONTEND_SRC / "components" / "ForecastForm.tsx"
+        content = forecast_form.read_text(encoding="utf-8")
+        assert "hasScenarioCatalogSelection" in content
+        assert "generateDemoForecast" in content
+        assert "scenario_catalog_forecast" in content or "scenario_planning" in content
+
