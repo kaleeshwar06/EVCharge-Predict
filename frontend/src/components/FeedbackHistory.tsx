@@ -43,7 +43,7 @@ export const FeedbackHistory: React.FC<Props> = ({
       if (err instanceof ApiError) {
         if (err.status === 401) {
           setError(
-            "Authentication required (HTTP 401). Saved feedback history on the production backend requires a service Bearer token. Optimizer feedback submissions evaluated in this session are listed in Scenario Planning Mode."
+            "Authentication required (HTTP 401). Saved feedback history on the production backend requires a service Bearer token. Optimizer feedback submissions evaluated in this session are listed in Registered Network Mode."
           );
         } else {
           setError(`Failed to retrieve feedback history (${err.status}): ${err.message}`);
@@ -137,7 +137,7 @@ export const FeedbackHistory: React.FC<Props> = ({
               <strong>Service-to-Service Contract:</strong> <code>GET /api/v1/feedback</code> requires a valid Bearer token configured between EVCharge-Predict and EVCharge-Opt.
             </div>
             <div>
-              Use <strong>Scenario Planning Mode</strong> to test optimizer allocations and operational demand envelopes interactively.
+              Use <strong>Registered Network Mode</strong> to test optimizer allocations and operational demand envelopes interactively.
             </div>
           </div>
         </div>

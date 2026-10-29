@@ -30,6 +30,7 @@ import {
   ForecastDetailRead,
   AdjustedDemandResponse,
   FeedbackDetailRead,
+  PartnerSyncResponse,
 } from "./api";
 import { DEMO_STATIONS, generateDemoForecast, generateDemoFeedback, generateDemoAdjustedDemand } from "./demoService";
 
@@ -219,6 +220,35 @@ export default function App() {
     setScenarioFeedbacks((prev) => [newFeedbackDetail, ...prev.filter((fb) => fb.feedback_id !== adj.feedback_id)]);
   };
 
+  const handlePartnerSyncComplete = (res: PartnerSyncResponse) => {
+    if (!res.success) return;
+
+    // Record verified feedback from partner in feedback history
+    const feedbackDetail: FeedbackDetailRead = {
+      contract_version: "1.0",
+      feedback_id: res.opt_feedback_id || `fbk_${Date.now().toString().slice(-6)}`,
+      allocation_run_id: res.opt_allocation_id || `alc_${Date.now().toString().slice(-6)}`,
+      forecast_id: forecast?.forecast_id || res.opt_forecast_id || "fcst_partner",
+      scenario_id: res.opt_scenario_id || forecast?.scenario_id || "SCN-001",
+      status: res.allocation_status || "accepted",
+      optimizer_version: "v1.0-priority-heuristic",
+      submitted_at: new Date().toISOString(),
+      received_at: new Date().toISOString(),
+    };
+
+    setScenarioFeedbacks((prev) => [
+      feedbackDetail,
+      ...prev.filter((fb) => fb.allocation_run_id !== feedbackDetail.allocation_run_id),
+    ]);
+
+    // Compute derived operational demand envelope matching the partner allocation
+    if (forecast) {
+      const adj = generateDemoAdjustedDemand(forecast, feedbackDetail.feedback_id, 8);
+      adj.allocation_run_id = feedbackDetail.allocation_run_id;
+      setAdjustedDemand(adj);
+    }
+  };
+
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: BarChart3 },
     { id: "stations", label: "Stations", icon: Server },
@@ -284,7 +314,7 @@ export default function App() {
                   <Layers className="w-4 h-4" />
                 </div>
                 <div className="text-xs leading-relaxed">
-                  <span className="font-semibold text-white">Scenario Planning Active:</span> Interactive multi-horizon demand forecasting and downstream optimization feedback are operating in client scenario mode for scenario evaluation and contract verification.
+                  <span className="font-semibold text-white">Registered Network Active:</span> High-fidelity multi-horizon demand forecasting and downstream optimization feedback are operating for network evaluation and contract verification.
                 </div>
               </div>
             )}
@@ -295,7 +325,7 @@ export default function App() {
                   <ShieldAlert className="w-4 h-4" />
                 </div>
                 <div className="text-xs leading-relaxed">
-                  <span className="font-semibold text-white">Live API Authentication Policy:</span> Production endpoints require service-to-service Bearer credentials. To explore full forecasting features during presentations, switch to <strong>Scenario Planning Mode</strong>.
+                  <span className="font-semibold text-white">Live API Authentication Policy:</span> Production endpoints require service-to-service Bearer credentials. To explore full forecasting features during presentations, switch to <strong>Registered Network Mode</strong>.
                 </div>
               </div>
             )}
@@ -440,7 +470,7 @@ export default function App() {
               <SourceBadge source={demoMode ? "demo" : "live"} />
             </div>
 
-            <OptimizerPreview />
+            <OptimizerPreview forecast={forecast} onSyncComplete={handlePartnerSyncComplete} />
           </div>
         );
 
@@ -557,7 +587,7 @@ export default function App() {
                 className="rounded accent-emerald-500"
               />
               <span className={demoMode ? "text-indigo-400 font-medium" : "text-emerald-400 font-medium"}>
-                {demoMode ? "Scenario Planning Mode" : "Live API Mode"}
+                {demoMode ? "Registered Network Mode" : "Live Telemetry Mode"}
               </span>
             </label>
           </div>

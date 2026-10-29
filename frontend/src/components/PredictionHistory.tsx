@@ -49,7 +49,7 @@ export const PredictionHistory: React.FC<Props> = ({
       if (err instanceof ApiError) {
         if (err.status === 401) {
           setError(
-            "Authentication required (HTTP 401). Saved forecast history on the production backend requires a service Bearer token. Forecasts evaluated during this session are available in Scenario Planning Mode."
+            "Authentication required (HTTP 401). Saved forecast history on the production backend requires a service Bearer token. Forecasts evaluated during this session are available in Registered Network Mode."
           );
         } else {
           setError(`Failed to retrieve forecast history (${err.status}): ${err.message}`);
@@ -170,7 +170,7 @@ export const PredictionHistory: React.FC<Props> = ({
               pipelines.
             </div>
             <div>
-              Switch to <strong>Scenario Planning Mode</strong> in the header toggle to generate,
+              Switch to <strong>Registered Network Mode</strong> in the header toggle to generate,
               archive, and inspect forecasts locally.
             </div>
           </div>

@@ -69,8 +69,15 @@ class Settings(BaseSettings):
     )
 
     # Partner API
-    evcharge_opt_base_url: str = Field("http://127.0.0.1:8000")
+    evcharge_opt_base_url: str = Field(
+        "https://evcharge-opt-api.onrender.com",
+        description="Base URL for EVCharge-Opt service."
+    )
     evcharge_opt_api_key: str = Field("replace-me")
+    opt_service_token: Optional[str] = Field(
+        None,
+        description="Dedicated service token for EVCharge-Opt partner communication."
+    )
 
     # CORS
     frontend_origin: str = Field("http://127.0.0.1:5173", description="Allowed CORS origin (e.g. https://my-frontend.onrender.com or comma-separated origins)")

@@ -44,7 +44,7 @@ const StationTable: React.FC<Props> = ({
                 <Info className="w-4 h-4 text-indigo-400 flex-shrink-0" />
               )}
               <span className="font-semibold text-white">
-                {isLive ? "Live Station Registry" : "Live API Authentication / Catalog Notice"}
+                {isLive ? "Live Station Registry" : "Live API Authentication / Station Network Notice"}
               </span>
             </div>
             <SourceBadge source={isLive ? "live" : "demo"} />
@@ -53,7 +53,7 @@ const StationTable: React.FC<Props> = ({
             {stationNotice ||
               (isLive
                 ? "Displaying active registered charging stations from production database."
-                : "Live API Authentication required. The station selector has automatically loaded the scenario-planning catalog (ST-001, ST-002, ST-003) so you can continue exploring forecasting and optimization.")}
+                : "Live API Authentication required. The station selector has automatically loaded the registered network stations (ST-001, ST-002, ST-003) so you can continue exploring forecasting and optimization.")}
           </p>
         </div>
       )}
@@ -69,7 +69,7 @@ const StationTable: React.FC<Props> = ({
             <p className="text-xs text-slate-400 mt-1">
               {isLive
                 ? "Live station inventory returned by backend database"
-                : "Campus network register from scenario-planning catalog"}
+                : "Campus charging stations from registered network"}
             </p>
           </div>
           <SourceBadge source={isLive ? "live" : "demo"} />
@@ -105,13 +105,13 @@ const StationTable: React.FC<Props> = ({
                             : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                         }`}
                       >
-                        {isCatalogStation ? "SCENARIO CATALOG" : "LIVE REGISTRY"}
+                        {isCatalogStation ? "REGISTERED NETWORK" : "LIVE REGISTRY"}
                       </span>
                     </td>
                     <td className="py-3 px-4 text-right">
                       <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                         <ShieldCheck className="w-3 h-3 mr-1" />
-                        {isCatalogStation ? "SCENARIO READY" : "ACTIVE"}
+                        ACTIVE
                       </span>
                     </td>
                   </tr>

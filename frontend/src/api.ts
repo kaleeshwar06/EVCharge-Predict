@@ -240,4 +240,64 @@ export async function fetchFeedbackHistory(params?: {
   return request(`/feedback${queryStr}`, { method: "GET" });
 }
 
+export interface StationAllocationSummary {
+  station_id: string;
+  station_name: string;
+  predicted_arrivals: number;
+  predicted_energy_kwh: number;
+  estimated_served: number;
+  estimated_unserved: number;
+  allocated_power_kw: number;
+  estimated_wait_minutes: number;
+  charger_utilization_pct: number;
+  warnings?: string[];
+}
+
+export interface PartnerSyncRequest {
+  forecast_id: string;
+  scenario_id?: string;
+  forecast_start?: string;
+  station_ids?: string[];
+  interval_start?: string;
+  interval_end?: string;
+  deferred_fraction?: number;
+}
+
+export interface PartnerSyncResponse {
+  success: boolean;
+  partner_service: string;
+  partner_base_url: string;
+  stage_reached: string;
+  opt_forecast_id?: string;
+  opt_scenario_id?: string;
+  opt_allocation_id?: string;
+  opt_feedback_id?: string;
+  allocation_status?: string;
+  feedback_status?: string;
+  total_stations: number;
+  total_allocated_power_kw: number;
+  total_served_vehicles: number;
+  total_unserved_vehicles: number;
+  average_wait_minutes: number;
+  allocation_results: StationAllocationSummary[];
+  feedback_outcomes: any[];
+  roundtrip_duration_ms: number;
+  error?: string | null;
+  correlation_id?: string;
+}
+
+export async function syncWithPartner(req: PartnerSyncRequest): Promise<PartnerSyncResponse> {
+  return request("/partner/sync", { method: "POST", body: JSON.stringify(req) });
+}
+
+export async function fetchPartnerStatus(): Promise<{
+  connected: boolean;
+  partner_base_url: string;
+  http_status?: number;
+  partner_details?: any;
+  error?: string;
+}> {
+  return request("/partner/status", { method: "GET" });
+}
+
 export { ApiError };

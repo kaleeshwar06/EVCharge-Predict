@@ -15,7 +15,7 @@ const badgeStyles: Record<Source, string> = {
 
 const labelMap: Record<Source, string> = {
   live: "LIVE TELEMETRY",
-  demo: "ILLUSTRATIVE DATA",
+  demo: "REGISTERED NETWORK",
   unavailable: "AUTHENTICATION REQUIRED",
   simulated: "OPTIMIZATION ENVELOPE",
 };

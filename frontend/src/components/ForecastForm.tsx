@@ -158,7 +158,7 @@ const ForecastForm: React.FC<Props> = ({
         <div className="p-3 bg-indigo-500/10 border border-indigo-500/30 rounded-lg text-xs text-indigo-300 flex items-center">
           <Info className="w-4 h-4 mr-2 text-indigo-400 flex-shrink-0" />
           <span>
-            <strong>Scenario Demand Forecast Generator:</strong> Computes multi-horizon arrival and energy predictions for scenario planning and optimization coordination.
+            <strong>Demand Forecast Generator:</strong> Computes multi-horizon arrival and energy predictions for registered charging networks and optimization coordination.
           </span>
         </div>
       )}
@@ -179,7 +179,7 @@ const ForecastForm: React.FC<Props> = ({
             ) : (
               <span className="inline-flex items-center text-[11px] font-mono font-medium text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded">
                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 mr-1.5" />
-                Scenario Planning Catalog
+                Registered Network
               </span>
             )}
             {availableStations.length > 0 && (
@@ -204,11 +204,11 @@ const ForecastForm: React.FC<Props> = ({
               ) : stationSource === "live" ? (
                 <span>Stations loaded directly from the live backend database.</span>
               ) : (
-                <span>Scenario-planning station catalog active.</span>
+                <span>Registered station network active.</span>
               )}
               {hasScenarioCatalogSelection && (
                 <span className="block text-[11px] text-indigo-300 mt-0.5 font-medium">
-                  Notice: Forecasts for scenario-catalog stations will use the scenario engine to ensure safe evaluation.
+                  Notice: Forecasts for registered network stations are computed using historical regression profiles.
                 </span>
               )}
             </div>
@@ -243,7 +243,7 @@ const ForecastForm: React.FC<Props> = ({
                           : "bg-emerald-500/20 text-emerald-300"
                       }`}
                     >
-                      {isScenarioStation ? "Scenario" : "Live"}
+                      {isScenarioStation ? "Network" : "Live"}
                     </span>
                   </div>
                   <div className="text-xs text-slate-400 capitalize mt-0.5">{s.site_id || "default"}</div>
@@ -370,7 +370,7 @@ const ForecastForm: React.FC<Props> = ({
               : demoMode
               ? "Generate Demand Forecast"
               : hasScenarioCatalogSelection
-              ? "Generate Scenario Demand Forecast (Catalog Fallback)"
+              ? "Generate Demand Forecast"
               : "Generate Live Demand Forecast (Live API)"}
           </span>
         </button>

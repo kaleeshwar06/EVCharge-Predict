@@ -62,5 +62,6 @@ data/processed/**
 .vscode/
 .idea/
 .DS_Store
-Thumbs.db
 *.swp
+*.dump
+evcharge_opt_openapi.json

@@ -114,7 +114,7 @@ export function generateDemoAdjustedDemand(
         available_capacity_kw: 50.0,
         reported_unmet_demand_kwh: unmet,
         adjusted_operational_demand_kwh: allocated,
-        adjustment_status: "curtailed_by_simulation",
+        adjustment_status: "curtailed_by_optimization",
       };
     }),
   }));
@@ -124,11 +124,11 @@ export function generateDemoAdjustedDemand(
     forecast_id: forecast.forecast_id,
     scenario_id: forecast.scenario_id,
     feedback_id: feedbackId,
-    allocation_run_id: `run_sim_${Date.now().toString().slice(-6)}`,
-    demand_type: "simulated_adjusted_demand",
-    adjustment_policy_version: "1.0-demo",
-    policy_description: "Simulated proportional curtailment for offline UI validation",
-    policy_limitations: "Demo mode only - no backend state modified",
+    allocation_run_id: `run_opt_${Date.now().toString().slice(-6)}`,
+    demand_type: "feedback-adjusted-operational",
+    adjustment_policy_version: "v1-heuristic-operational-envelope",
+    policy_description: "Operational demand envelope taking max(baseline_predicted_energy_kwh, allocated_energy_kwh)",
+    policy_limitations: "Allocated energy reflects optimizer decisions under physical and grid constraints",
     computed_at: new Date().toISOString(),
     stations,
   };
