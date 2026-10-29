@@ -55,3 +55,22 @@ class PartnerSyncResponse(BaseModel):
     roundtrip_duration_ms: float = 0.0
     error: Optional[str] = None
     correlation_id: Optional[str] = None
+
+
+class PartnerFeedbackItem(BaseModel):
+    """Authoritative feedback record returned from EVCharge-Opt."""
+    contract_version: str = "1.0"
+    feedback_id: str
+    allocation_run_id: str
+    forecast_id: str
+    scenario_id: str
+    status: str = "submitted"
+    optimizer_version: Optional[str] = "v1.0-priority-heuristic (EVCharge-Opt)"
+    submitted_at: str
+    received_at: str
+    deferred_fraction: Optional[float] = None
+    idempotency_key: Optional[str] = None
+    operational_adjustment_id: Optional[str] = None
+    origin: str = "partner"
+    station_outcomes: List[Dict[str, Any]] = []
+

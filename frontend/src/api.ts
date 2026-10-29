@@ -212,6 +212,11 @@ export interface FeedbackDetailRead {
   optimizer_version?: string;
   submitted_at: string;
   received_at: string;
+  deferred_fraction?: number;
+  idempotency_key?: string;
+  operational_adjustment_id?: string;
+  origin?: string;
+  station_outcomes?: any[];
 }
 
 export async function fetchForecastHistory(params?: {
@@ -238,6 +243,14 @@ export async function fetchFeedbackHistory(params?: {
   if (params?.scenario_id) q.set("scenario_id", params.scenario_id);
   const queryStr = q.toString() ? `?${q.toString()}` : "";
   return request(`/feedback${queryStr}`, { method: "GET" });
+}
+
+export async function fetchPartnerFeedbacks(limit: number = 50): Promise<FeedbackDetailRead[]> {
+  return request(`/partner/feedback?limit=${limit}`, { method: "GET" });
+}
+
+export async function fetchPartnerFeedbackById(feedbackId: string): Promise<FeedbackDetailRead> {
+  return request(`/partner/feedback/${encodeURIComponent(feedbackId)}`, { method: "GET" });
 }
 
 export interface StationAllocationSummary {

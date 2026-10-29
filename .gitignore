@@ -56,6 +56,7 @@ data/raw/**
 data/processed/**
 !data/processed/.gitkeep
 !data/processed/station_mapping.json
+!data/processed/partner_feedbacks.json
 
 
 # ─── IDE / OS ─────────────────────────────────────────────────────────────────

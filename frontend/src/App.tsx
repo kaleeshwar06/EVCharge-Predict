@@ -113,6 +113,37 @@ export default function App() {
         received_at: initialFeedbackResp.received_at,
       };
 
+      const optPostOptFeedback: FeedbackDetailRead = {
+        contract_version: "1.0",
+        feedback_id: "FBD-A5998866",
+        allocation_run_id: "ALC-12216E04",
+        forecast_id: "FC-MOCK-19B71C",
+        scenario_id: "scenario_sim_001",
+        status: "submitted",
+        optimizer_version: "v1.0-priority-heuristic (EVCharge-Opt)",
+        submitted_at: "2026-10-29T04:56:48.379027Z",
+        received_at: "2026-10-29T04:56:48.379031Z",
+        deferred_fraction: 0.7,
+        idempotency_key: "IDEMP-ALC-12216E04-0.7",
+        operational_adjustment_id: "ADJ-3D059914",
+        origin: "evcharge-opt",
+      };
+
+      const optOriginalFeedback: FeedbackDetailRead = {
+        contract_version: "1.0",
+        feedback_id: "FBD-6AC509A4",
+        allocation_run_id: "ALC-53C3E7C9",
+        forecast_id: "FC-MOCK-19B71C",
+        scenario_id: "scenario_sim_001",
+        status: "submitted",
+        optimizer_version: "v1.0-priority-heuristic (EVCharge-Opt)",
+        submitted_at: "2026-10-29T04:55:53.590211Z",
+        received_at: "2026-10-29T04:55:53.590216Z",
+        deferred_fraction: 0.7,
+        idempotency_key: "sync_ALC-53C3E7C9_f7267d",
+        origin: "evcharge-opt",
+      };
+
       const verifiedPartnerFeedback: FeedbackDetailRead = {
         contract_version: "1.0",
         feedback_id: "FBD-81BB1EC1",
@@ -123,9 +154,10 @@ export default function App() {
         optimizer_version: "v1.0-priority-heuristic (EVCharge-Opt)",
         submitted_at: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
         received_at: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
+        origin: "evcharge-opt",
       };
 
-      setScenarioFeedbacks([verifiedPartnerFeedback, initialFeedbackDetail]);
+      setScenarioFeedbacks([optPostOptFeedback, optOriginalFeedback, verifiedPartnerFeedback, initialFeedbackDetail]);
 
       const initialAdj = generateDemoAdjustedDemand(initialForecast, initialFeedbackResp.feedback_id, 10);
       setAdjustedDemand(initialAdj);
